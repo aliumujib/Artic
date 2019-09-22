@@ -41,9 +41,8 @@ dependencies {
     implementation dataDependencies.javaxAnnotation
     implementation dataDependencies.roomDB
     implementation dataDependencies.roomRxJava2
-    implementation dataDependencies.roomCompiler
     implementation project(':data')
-
+    implementation dataDependencies.retrofitGson
 
     testImplementation testDependencies.konveyor
     testImplementation testDependencies.junit
@@ -55,5 +54,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     kapt dataDependencies.roomCompiler
-
 }

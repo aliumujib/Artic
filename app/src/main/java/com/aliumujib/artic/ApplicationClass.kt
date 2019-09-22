@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDexApplication
-import com.aliumujib.starwars.ui.inject.DaggerApplicationComponent
+import com.aliumujib.artic.ui.inject.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector

@@ -10,15 +10,7 @@ dependencies {
     implementation dataDependencies.jodaTime
     implementation dataDependencies.javaxInject
     implementation dataDependencies.javaxAnnotation
-    implementation dataDependencies.retrofit
-    implementation dataDependencies.retrofitGson
-    implementation dataDependencies.retrofitRxAdapter
-    implementation dataDependencies.okhttp3LogginInterceptor
-    implementation dataDependencies.roomDB
-    implementation dataDependencies.roomCompiler
-    implementation dataDependencies.roomRxJava2
     implementation project(':domain')
-
 
     testImplementation testDependencies.konveyor
     testImplementation testDependencies.junit

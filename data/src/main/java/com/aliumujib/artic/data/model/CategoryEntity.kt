@@ -1,8 +1,6 @@
 package com.aliumujib.artic.data.model
 
-import android.arch.persistence.room.Entity
 
-@Entity
 data class CategoryEntity(
     var id: Int,
     var slug: String,

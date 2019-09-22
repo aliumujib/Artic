@@ -1,9 +1,7 @@
 package com.aliumujib.artic.data.model
 
-import android.arch.persistence.room.Entity
 import java.util.*
 
-@Entity
  data class ArticleEntity(
     var id: Int,
     var type: String,
