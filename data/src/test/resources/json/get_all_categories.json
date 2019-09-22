@@ -1,0 +1,54 @@
+{
+    "status": "ok",
+    "count": 6,
+    "categories": [
+        {
+            "id": 6,
+            "slug": "business",
+            "title": "Business",
+            "description": "",
+            "parent": 0,
+            "post_count": 5
+        },
+        {
+            "id": 3,
+            "slug": "entertainment",
+            "title": "Entertainment",
+            "description": "",
+            "parent": 0,
+            "post_count": 5
+        },
+        {
+            "id": 2,
+            "slug": "politics",
+            "title": "Politics",
+            "description": "",
+            "parent": 0,
+            "post_count": 5
+        },
+        {
+            "id": 4,
+            "slug": "science",
+            "title": "Science",
+            "description": "",
+            "parent": 0,
+            "post_count": 5
+        },
+        {
+            "id": 5,
+            "slug": "sport",
+            "title": "Sport",
+            "description": "",
+            "parent": 0,
+            "post_count": 5
+        },
+        {
+            "id": 7,
+            "slug": "technology",
+            "title": "Technology",
+            "description": "",
+            "parent": 0,
+            "post_count": 5
+        }
+    ]
+}
