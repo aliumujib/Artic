@@ -48,7 +48,7 @@ dependencies {
     testImplementation testDependencies.kotlinJUnit
     testImplementation testDependencies.mockWebServer
 
-    testCompile 'de.jodamob.kotlin:kotlin-runner-junit4:0.3.1'
+    testImplementation 'de.jodamob.kotlin:kotlin-runner-junit4:0.3.1'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

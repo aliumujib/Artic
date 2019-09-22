@@ -1,7 +1,8 @@
-package com.eyowo.android.cache.room
+package com.aliumujib.artic.cache.room
 
 import androidx.room.TypeConverter
-import com.eyowo.android.cache.models.transactions.TransactionMetadataCacheModel
+import com.aliumujib.artic.cache.models.AuthorCacheModel
+import com.aliumujib.artic.cache.models.CategoryCacheModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -23,30 +24,30 @@ class Converters {
 
 
     @TypeConverter
-    fun fromMetaDataString(value: String?): TransactionMetadataCacheModel? {
-        val listType = object : TypeToken<TransactionMetadataCacheModel?>() {
+    fun fromCategoryCacheModelString(value: String?): List<CategoryCacheModel>? {
+        val listType = object : TypeToken<List<CategoryCacheModel>?>() {
         }.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun fromTransactionMetadataCacheModel(data: TransactionMetadataCacheModel?): String {
+    fun fromCategoryCacheModelList(data: List<CategoryCacheModel>?): String {
         val gson = Gson()
         return gson.toJson(data)
     }
 
 
-//    @TypeConverter
-//    fun fromSettingsString(value: String?): SettingsEntity? {
-//        val listType = object : TypeToken<SettingsEntity?>() {
-//        }.type
-//        return Gson().fromJson(value, listType)
-//    }
-//
-//    @TypeConverter
-//    fun fromSettingsEntity(data: SettingsEntity?): String {
-//        val gson = Gson()
-//        return gson.toJson(data)
-//    }
+    @TypeConverter
+    fun fromAuthorCacheModelString(value: String?): AuthorCacheModel? {
+        val listType = object : TypeToken<AuthorCacheModel?>() {
+        }.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun fromAuthorCacheModelEntity(data: AuthorCacheModel?): String {
+        val gson = Gson()
+        return gson.toJson(data)
+    }
 
 }

@@ -80,8 +80,12 @@ dependencies {
             appDependencies.javaxAnnotation,
             appDependencies.javaxAnnotation,
             appDependencies.otpView,
+            appDependencies.roomDB,
             project(':domain'),
-            project(':data')
+            project(':data'),
+            project(':cache'),
+            project(':remote'),
+            project(':presentation')
     )
 
 

@@ -19,6 +19,9 @@ class ArticlesRepoImpl @Inject constructor(
     override fun getArticles(page: Int, isInternetAvailable: Boolean): Observable<List<Article>> {
         return if (isInternetAvailable) {
             articlesRemote.getArticles(page)
+                .doOnNext {
+                    articlesCache.saveArticles(it)
+                }
                 .map {
                     articleEntityMapper.mapFromEntityList(it)
                 }

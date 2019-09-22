@@ -1,7 +1,7 @@
 ext {
     //Android
     //Libraries
-    daggerVersion = '2.16'
+    daggerVersion = '2.23.1'
     butterKnifeVersion = '8.5.1'
     rxJavaVersion = '2.1.6'
     rxAndroidVersion = '2.0.1'
@@ -15,6 +15,9 @@ ext {
     leakCanaryVersion = '1.5'
     fragmentArgsVersion = '3.0.2'
     constraintLayoutVersion = '1.1.0'
+    playAuthVersion = '17.0.0'
+    phoneAuthVersion = '17.1.0'
+    navVersion = '2.0.0'
 
     // sdk and tools
     compileSdkVersion = 28
@@ -31,19 +34,20 @@ ext {
     powerMockito = '1.6.2'
     espressoVersion = '2.2.2'
     espressoRulesVersion = '0.5'
-    playServicesVersion = '17.3.4'
+    playServicesVersion = '17.0.0'
+    mapsVersion = '16.0.0'
     okHttpLoggingVersion = '3.4.1'
     dateTimePicker = "3.5.1"
     greenRobotUtilsVersion = "1.1.6"
     materialStyledDialogsVersion = "2.1"
     firebaseJobDispatcher = "0.5.2"
     materialChipsVersion = "1.2.1"
-    archLifeCycleComponentsVersion = '1.1.0'
+    archLifeCycleComponentsVersion = '2.0.0'
     paging_version = "1.0.0"
     flashBarVersion = '1.0.2'
     picassoVersion = '2.71828'
     ratingBarVersion = '1.3.1'
-    roomVersion = '1.1.1'
+    roomVersion = '2.1.0'
     anko_version = '0.10.5'
     stepperLayoutVersion = '3.2.1'
     textInputLayoutVersion = '2.1.4'
@@ -51,6 +55,9 @@ ext {
     reactiveLocationVersion = '1.0.4'
     picassoTransformationsVersion = '2.2.1'
     timberVersion = '4.5.1'
+    segButtonVersion = 'v2.0.2'
+    saschpeCustomTab = '2.0.0'
+    intercomVersion = '5.+'
 
     //Testing
     jUnitVersion = '4.12'
@@ -62,7 +69,7 @@ ext {
     javaxInjectVersion = '1'
     mockitoKotlinVersion = '1.5.0'
     konveyorVersion = "1.0.3"
-    kotlinVersion = '1.2.10'
+    kotlinVersion = '1.3.31'
     espressoVersion = '3.0.0'
     robolectricVersion = '3.4.2'
     mockitoVersion = '1.9.5'
@@ -72,6 +79,16 @@ ext {
     dexmakerMockitoversion = '2.2.0'
     runnerVersion = '0.5'
     robolectricVersion = '3.4.2'
+
+    //FIREBASE
+    firebase_auth_version = '16.1.0'
+    firebase_analytics_version = '16.4.0'
+    firebase_database_version = '16.0.5'
+    firebase_storage_version = '16.0.5'
+    firebase_firestore_version = '17.1.5'
+    firebase_functions_version = '16.1.3'
+    firebase_remote_version = '16.1.2'
+    firebase_messaging_version = '20.0.0'
 
 
     appDependencies = [
@@ -106,9 +123,9 @@ ext {
             androidMapUtils                        : "com.google.maps.android:android-maps-utils:0.5",
             greenRobotUtils                        : "com.github.remychantenay:greenrobotutils:${greenRobotUtilsVersion}",
             dateTimePicker                         : "com.wdullaer:materialdatetimepicker:${dateTimePicker}",
-            roomDB                                 : "android.arch.persistence.room:runtime:${roomVersion}",
-            roomCompiler                           : "android.arch.persistence.room:compiler:${roomVersion}",
-            roomRxJava2                            : "android.arch.persistence.room:rxjava2:${roomVersion}",
+            roomDB                                 : "androidx.room:room-runtime:${roomVersion}",
+            roomCompiler                           : "androidx.room:room-compiler:${roomVersion}",
+            roomRxJava2                            : "androidx.room:room-rxjava2:${roomVersion}",
             materialStyledDialogs                  : "com.github.javiersantos:MaterialStyledDialogs:${materialStyledDialogsVersion}",
             firebaseJobDispatcher                  : "com.firebase:firebase-jobdispatcher:${firebaseJobDispatcher}",
             pagingLibrary                          : "androidx.paging:paging-runtime:2.0.0-rc01",

@@ -1,6 +1,5 @@
 package com.aliumujib.artic.cache.models
 
-import android.arch.persistence.room.Entity
 
 
 data class AuthorCacheModel(

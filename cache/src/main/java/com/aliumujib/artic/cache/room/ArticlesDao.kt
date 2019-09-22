@@ -39,5 +39,5 @@ interface ArticlesDao {
     fun deleteArticle(id: Int)
 
     @Query("DELETE FROM ARTICLES")
-    fun deleteAllArticles(): Completable
+    fun deleteAllArticles()
 }

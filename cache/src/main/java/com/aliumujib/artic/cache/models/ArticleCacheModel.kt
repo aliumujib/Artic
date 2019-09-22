@@ -1,10 +1,11 @@
 package com.aliumujib.artic.cache.models
 
-import android.arch.persistence.room.Entity
-import java.util.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "ARTICLES")
 data class ArticleCacheModel(
+    @PrimaryKey
     var id: Int,
     var type: String,
     var slug: String,

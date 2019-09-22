@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -23,6 +24,9 @@ android {
         }
     }
 
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies {
@@ -36,8 +40,8 @@ dependencies {
     implementation dataDependencies.javaxInject
     implementation dataDependencies.javaxAnnotation
     implementation dataDependencies.roomDB
-    implementation dataDependencies.roomCompiler
     implementation dataDependencies.roomRxJava2
+    implementation dataDependencies.roomCompiler
     implementation project(':data')
 
 
@@ -47,8 +51,9 @@ dependencies {
     testImplementation testDependencies.kotlinJUnit
     testImplementation testDependencies.mockWebServer
 
-    testCompile 'de.jodamob.kotlin:kotlin-runner-junit4:0.3.1'
-
+    testImplementation 'de.jodamob.kotlin:kotlin-runner-junit4:0.3.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    kapt dataDependencies.roomCompiler
 
 }
