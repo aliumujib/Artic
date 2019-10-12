@@ -1,11 +1,11 @@
-package com.aliumujib.artic.ui.articles
+package com.aliumujib.artic.ui.main.articles
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.aliumujib.artic.R
 import com.aliumujib.artic.presentation.ArticleListViewModel
 

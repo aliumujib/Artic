@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#C317A9</color>
-    <color name="colorPrimaryLight">#E6512D4C</color>
-    <color name="colorPrimaryDark">#94067F</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryLight">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#C317A9</color>
+    <color name="colorAccentLight">#E6512D4C</color>
+    <color name="colorAccentHighLight">#FAEFE5</color>
 
     <color name="colorAccentTransparent">#26ECC098</color>
     <color name="text_hint_color">#33000000</color>
 
-    <color name="colorAccentLight">#EFF8FF</color>
-    <color name="colorAccentHighLight">#FAEFE5</color>
+
     <color name="toolbar_shadow">#c0c0c0</color>
 
     <color name="yellow">#F6A623</color>

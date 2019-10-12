@@ -1,7 +1,6 @@
 package com.aliumujib.artic
 
 import android.app.Activity
-import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDexApplication
 import com.aliumujib.artic.ui.inject.DaggerApplicationComponent
@@ -43,7 +42,11 @@ class ApplicationClass : MultiDexApplication(), HasActivityInjector , HasSupport
     }
 
     private fun initTimber() {
-        Timber.plant(Timber.DebugTree())
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
+        Timber.i("%s %d", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
     }
 
 }

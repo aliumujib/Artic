@@ -164,14 +164,16 @@ ext {
             fetchDownloaderRx                      : "com.tonyodev.fetch2rx:fetch2rx:2.2.0-RC14",
             workManager                            : "androidx.work:work-runtime:$workManagerversion",
             prDownloader                           : 'com.mindorks.android:prdownloader:0.4.0',
-            rxBindingPlatform                      : 'com.jakewharton.rxbinding2:rxbinding:2.2.0',
+            rxBindingPlatform                      : 'com.jakewharton.rxbinding3:rxbinding:3.0.0',
             pdfReader                              : 'com.github.barteksc:pdfium-android:1.8.2',
             firebaseAnalytics                      : "com.google.firebase:firebase-core:16.0.8",
             moshi                                  : "com.squareup.retrofit2:converter-moshi:2.4.0",
             androidKtx                             : 'androidx.core:core-ktx:1.0.1',
             timber                                 : "com.jakewharton.timber:timber:${timberVersion}",
             vectorDrawable                         : 'androidx.vectordrawable:vectordrawable:1.0.1',
-            otpView: 'com.github.aabhasr1:OtpView:1.0.3'
+            otpView                                : 'com.github.aabhasr1:OtpView:1.0.3',
+            persistentSearchView                   : 'org.cryse.widget:persistentsearchview:1.0.4@aar',
+            rxRelays                               : 'com.jakewharton.rxrelay2:rxrelay:2.1.1'
     ]
 
     testDependencies = [

@@ -1,9 +1,10 @@
 package com.aliumujib.artic.ui.inject.module.ui
 
-import com.aliumujib.artic.MainActivity
 import com.aliumujib.artic.domain.executor.PostExecutionThread
-import com.aliumujib.artic.ui.articledetail.DetailsFragment
-import com.aliumujib.artic.ui.articles.ArticleListFragment
+import com.aliumujib.artic.ui.main.MainActivity
+import com.aliumujib.artic.ui.main.articledetail.DetailsFragment
+import com.aliumujib.artic.ui.main.articles.ArticleListFragment
+import com.aliumujib.artic.ui.main.settings.editprofile.EditProfileFragment
 import com.aliumujib.artic.utils.PostExecutionThreadImpl
 import dagger.Binds
 import dagger.Module
@@ -19,10 +20,12 @@ abstract class UIModule {
     @ContributesAndroidInjector
     abstract fun contributesMainActivity(): MainActivity
 
-    @ContributesAndroidInjector(modules = [ArticlesListFragmentModue::class])
+    @ContributesAndroidInjector(modules = [ArticlesListFragmentModule::class])
     abstract fun contributesArticlesFragment(): ArticleListFragment
 
     @ContributesAndroidInjector(modules = [ArticlesDetailsModule::class])
     abstract fun contributesDetailsFragment(): DetailsFragment
 
+    @ContributesAndroidInjector
+    abstract fun contributesEditProfileFragment(): EditProfileFragment
 }

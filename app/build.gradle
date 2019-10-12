@@ -16,7 +16,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-       // ext.betaDistributionGroupAliases = "internal_testers"
+        // ext.betaDistributionGroupAliases = "internal_testers"
         //ext.betaDistributionReleaseNotesFilePath = "beta_release_notes.txt"
     }
 
@@ -81,6 +81,9 @@ dependencies {
             appDependencies.javaxAnnotation,
             appDependencies.otpView,
             appDependencies.roomDB,
+            appDependencies.androidKtx,
+            appDependencies.persistentSearchView,
+            appDependencies.rxRelays,
             project(':domain'),
             project(':data'),
             project(':cache'),
