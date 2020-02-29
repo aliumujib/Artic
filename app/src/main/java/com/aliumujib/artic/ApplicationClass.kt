@@ -1,32 +1,19 @@
 package com.aliumujib.artic
 
-import android.app.Activity
-import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDexApplication
 import com.aliumujib.artic.ui.inject.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-class ApplicationClass : MultiDexApplication(), HasActivityInjector , HasSupportFragmentInjector{
+class ApplicationClass : MultiDexApplication(), HasAndroidInjector {
+
 
     @Inject
-    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
 
-    @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-
-
-    override fun activityInjector(): AndroidInjector<Activity> {
-        return activityInjector
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        return fragmentInjector
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -47,6 +34,10 @@ class ApplicationClass : MultiDexApplication(), HasActivityInjector , HasSupport
         }
 
         Timber.i("%s %d", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
+    }
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return androidInjector
     }
 
 }

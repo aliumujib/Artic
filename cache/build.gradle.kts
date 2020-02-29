@@ -18,6 +18,5 @@ dependencies {
     implementation(Dependencies.ROOM_RX_JAVA_2)
     implementation(Dependencies.RETROFIT_CONVERTER)
 
-
     kapt(AnnotationProcessorsDependencies.ROOM)
 }

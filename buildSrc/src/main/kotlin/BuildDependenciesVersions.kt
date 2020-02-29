@@ -20,7 +20,7 @@
 object BuildDependenciesVersions {
     const val KOTLIN = "1.3.61"
     const val APPCOMPAT = "1.1.0"
-    const val MATERIAL = "1.1.0-beta01"
+    const val MATERIAL = "1.1.0"
     const val COROUTINES = "1.3.3"
     const val ROOM = "2.2.3"
     const val RECYCLE_VIEW = "1.1.0"
@@ -46,7 +46,17 @@ object BuildDependenciesVersions {
     const val RX_ANDROID_VERSION = "2.0.1"
     const val JODA_TIME_VERSION = "2.9.9.4"
     const val JAVAX_ANNOTATION_VERSION = "1.0"
-    const val JAVAX_INJECT_VERSION = "1.0"
+    const val JAVAX_INJECT_VERSION = "1"
+    const val RETROFIT_RX_ADAPTER_VERSION = "2.3.0"
+    const val OKHTTP3_LOGGING_INTERCEPTOR_VERSION = "3.9.0"
+    const val LEAK_CANARY_VERSION = "1.5"
+    const val PICASSO_VERSION = "2.71828"
+    const val MULTIDEX = "2.0.0"
+    const val MATERIAL_DESIGN_SPECS = "2.0.1"
+    const val PICASSO_TRANSFORMATIONS = "2.2.1"
+    const val CIRCLE_IMAGE_VIEW = "2.2.0"
+    const val  STETHO = "1.5.0"
+    const val RXBINDING_PLATFORM = "3.0.0"
 
     // Tests
     const val TEST = "1.2.0"

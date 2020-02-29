@@ -34,6 +34,11 @@ object BuildModules {
 
     object Libraries {
         const val DATA = ":data"
+        const val DOMAIN = ":domain"
+        const val CACHE = ":cache"
+        const val PRESENTATION = ":presentation"
+        const val REMOTE = ":remote"
+
         const val TEST_UTILS = ":libraries:test_utils"
     }
 }

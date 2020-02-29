@@ -4,6 +4,7 @@ import androidx.room.DatabaseConfiguration;
 import androidx.room.InvalidationTracker;
 import androidx.room.RoomOpenHelper;
 import androidx.room.RoomOpenHelper.Delegate;
+import androidx.room.RoomOpenHelper.ValidationResult;
 import androidx.room.util.DBUtil;
 import androidx.room.util.TableInfo;
 import androidx.room.util.TableInfo.Column;
@@ -13,7 +14,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 import androidx.sqlite.db.SupportSQLiteOpenHelper.Callback;
 import androidx.sqlite.db.SupportSQLiteOpenHelper.Configuration;
-import java.lang.IllegalStateException;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
@@ -40,6 +40,11 @@ public final class DBClass_Impl extends DBClass {
       @Override
       public void dropAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("DROP TABLE IF EXISTS `ARTICLES`");
+        if (mCallbacks != null) {
+          for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
+            mCallbacks.get(_i).onDestructiveMigration(_db);
+          }
+        }
       }
 
       @Override
@@ -72,34 +77,35 @@ public final class DBClass_Impl extends DBClass {
       }
 
       @Override
-      protected void validateMigration(SupportSQLiteDatabase _db) {
+      protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
         final HashMap<String, TableInfo.Column> _columnsARTICLES = new HashMap<String, TableInfo.Column>(17);
-        _columnsARTICLES.put("id", new TableInfo.Column("id", "INTEGER", true, 1));
-        _columnsARTICLES.put("type", new TableInfo.Column("type", "TEXT", true, 0));
-        _columnsARTICLES.put("slug", new TableInfo.Column("slug", "TEXT", true, 0));
-        _columnsARTICLES.put("url", new TableInfo.Column("url", "TEXT", true, 0));
-        _columnsARTICLES.put("status", new TableInfo.Column("status", "TEXT", true, 0));
-        _columnsARTICLES.put("title", new TableInfo.Column("title", "TEXT", true, 0));
-        _columnsARTICLES.put("title_plain", new TableInfo.Column("title_plain", "TEXT", true, 0));
-        _columnsARTICLES.put("content", new TableInfo.Column("content", "TEXT", true, 0));
-        _columnsARTICLES.put("excerpt", new TableInfo.Column("excerpt", "TEXT", true, 0));
-        _columnsARTICLES.put("date", new TableInfo.Column("date", "INTEGER", true, 0));
-        _columnsARTICLES.put("modified", new TableInfo.Column("modified", "TEXT", true, 0));
-        _columnsARTICLES.put("thumbnail", new TableInfo.Column("thumbnail", "TEXT", true, 0));
-        _columnsARTICLES.put("imageURL", new TableInfo.Column("imageURL", "TEXT", true, 0));
-        _columnsARTICLES.put("comment_count", new TableInfo.Column("comment_count", "INTEGER", true, 0));
-        _columnsARTICLES.put("categories", new TableInfo.Column("categories", "TEXT", true, 0));
-        _columnsARTICLES.put("author", new TableInfo.Column("author", "TEXT", true, 0));
-        _columnsARTICLES.put("isBookmarked", new TableInfo.Column("isBookmarked", "INTEGER", true, 0));
+        _columnsARTICLES.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("type", new TableInfo.Column("type", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("slug", new TableInfo.Column("slug", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("url", new TableInfo.Column("url", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("status", new TableInfo.Column("status", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("title", new TableInfo.Column("title", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("title_plain", new TableInfo.Column("title_plain", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("content", new TableInfo.Column("content", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("excerpt", new TableInfo.Column("excerpt", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("date", new TableInfo.Column("date", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("modified", new TableInfo.Column("modified", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("thumbnail", new TableInfo.Column("thumbnail", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("imageURL", new TableInfo.Column("imageURL", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("comment_count", new TableInfo.Column("comment_count", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("categories", new TableInfo.Column("categories", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("author", new TableInfo.Column("author", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsARTICLES.put("isBookmarked", new TableInfo.Column("isBookmarked", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysARTICLES = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesARTICLES = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoARTICLES = new TableInfo("ARTICLES", _columnsARTICLES, _foreignKeysARTICLES, _indicesARTICLES);
         final TableInfo _existingARTICLES = TableInfo.read(_db, "ARTICLES");
         if (! _infoARTICLES.equals(_existingARTICLES)) {
-          throw new IllegalStateException("Migration didn't properly handle ARTICLES(com.aliumujib.artic.cache.models.ArticleCacheModel).\n"
+          return new RoomOpenHelper.ValidationResult(false, "ARTICLES(com.aliumujib.artic.cache.models.ArticleCacheModel).\n"
                   + " Expected:\n" + _infoARTICLES + "\n"
                   + " Found:\n" + _existingARTICLES);
         }
+        return new RoomOpenHelper.ValidationResult(true, null);
       }
     }, "e568abf52554ba2e353f851b40a35764", "63a5d595abe05a1c71aae9b9989adb36");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)

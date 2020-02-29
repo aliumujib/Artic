@@ -82,8 +82,6 @@ dependencies {
             appDependencies.timber,
             appDependencies.javaxAnnotation,
             appDependencies.roomDB,
-            appDependencies.androidKtx,
-            appDependencies.rxRelays,
             project(':domain'),
             project(':data'),
             project(':cache'),

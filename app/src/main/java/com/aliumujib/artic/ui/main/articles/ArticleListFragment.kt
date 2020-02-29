@@ -6,22 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.aliumujib.artic.databinding.ArticleListFragmentBinding
+import com.aliumujib.artic.R
 import com.aliumujib.artic.presentation.ArticleListViewModel
+import kotlinx.android.synthetic.main.article_list_fragment.view.*
 
 
 class ArticleListFragment : Fragment() {
 
     private lateinit var viewModel: ArticleListViewModel
 
-    private val binding: ArticleListFragmentBinding by lazy {
-        ArticleListFragmentBinding.inflate(layoutInflater)
-    }
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return binding.root
+        return inflater.inflate(R.layout.article_list_fragment, container)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

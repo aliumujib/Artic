@@ -1,19 +1,3 @@
-/*
- * Copyright 2019 vmadalin.com
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import utils.createFabricProperties
 import dependencies.Dependencies
 import dependencies.DebugDependencies
@@ -65,30 +49,15 @@ android {
         }
     }
 
-    flavorDimensions(BuildProductDimensions.ENVIRONMENT)
-    productFlavors {
-        ProductFlavorDevelop.appCreate(this)
-        ProductFlavorQA.appCreate(this)
-        ProductFlavorProduction.appCreate(this)
-    }
-
-    dynamicFeatures = mutableSetOf(
-        BuildModules.Features.HOME,
-        BuildModules.Features.CHARACTERS_LIST,
-        BuildModules.Features.CHARACTERS_FAVORITES
-    )
-
-    dataBinding {
-        isEnabled = true
-    }
-
-    androidExtensions {
-        isExperimental = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+
+
+    androidExtensions {
+        isExperimental = true
     }
 
     kotlinOptions {
@@ -108,10 +77,40 @@ dependencies {
     implementation(Dependencies.CRASHLYTICS)
     implementation(Dependencies.PLAY_CORE)
     implementation(Dependencies.DAGGER)
+    implementation(Dependencies.DAGGER_ANDROID)
+    implementation(Dependencies.CORE_KTX)
+    implementation(Dependencies.RX_JAVA_2)
+    implementation(Dependencies.RX_ANDROID)
+    implementation(Dependencies.LEAK_CANARY)
+    implementation(Dependencies.CONSTRAIN_LAYOUT)
+    implementation(Dependencies.PICASSO)
+    implementation(Dependencies.MULTIDEX)
+    implementation(Dependencies.MATERIAL_DESIGN_SPECS)
+    implementation(Dependencies.JODA_TIME)
+    implementation(Dependencies.LIFECYCLE_EXTENSIONS)
+    implementation(Dependencies.PICASSO_TRANSFORMATIONS)
+    implementation(Dependencies.CIRCLE_IMAGE_VIEW)
+    implementation(Dependencies.STETHO)
+    implementation(Dependencies.RXBINDING_PLATFORM)
+    implementation(Dependencies.TIMBER)
+    implementation(Dependencies.JAVAX_ANNOTATION)
+    implementation(Dependencies.ROOM)
+    implementation(Dependencies.RX_RELAYS)
+    implementation(Dependencies.NAVIGATION_UI)
+
+
+
+    implementation(project(BuildModules.Libraries.DATA))
+    implementation(project(BuildModules.Libraries.DOMAIN))
+    implementation(project(BuildModules.Libraries.CACHE))
+    implementation(project(BuildModules.Libraries.REMOTE))
+    implementation(project(BuildModules.Libraries.PRESENTATION))
+
 
     debugImplementation(DebugDependencies.LEAKCANARY)
 
-    kapt(AnnotationProcessorsDependencies.DAGGER)
+    kapt (AnnotationProcessorsDependencies.DAGGER_ANDROID)
+    kapt (AnnotationProcessorsDependencies.DAGGER)
 
     addTestsDependencies()
 }

@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 public final class ArticlesDao_Impl implements ArticlesDao {
   private final RoomDatabase __db;
 
-  private final EntityInsertionAdapter __insertionAdapterOfArticleCacheModel;
+  private final EntityInsertionAdapter<ArticleCacheModel> __insertionAdapterOfArticleCacheModel;
 
   private final Converters __converters = new Converters();
 
@@ -40,7 +40,7 @@ public final class ArticlesDao_Impl implements ArticlesDao {
     this.__insertionAdapterOfArticleCacheModel = new EntityInsertionAdapter<ArticleCacheModel>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR REPLACE INTO `ARTICLES`(`id`,`type`,`slug`,`url`,`status`,`title`,`title_plain`,`content`,`excerpt`,`date`,`modified`,`thumbnail`,`imageURL`,`comment_count`,`categories`,`author`,`isBookmarked`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        return "INSERT OR REPLACE INTO `ARTICLES` (`id`,`type`,`slug`,`url`,`status`,`title`,`title_plain`,`content`,`excerpt`,`date`,`modified`,`thumbnail`,`imageURL`,`comment_count`,`categories`,`author`,`isBookmarked`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       }
 
       @Override
@@ -210,7 +210,7 @@ public final class ArticlesDao_Impl implements ArticlesDao {
     int _argIndex = 1;
     _statement.bindLong(_argIndex, id);
     __db.assertNotSuspendingTransaction();
-    final Cursor _cursor = DBUtil.query(__db, _statement, false);
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
       final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
       final int _cursorIndexOfType = CursorUtil.getColumnIndexOrThrow(_cursor, "type");
@@ -287,7 +287,7 @@ public final class ArticlesDao_Impl implements ArticlesDao {
     final String _sql = "SELECT COUNT(*) FROM ARTICLES ORDER BY date DESC ";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
     __db.assertNotSuspendingTransaction();
-    final Cursor _cursor = DBUtil.query(__db, _statement, false);
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
     try {
       final int _result;
       if(_cursor.moveToFirst()) {
@@ -309,7 +309,7 @@ public final class ArticlesDao_Impl implements ArticlesDao {
     return RxRoom.createFlowable(__db, false, new String[]{"ARTICLES"}, new Callable<List<ArticleCacheModel>>() {
       @Override
       public List<ArticleCacheModel> call() throws Exception {
-        final Cursor _cursor = DBUtil.query(__db, _statement, false);
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
           final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
           final int _cursorIndexOfType = CursorUtil.getColumnIndexOrThrow(_cursor, "type");
@@ -394,7 +394,7 @@ public final class ArticlesDao_Impl implements ArticlesDao {
     return RxRoom.createFlowable(__db, false, new String[]{"ARTICLES"}, new Callable<List<ArticleCacheModel>>() {
       @Override
       public List<ArticleCacheModel> call() throws Exception {
-        final Cursor _cursor = DBUtil.query(__db, _statement, false);
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
         try {
           final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
           final int _cursorIndexOfType = CursorUtil.getColumnIndexOrThrow(_cursor, "type");

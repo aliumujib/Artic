@@ -34,6 +34,17 @@ object Dependencies {
     const val ROOM_RX_JAVA_2 = "androidx.room:room-rxjava2:${BuildDependenciesVersions.ROOM}"
     const val JAVAX_ANNOTATION = "javax.annotation:jsr250-api:${BuildDependenciesVersions.JAVAX_ANNOTATION_VERSION}"
     const val JAVAX_INJECT=  "javax.inject:javax.inject:${BuildDependenciesVersions.JAVAX_INJECT_VERSION}"
+    const val RETROFIT_RX_ADAPTER = "com.squareup.retrofit2:adapter-rxjava2:${BuildDependenciesVersions.RETROFIT_RX_ADAPTER_VERSION}"
+    const val OKHTTP3_LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${BuildDependenciesVersions.OKHTTP3_LOGGING_INTERCEPTOR_VERSION}"
+    const val LEAK_CANARY = "com.squareup.leakcanary:leakcanary-android:${BuildDependenciesVersions.LEAK_CANARY_VERSION}"
+    const val PICASSO = "com.squareup.picasso:picasso:${BuildDependenciesVersions.PICASSO_VERSION}"
+    const val MULTIDEX = "androidx.multidex:multidex:${BuildDependenciesVersions.MULTIDEX}"
+    const val MATERIAL_DESIGN_SPECS = "com.androidessence:materialdesignspecs:${BuildDependenciesVersions.MATERIAL_DESIGN_SPECS}"
+    const val PICASSO_TRANSFORMATIONS = "jp.wasabeef:picasso-transformations:${BuildDependenciesVersions.PICASSO_TRANSFORMATIONS}"
+    const val CIRCLE_IMAGE_VIEW = "de.hdodenhof:circleimageview:${BuildDependenciesVersions.CIRCLE_IMAGE_VIEW}"
+    const val STETHO = "com.facebook.stetho:stetho:${BuildDependenciesVersions.STETHO}"
+    const val RXBINDING_PLATFORM = "com.jakewharton.rxbinding3:rxbinding:${BuildDependenciesVersions.RXBINDING_PLATFORM}"
+    const val CARD_VIEW = "androidx.cardview:cardview:${BuildDependenciesVersions.MATERIAL}"
 
     const val RECYCLE_VIEW = "androidx.recyclerview:recyclerview:${BuildDependenciesVersions.RECYCLE_VIEW}"
     const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${BuildDependenciesVersions.NAVIGATION}"
@@ -46,6 +57,9 @@ object Dependencies {
     const val SWIPE_REFRESH_LAYOUT = "androidx.swiperefreshlayout:swiperefreshlayout:${BuildDependenciesVersions.SWIPE_REFRESH_LAYOUT}"
     const val PAGING = "androidx.paging:paging-runtime-ktx:${BuildDependenciesVersions.PAGING}"
     const val DAGGER = "com.google.dagger:dagger:${BuildDependenciesVersions.DAGGER}"
+    const val DAGGER_ANDROID = "com.google.dagger:dagger-android-support:${BuildDependenciesVersions.DAGGER}"
+    const val RX_RELAYS = "com.jakewharton.rxrelay2:rxrelay:2.1.1" //TODO delete
+
     const val TIMBER = "com.jakewharton.timber:timber:${BuildDependenciesVersions.TIMBER}"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${BuildDependenciesVersions.RETROFIT}"
     const val RETROFIT_CONVERTER = "com.squareup.retrofit2:converter-gson:${BuildDependenciesVersions.RETROFIT}"
