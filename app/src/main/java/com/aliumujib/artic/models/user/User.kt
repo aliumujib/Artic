@@ -25,7 +25,3 @@ sealed class UserProfileEditorState {
     data class ERROR(val throwable: Throwable) : UserProfileEditorState()
 }
 
-
-//data class UserProfileEditorState(val user:User,
-//                                  val state: UserProfileEditorState
-//)

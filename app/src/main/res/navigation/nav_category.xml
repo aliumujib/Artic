@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/articleListFragment"
         android:name="com.aliumujib.artic.ui.main.articles.ArticleListFragment"
-        android:label="article_list_fragment"
+        android:label="Categories"
         tools:layout="@layout/article_list_fragment">
         <action
             android:id="@+id/action_articleListFragment_to_detailsFragment"

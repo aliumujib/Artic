@@ -8,15 +8,17 @@
     <fragment
         android:id="@+id/articleListFragment"
         android:name="com.aliumujib.artic.ui.main.articles.ArticleListFragment"
-        android:label="article_list_fragment"
+        android:label="Articles"
         tools:layout="@layout/article_list_fragment">
         <action
             android:id="@+id/action_articleListFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.aliumujib.artic.ui.main.articledetail.DetailsFragment"
-        android:label="details_fragment"
+        android:label="Details"
         tools:layout="@layout/details_fragment" />
+
 </navigation>

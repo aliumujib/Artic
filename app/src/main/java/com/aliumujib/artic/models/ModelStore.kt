@@ -34,6 +34,7 @@ open class ModelStore<S>(originalState: S) : Model<S> {
 
     private fun internalLogger(state: S) = Timber.i("$state")
 
+
     private fun crashHandler(throwable: Throwable): Unit = throw throwable
 
     override fun process(intent: Intent<S>) = intents.accept(intent)

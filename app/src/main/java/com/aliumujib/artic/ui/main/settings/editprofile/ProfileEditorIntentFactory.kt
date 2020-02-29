@@ -4,7 +4,7 @@ import com.aliumujib.artic.models.Intent
 import com.aliumujib.artic.models.intent
 import com.aliumujib.artic.models.user.UserProfileEditorModelStore
 import com.aliumujib.artic.models.user.UserProfileEditorState
-import com.aliumujib.artic.models.user.UserProfileEditorState.EDITING
+import com.aliumujib.artic.models.user.UserProfileEditorState.*
 import com.aliumujib.artic.ui.main.settings.editprofile.EditProfileViewEvent.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,6 +24,12 @@ class ProfileEditorIntentFactory @Inject constructor(private val userProfileEdit
         }
     }
 
+   /* private fun buildSaveIntent(): Intent<UserProfileEditorState> {
+        return editorIntent<EDITING> {
+            save()
+        }
+    }
+*/
 
     private fun buildEmailChangeIntent(viewEvent: EmailChange): Intent<UserProfileEditorState> {
         return editorIntent<EDITING> {

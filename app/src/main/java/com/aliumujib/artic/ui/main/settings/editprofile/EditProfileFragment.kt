@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.aliumujib.artic.R
 import com.aliumujib.artic.models.EventsObservable
+import com.aliumujib.artic.models.StateSubscriber
+import com.aliumujib.artic.models.user.UserProfileEditorModelStore
+import com.aliumujib.artic.models.user.UserProfileEditorState
 import com.aliumujib.artic.presentation.EditProfileViewModel
 import com.aliumujib.artic.ui.main.settings.editprofile.EditProfileViewEvent.EmailChange
 import com.aliumujib.artic.ui.main.settings.editprofile.EditProfileViewEvent.FullNameChange
@@ -15,10 +18,13 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.edit_profile_fragment.*
 import javax.inject.Inject
 
-class EditProfileFragment : Fragment(), EventsObservable<EditProfileViewEvent> {
+class EditProfileFragment : Fragment(), EventsObservable<EditProfileViewEvent>,
+    StateSubscriber<UserProfileEditorState> {
+
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -30,15 +36,33 @@ class EditProfileFragment : Fragment(), EventsObservable<EditProfileViewEvent> {
         })
     }
 
+    override fun Observable<UserProfileEditorState>.subscribeToState(): Disposable {
+        return ofType(UserProfileEditorState.EDITING::class.java).firstElement().subscribe {
+            et_email.setText(it.user.email)
+            et_full_name.setText(it.user.fullname)
+        }
+    }
+
     companion object {
         fun newInstance() = EditProfileFragment()
     }
 
+    /**
+     * This is the guy that goes in the vm
+     * */
     @Inject
     lateinit var intentFactory: ProfileEditorIntentFactory
 
+    /**
+     * This guy too
+     * */
+    @Inject
+    lateinit var userProfileEditorModelStore: UserProfileEditorModelStore
+
+
     override fun onResume() {
         super.onResume()
+        compositeDisposable.addAll(userProfileEditorModelStore.modelState().subscribeToState())
         compositeDisposable.addAll(events().subscribe(intentFactory::process))
     }
 
