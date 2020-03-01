@@ -1,12 +1,3 @@
-include(":mobile-ui")
-include(":about")
-include(":bookmarks")
-include(":settings")
-include(":categories")
-include(":articledetails")
-include(":articles")
-include(":search")
-include(":views")
 include(
     ":core",
     ":libraries:domain",
@@ -20,10 +11,8 @@ include(
     ":features:articledetails",
     ":features:articles",
     ":features:search",
-    ":features:views",
     ":features:about",
-    ":mobile-ui",
-    ":presentation"
-)
+    ":features:authorization",
+    ":mobile-ui")
 
 rootProject.buildFileName = "build.gradle.kts"

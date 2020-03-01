@@ -69,14 +69,10 @@ dependencies {
     implementation(Dependencies.RX_RELAYS)
     implementation(Dependencies.NAVIGATION_UI)
 
-
-
     implementation(project(BuildModules.Libraries.DATA))
     implementation(project(BuildModules.Libraries.DOMAIN))
     implementation(project(BuildModules.Libraries.CACHE))
     implementation(project(BuildModules.Libraries.REMOTE))
-    implementation(project(BuildModules.Libraries.PRESENTATION))
-
 
     debugImplementation(DebugDependencies.LEAKCANARY)
 

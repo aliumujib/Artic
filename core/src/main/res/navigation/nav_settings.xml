@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.aliumujib.artic.ui.main.settings.editprofile.EditProfileFragment"
+        android:name="com.aliumujib.artic.settings.editprofile.EditProfileFragment"
         android:label="Edit Profile"
         tools:layout="@layout/edit_profile_fragment"></fragment>
 

@@ -18,7 +18,7 @@ plugins {
     id(BuildPlugins.NAVIGATION_SAFE_ARGS)
     id(BuildPlugins.JACOCO)
     id(BuildPlugins.GRAPH_GENERATOR)
-   //id(BuildPlugins.FABRIC)
+    //id(BuildPlugins.FABRIC)
 }
 
 
@@ -35,7 +35,8 @@ android {
 
         vectorDrawables.useSupportLibrary = BuildAndroidConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
         testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
-        testInstrumentationRunnerArguments = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER_ARGUMENTS
+        testInstrumentationRunnerArguments =
+            BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER_ARGUMENTS
     }
 
 
@@ -49,12 +50,26 @@ android {
         }
     }
 
+    dynamicFeatures = mutableSetOf(
+        BuildModules.Features.ARTICLES,
+        BuildModules.Features.ARTICLE_DETAILS,
+        BuildModules.Features.ABOUT,
+        BuildModules.Features.BOOKMARKS,
+        BuildModules.Features.CATEGORIES,
+        BuildModules.Features.SEARCH,
+        BuildModules.Features.SETTINGS,
+        BuildModules.Features.AUTHORIZATION
+    )
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
 
+    dataBinding {
+        isEnabled = true
+    }
 
     androidExtensions {
         isExperimental = true
@@ -77,7 +92,6 @@ dependencies {
     implementation(Dependencies.CRASHLYTICS)
     implementation(Dependencies.PLAY_CORE)
     implementation(Dependencies.DAGGER)
-    implementation(Dependencies.DAGGER_ANDROID)
     implementation(Dependencies.CORE_KTX)
     implementation(Dependencies.RX_JAVA_2)
     implementation(Dependencies.RX_ANDROID)
@@ -99,18 +113,16 @@ dependencies {
     implementation(Dependencies.NAVIGATION_UI)
 
 
-
     implementation(project(BuildModules.Libraries.DATA))
     implementation(project(BuildModules.Libraries.DOMAIN))
     implementation(project(BuildModules.Libraries.CACHE))
     implementation(project(BuildModules.Libraries.REMOTE))
-    implementation(project(BuildModules.Libraries.PRESENTATION))
+    implementation(project(BuildModules.CORE))
 
 
     debugImplementation(DebugDependencies.LEAKCANARY)
 
-    kapt (AnnotationProcessorsDependencies.DAGGER_ANDROID)
-    kapt (AnnotationProcessorsDependencies.DAGGER)
+    kapt(AnnotationProcessorsDependencies.DAGGER)
 
     addTestsDependencies()
 }
