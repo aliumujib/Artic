@@ -29,7 +29,6 @@
             <option value="$PROJECT_DIR$/libraries/domain" />
             <option value="$PROJECT_DIR$/libraries/remote" />
             <option value="$PROJECT_DIR$/mobile-ui" />
-            <option value="$PROJECT_DIR$/presentation" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
