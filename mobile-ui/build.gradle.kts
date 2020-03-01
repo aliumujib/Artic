@@ -1,0 +1,128 @@
+import utils.createFabricProperties
+import dependencies.Dependencies
+import dependencies.DebugDependencies
+import dependencies.AnnotationProcessorsDependencies
+import extensions.addTestsDependencies
+import extensions.implementation
+import extensions.debugImplementation
+import extensions.getLocalProperty
+import extensions.buildConfigBooleanField
+import extensions.kapt
+
+plugins {
+    id(BuildPlugins.ANDROID_APPLICATION)
+    id(BuildPlugins.KOTLIN_ANDROID)
+    id(BuildPlugins.KOTLIN_ANDROID_EXTENSIONS)
+    id(BuildPlugins.KOTLIN_KAPT)
+    id(BuildPlugins.KOTLIN_ALLOPEN)
+    id(BuildPlugins.NAVIGATION_SAFE_ARGS)
+    id(BuildPlugins.JACOCO)
+    id(BuildPlugins.GRAPH_GENERATOR)
+    //id(BuildPlugins.FABRIC)
+}
+
+
+android {
+    compileSdkVersion(BuildAndroidConfig.COMPILE_SDK_VERSION)
+    defaultConfig {
+        applicationId = BuildAndroidConfig.APPLICATION_ID
+        minSdkVersion(BuildAndroidConfig.MIN_SDK_VERSION)
+        targetSdkVersion(BuildAndroidConfig.TARGET_SDK_VERSION)
+        buildToolsVersion(BuildAndroidConfig.BUILD_TOOLS_VERSION)
+
+        versionCode = BuildAndroidConfig.VERSION_CODE
+        versionName = BuildAndroidConfig.VERSION_NAME
+
+        vectorDrawables.useSupportLibrary = BuildAndroidConfig.SUPPORT_LIBRARY_VECTOR_DRAWABLES
+        testInstrumentationRunner = BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER
+        testInstrumentationRunnerArguments =
+            BuildAndroidConfig.TEST_INSTRUMENTATION_RUNNER_ARGUMENTS
+    }
+
+
+    buildTypes {
+
+        getByName(BuildType.DEBUG) {
+            applicationIdSuffix = BuildTypeDebug.applicationIdSuffix
+            versionNameSuffix = BuildTypeDebug.versionNameSuffix
+            isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
+            isTestCoverageEnabled = BuildTypeDebug.isTestCoverageEnabled
+        }
+    }
+
+    dynamicFeatures = mutableSetOf(
+        BuildModules.Features.ARTICLES,
+        BuildModules.Features.ARTICLE_DETAILS,
+        BuildModules.Features.ABOUT,
+        BuildModules.Features.BOOKMARKS,
+        BuildModules.Features.CATEGORIES,
+        BuildModules.Features.SEARCH,
+        BuildModules.Features.SETTINGS,
+        BuildModules.Features.AUTHORIZATION
+    )
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+
+    dataBinding {
+        isEnabled = true
+    }
+
+    androidExtensions {
+        isExperimental = true
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+
+    implementation(Dependencies.KOTLIN)
+    implementation(Dependencies.APPCOMPAT)
+    implementation(Dependencies.MATERIAL)
+    implementation(Dependencies.CONSTRAIN_LAYOUT)
+    implementation(Dependencies.NAVIGATION_FRAGMENT)
+    implementation(Dependencies.TIMBER)
+    implementation(Dependencies.LOGGING)
+    implementation(Dependencies.CRASHLYTICS)
+    implementation(Dependencies.PLAY_CORE)
+    implementation(Dependencies.DAGGER)
+    implementation(Dependencies.CORE_KTX)
+    implementation(Dependencies.RX_JAVA_2)
+    implementation(Dependencies.RX_ANDROID)
+    implementation(Dependencies.LEAK_CANARY)
+    implementation(Dependencies.CONSTRAIN_LAYOUT)
+    implementation(Dependencies.PICASSO)
+    implementation(Dependencies.MULTIDEX)
+    implementation(Dependencies.MATERIAL_DESIGN_SPECS)
+    implementation(Dependencies.JODA_TIME)
+    implementation(Dependencies.LIFECYCLE_EXTENSIONS)
+    implementation(Dependencies.PICASSO_TRANSFORMATIONS)
+    implementation(Dependencies.CIRCLE_IMAGE_VIEW)
+    implementation(Dependencies.STETHO)
+    implementation(Dependencies.RXBINDING_PLATFORM)
+    implementation(Dependencies.TIMBER)
+    implementation(Dependencies.JAVAX_ANNOTATION)
+    implementation(Dependencies.ROOM)
+    implementation(Dependencies.RX_RELAYS)
+    implementation(Dependencies.NAVIGATION_UI)
+
+
+    implementation(project(BuildModules.Libraries.DATA))
+    implementation(project(BuildModules.Libraries.DOMAIN))
+    implementation(project(BuildModules.Libraries.CACHE))
+    implementation(project(BuildModules.Libraries.REMOTE))
+    implementation(project(BuildModules.CORE))
+
+
+    debugImplementation(DebugDependencies.LEAKCANARY)
+
+    kapt(AnnotationProcessorsDependencies.DAGGER)
+
+    addTestsDependencies()
+}

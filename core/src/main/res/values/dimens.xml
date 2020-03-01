@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_margin">32dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="toolbar_padding">8dp</dimen>
+    <dimen name="nav_header_height">95dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="standard_margin">16dp</dimen>
+    <dimen name="save_profile_button_margin">64dp</dimen>
+
+</resources>

@@ -10,13 +10,26 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/cache" />
-            <option value="$PROJECT_DIR$/data" />
-            <option value="$PROJECT_DIR$/domain" />
+            <option value="$PROJECT_DIR$/buildSrc" />
+            <option value="$PROJECT_DIR$/commons" />
+            <option value="$PROJECT_DIR$/commons/views" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/about" />
+            <option value="$PROJECT_DIR$/features/articledetails" />
+            <option value="$PROJECT_DIR$/features/articles" />
+            <option value="$PROJECT_DIR$/features/authorization" />
+            <option value="$PROJECT_DIR$/features/bookmarks" />
+            <option value="$PROJECT_DIR$/features/categories" />
+            <option value="$PROJECT_DIR$/features/search" />
+            <option value="$PROJECT_DIR$/features/settings" />
+            <option value="$PROJECT_DIR$/libraries" />
+            <option value="$PROJECT_DIR$/libraries/cache" />
+            <option value="$PROJECT_DIR$/libraries/data" />
+            <option value="$PROJECT_DIR$/libraries/domain" />
+            <option value="$PROJECT_DIR$/libraries/remote" />
+            <option value="$PROJECT_DIR$/mobile-ui" />
             <option value="$PROJECT_DIR$/presentation" />
-            <option value="$PROJECT_DIR$/remote" />
-            <option value="$PROJECT_DIR$/system" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
