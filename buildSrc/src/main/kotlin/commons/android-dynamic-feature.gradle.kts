@@ -66,25 +66,6 @@ android {
         isExperimental = true
     }
 
-    flavorDimensions(BuildProductDimensions.ENVIRONMENT)
-    productFlavors {
-        ProductFlavorDevelop.libraryCreate(this)
-        ProductFlavorQA.libraryCreate(this)
-        ProductFlavorProduction.libraryCreate(this)
-    }
-
-    sourceSets {
-        getByName("main") {
-            java.srcDir("src/main/kotlin")
-        }
-        getByName("test") {
-            java.srcDir("src/test/kotlin")
-        }
-        getByName("androidTest") {
-            java.srcDir("src/androidTest/kotlin")
-        }
-    }
-
     lintOptions {
         lintConfig = rootProject.file(".lint/config.xml")
         isCheckAllWarnings = true
@@ -102,9 +83,9 @@ junitJacoco {
 }
 
 dependencies {
-    implementation(project(BuildModules.APP))
+    implementation(project(BuildModules.MOBILE_UI))
     implementation(project(BuildModules.CORE))
-    implementation(project(BuildModules.Commons.UI))
+    implementation(project(BuildModules.Commons.VIEWS))
 
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.APPCOMPAT)
@@ -125,6 +106,6 @@ dependencies {
     kapt(AnnotationProcessorsDependencies.DATABINDING)
     kapt(AnnotationProcessorsDependencies.ROOM)
 
-    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    //testImplementation(project(BuildModules.Libraries.TEST_UTILS)) //TODO Create test utilities library for shared testing code
     addTestsDependencies()
 }

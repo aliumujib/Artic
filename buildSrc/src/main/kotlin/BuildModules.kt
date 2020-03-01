@@ -18,13 +18,17 @@
  * Configuration of build modules
  */
 object BuildModules {
-    const val APP = ":app"
+    const val MOBILE_UI = ":mobile-ui"
     const val CORE = ":core"
 
     object Features {
-        const val HOME = ":features:home"
-        const val CHARACTERS_LIST = ":features:characters_list"
-        const val CHARACTERS_FAVORITES = ":features:characters_favorites"
+        const val ARTICLES = ":features:articles"
+        const val ARTICLE_DETAILS = ":features:articledetails"
+        const val ABOUT = ":features:about"
+        const val BOOKMARKS = ":features:bookmarks"
+        const val CATEGORIES = ":features:categories"
+        const val SEARCH = ":features:search"
+        const val SETTINGS = ":features:settings"
     }
 
     object Commons {
@@ -33,11 +37,11 @@ object BuildModules {
     }
 
     object Libraries {
-        const val DATA = ":data"
-        const val DOMAIN = ":domain"
-        const val CACHE = ":cache"
+        const val DATA = ":libraries:data"
+        const val DOMAIN = ":libraries:domain"
+        const val CACHE = ":libraries:cache"
         const val PRESENTATION = ":presentation"
-        const val REMOTE = ":remote"
+        const val REMOTE = ":libraries:remote"
 
         const val TEST_UTILS = ":libraries:test_utils"
     }

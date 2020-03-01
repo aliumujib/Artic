@@ -11,3 +11,7 @@ allprojects {
     plugins.apply(BuildPlugins.KTLINT)
     plugins.apply(BuildPlugins.SPOTLESS)
 }
+
+
+
+

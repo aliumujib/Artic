@@ -1,10 +1,28 @@
-
+include(":mobile-ui")
+include(":about")
+include(":bookmarks")
+include(":settings")
+include(":categories")
+include(":articledetails")
+include(":articles")
+include(":search")
+include(":views")
 include(
-    ":app",
-    ":domain",
-    ":data",
-    ":remote",
-    ":cache",
+    ":core",
+    ":libraries:domain",
+    ":libraries:data",
+    ":libraries:remote",
+    ":libraries:cache",
+    ":commons:views",
+    ":features:bookmarks",
+    ":features:settings",
+    ":features:categories",
+    ":features:articledetails",
+    ":features:articles",
+    ":features:search",
+    ":features:views",
+    ":features:about",
+    ":mobile-ui",
     ":presentation"
 )
 
