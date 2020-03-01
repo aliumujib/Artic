@@ -2,8 +2,8 @@ package com.aliumujib.artic.mobile_ui.di
 
 
 import com.aliumujib.artic.mobile_ui.ApplicationClass
-import com.aliumujib.artic.ui.inject.components.CoreComponent
-import com.aliumujib.artic.ui.inject.scopes.AppScope
+import com.aliumujib.artic.di.components.CoreComponent
+import com.aliumujib.artic.di.scopes.AppScope
 import dagger.Component
 
 @AppScope

@@ -1,14 +1,14 @@
 
-package com.aliumujib.artic.ui.inject.components
+package com.aliumujib.artic.di.components
 
 import android.content.Context
 import com.aliumujib.artic.data.repositories.articles.ArticlesRepoImpl
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
 import com.aliumujib.artic.remote.api.WordPressAPI
-import com.aliumujib.artic.ui.inject.module.CacheModule
-import com.aliumujib.artic.ui.inject.module.ContextModule
-import com.aliumujib.artic.ui.inject.module.DataModule
-import com.aliumujib.artic.ui.inject.module.RemoteModule
+import com.aliumujib.artic.di.module.CacheModule
+import com.aliumujib.artic.di.module.ContextModule
+import com.aliumujib.artic.di.module.DataModule
+import com.aliumujib.artic.di.module.RemoteModule
 import dagger.Component
 import javax.inject.Singleton
 

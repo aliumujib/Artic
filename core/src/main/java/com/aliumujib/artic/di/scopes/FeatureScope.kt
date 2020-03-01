@@ -1,4 +1,4 @@
-package com.aliumujib.artic.ui.inject.scopes
+package com.aliumujib.artic.di.scopes
 
 import javax.inject.Scope
 

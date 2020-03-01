@@ -9,6 +9,7 @@
         android:id="@+id/articleListFragment"
         android:name="com.aliumujib.artic.articles.list.ArticleListFragment"
         android:label="Articles"
+        app:moduleName="articles"
         tools:layout="@layout/article_list_fragment">
         <action
             android:id="@+id/action_articleListFragment_to_detailsFragment"
@@ -17,7 +18,8 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.aliumujib.artic.ui.main.articledetail.DetailsFragment"
+        app:moduleName="articledetails"
+        android:name="com.aliumujib.artic.articledetails.details.DetailsFragment"
         android:label="Details"
         tools:layout="@layout/details_fragment" />
 

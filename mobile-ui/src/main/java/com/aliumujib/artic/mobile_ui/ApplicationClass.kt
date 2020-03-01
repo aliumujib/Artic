@@ -1,9 +1,9 @@
 package com.aliumujib.artic.mobile_ui
 
 import com.aliumujib.artic.mobile_ui.di.DaggerApplicationComponent
-import com.aliumujib.artic.ui.inject.components.CoreComponent
-import com.aliumujib.artic.ui.inject.components.DaggerCoreComponent
-import com.aliumujib.artic.ui.inject.module.ContextModule
+import com.aliumujib.artic.di.components.CoreComponent
+import com.aliumujib.artic.di.components.DaggerCoreComponent
+import com.aliumujib.artic.di.module.ContextModule
 import com.google.android.play.core.splitcompat.SplitCompatApplication
 import timber.log.Timber
 

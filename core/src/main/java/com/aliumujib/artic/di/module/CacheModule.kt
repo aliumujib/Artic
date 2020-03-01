@@ -1,4 +1,4 @@
-package com.aliumujib.artic.ui.inject.module
+package com.aliumujib.artic.di.module
 
 import android.content.Context
 import androidx.room.Room

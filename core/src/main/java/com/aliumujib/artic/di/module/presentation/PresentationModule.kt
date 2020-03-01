@@ -1,4 +1,4 @@
-package com.aliumujib.artic.ui.inject.module.presentation
+package com.aliumujib.artic.di.module.presentation
 
 
 

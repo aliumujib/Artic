@@ -10,8 +10,6 @@ import com.aliumujib.artic.settings.R
 
 class EditProfileFragment : Fragment() {
 
-
-
     companion object {
         fun newInstance() =
             EditProfileFragment()

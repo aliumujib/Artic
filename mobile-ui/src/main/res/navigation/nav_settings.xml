@@ -6,8 +6,9 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.aliumujib.artic.ui.main.settings.SettingsFragment"
+        android:name="com.aliumujib.artic.settings.settings.SettingsFragment"
         android:label="Settings"
+        app:moduleName="settings"
         tools:layout="@layout/settings_fragment">
         <action
             android:id="@+id/action_settingsFragment_to_editProfileFragment"
@@ -17,8 +18,9 @@
 
     <fragment
         android:id="@+id/editProfileFragment"
+        app:moduleName="settings"
         android:name="com.aliumujib.artic.settings.editprofile.EditProfileFragment"
         android:label="Edit Profile"
-        tools:layout="@layout/edit_profile_fragment"></fragment>
+        tools:layout="@layout/edit_profile_fragment" />
 
 </navigation>

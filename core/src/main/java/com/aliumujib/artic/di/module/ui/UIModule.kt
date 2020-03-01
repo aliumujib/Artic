@@ -1,4 +1,4 @@
-package com.aliumujib.artic.ui.inject.module.ui
+package com.aliumujib.artic.di.module.ui
 
 
 

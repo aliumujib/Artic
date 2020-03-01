@@ -2,22 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_bookmarks"
+    android:id="@+id/nav_category"
     app:startDestination="@id/articleListFragment">
 
     <fragment
         android:id="@+id/articleListFragment"
+        app:moduleName="articles"
         android:name="com.aliumujib.artic.articles.list.ArticleListFragment"
-        android:label="Articles"
+        android:label="Categories"
         tools:layout="@layout/article_list_fragment">
         <action
             android:id="@+id/action_articleListFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.aliumujib.artic.ui.main.articledetail.DetailsFragment"
+        app:moduleName="articledetails"
+        android:name="com.aliumujib.artic.articledetails.details.DetailsFragment"
         android:label="details_fragment"
         tools:layout="@layout/details_fragment" />
 </navigation>

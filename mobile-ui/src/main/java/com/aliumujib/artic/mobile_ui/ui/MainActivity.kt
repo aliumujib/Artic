@@ -1,4 +1,4 @@
-package com.aliumujib.artic.ui.main
+package com.aliumujib.artic.mobile_ui.ui
 
 import android.os.Bundle
 import android.view.Menu
@@ -12,10 +12,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.aliumujib.artic.R
-import com.aliumujib.artic.utils.setupWithNavController
+import com.aliumujib.artic.mobile_ui.R
+import com.aliumujib.artic.mobile_ui.utils.setupWithNavController
 import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -72,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             fragmentManager = supportFragmentManager,
             containerId = R.id.mainHostFragment,
             intent = intent,
-            drawerLayout = drawer_layout
+            drawerLayout = findViewById(R.id.drawer_layout)
         )
 
         // Whenever the selected controller changes, setup the action bar.
