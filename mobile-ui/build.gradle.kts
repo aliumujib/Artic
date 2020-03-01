@@ -83,6 +83,7 @@ android {
 dependencies {
 
     implementation(project(BuildModules.CORE))
+    implementation(project(BuildModules.Commons.VIEWS))
 
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.APPCOMPAT)

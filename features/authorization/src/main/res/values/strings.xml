@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="sign_up_with_google">Sign Up with Google</string>
+    <string name="have_an_account_log_in">Have an account? Log in</string>
+
+</resources>
