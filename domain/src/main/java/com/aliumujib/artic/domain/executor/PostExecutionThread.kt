@@ -1,7 +1,13 @@
 package com.aliumujib.artic.domain.executor
 
-import io.reactivex.Scheduler
+import kotlinx.coroutines.CoroutineDispatcher
+
 
 interface PostExecutionThread {
-    val scheduler: Scheduler
+
+    val ui: CoroutineDispatcher
+
+    val io: CoroutineDispatcher
+
+    val default: CoroutineDispatcher
 }

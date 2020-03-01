@@ -1,21 +1,21 @@
 package com.aliumujib.artic.data.repositories.contracts.repo
 
 import com.aliumujib.artic.data.model.ArticleEntity
-import io.reactivex.Completable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
+
 
 interface IArticlesDataStore {
 
-    fun getArticles(page: Int, isOnline: Boolean): Observable<List<ArticleEntity>>
+    fun getArticles(page: Int, isOnline: Boolean): Flow<List<ArticleEntity>>
 
-    fun saveArticles(projects: List<ArticleEntity>): Completable
+    suspend fun saveArticles(projects: List<ArticleEntity>)
 
-    fun clearArticles(): Completable
+    suspend fun clearArticles()
 
-    fun getBookmarkedArticles(): Observable<List<ArticleEntity>>
+    fun getBookmarkedArticles(): Flow<List<ArticleEntity>>
 
-    fun setArticleAsBookmarked(articleId: Int): Completable
+    suspend fun setArticleAsBookmarked(articleId: Int)
 
-    fun setArticleAsNotBookmarked(articleId: Int): Completable
+    suspend fun setArticleAsNotBookmarked(articleId: Int)
 
 }

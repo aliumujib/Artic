@@ -4,8 +4,8 @@ import com.aliumujib.artic.cache.models.mappers.ArticleCacheModelMapper
 import com.aliumujib.artic.cache.room.ArticlesDao
 import com.aliumujib.artic.data.model.ArticleEntity
 import com.aliumujib.artic.data.repositories.contracts.cache.IArticlesCache
-import io.reactivex.Completable
-import io.reactivex.Flowable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import java.util.*
 import javax.inject.Inject
 
@@ -15,52 +15,43 @@ class ArticlesCacheImpl @Inject constructor(
     private val cacheTimeManager: CacheTimeManager
 ) : IArticlesCache {
 
-    override fun clearArticles(): Completable {
-        return Completable.defer {
-            articlesDao.deleteAllArticles()
-            Completable.complete()
-        }
+    override suspend fun clearArticles() {
+        articlesDao.deleteAllArticles()
     }
 
-    override fun saveArticles(articles: List<ArticleEntity>) {
+    override suspend fun saveArticles(articles: List<ArticleEntity>) {
         articlesDao.insert(articleCacheModelMapper.mapToModelList(articles))
     }
 
-    override fun getArticles(): Flowable<List<ArticleEntity>> {
+    override  fun getArticles(): Flow<List<ArticleEntity>> {
         return articlesDao.getAllCachedArticles().map {
             articleCacheModelMapper.mapToEntityList(it)
         }
     }
 
-    override fun getBookmarkedArticles(): Flowable<List<ArticleEntity>> {
+    override  fun getBookmarkedArticles(): Flow<List<ArticleEntity>> {
         return articlesDao.getAllBookmarkedArticles().map {
             articleCacheModelMapper.mapToEntityList(it)
         }
     }
 
-    override fun setArticleAsBookmarked(article: ArticleEntity): Completable {
-        return Completable.defer {
-            articlesDao.insert(articleCacheModelMapper.mapToModel(article))
-            Completable.complete()
-        }
+    override suspend fun setArticleAsBookmarked(article: ArticleEntity) {
+        articlesDao.insert(articleCacheModelMapper.mapToModel(article))
     }
 
-    override fun setArticleAsNotBookmarked(articleId: Int): Completable {
-        return Completable.defer {
+    override suspend fun setArticleAsNotBookmarked(articleId: Int) {
             articlesDao.unBookmarkArticle(articleId)
-            Completable.complete()
-        }
     }
 
-    override fun areArticlesCached(): Boolean {
+    override suspend fun areArticlesCached(): Boolean {
         return articlesDao.getAllCachedArticlesCount() > 0
     }
 
-    override fun setLastCacheTime(lastCache: Long) {
+    override suspend fun setLastCacheTime(lastCache: Long) {
         cacheTimeManager.saveLastCacheTime(lastCache)
     }
 
-    override fun isArticlesCacheExpired(): Boolean {
+    override suspend fun isArticlesCacheExpired(): Boolean {
         val now = Calendar.getInstance().time.time
         val lastCache = cacheTimeManager.getLastCacheTime()
         val oneDay = 60 * 60 * 24

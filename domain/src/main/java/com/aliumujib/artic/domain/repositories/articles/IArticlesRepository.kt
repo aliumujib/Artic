@@ -1,21 +1,19 @@
 package com.aliumujib.artic.domain.repositories.articles
 
 import com.aliumujib.artic.domain.models.Article
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.Flow
 
 
 interface IArticlesRepository {
 
-    fun getArticles(page: Int, isInternetAvailable: Boolean = true): Observable<List<Article>>
+    fun getArticles(page: Int, isInternetAvailable: Boolean = true): Flow<List<Article>>
 
-    fun bookmarkArticle(article: Article): Completable
+    suspend fun bookmarkArticle(article: Article)
 
-    fun unBookmarkArticle(articleId: Int): Completable
+    suspend fun unBookmarkArticle(articleId: Int)
 
-    fun getBookmarkedArticles(): Flowable<List<Article>>
+    fun getBookmarkedArticles(): Flow<List<Article>>
 
-    fun searchArticles(query: String, page: Int): Observable<List<Article>>
+    fun searchArticles(query: String, page: Int): Flow<List<Article>>
 
 }

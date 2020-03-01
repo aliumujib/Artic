@@ -15,12 +15,9 @@ class ArticleListFragment : Fragment() {
 
     private lateinit var viewModel: ArticleListViewModel
 
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.article_list_fragment, container)
+        return inflater.inflate(R.layout.article_list_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

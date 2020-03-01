@@ -1,10 +1,10 @@
 package com.aliumujib.artic.domain.repositories.auth
 
-import io.reactivex.Completable
+import com.aliumujib.artic.domain.models.User
 
 
 interface IAuthService {
 
-    fun signInUserViaGoogle(): Completable
+    suspend fun signInUserViaGoogle(): User?
 
 }

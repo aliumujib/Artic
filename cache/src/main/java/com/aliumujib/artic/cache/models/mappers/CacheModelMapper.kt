@@ -1,6 +1,5 @@
 package com.aliumujib.artic.cache.models.mappers
 
-import io.reactivex.exceptions.Exceptions
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,14 +40,7 @@ interface CacheModelMapper<M, E> {
     }
 
     fun safeParse(format: SimpleDateFormat, from: String): Date {
-        val date = try {
-            format.parse(from)
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            Exceptions.propagate(ex)
-            Date()
-        }
-        return date
+        return format.parse(from)
     }
 
 }

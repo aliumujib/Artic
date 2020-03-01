@@ -1,14 +1,12 @@
 package com.aliumujib.artic.domain.repositories.comments
 
 import com.aliumujib.artic.domain.models.Comment
-import io.reactivex.Completable
-import io.reactivex.Observable
-
+import kotlinx.coroutines.flow.Flow
 
 interface ICommentsRepository {
 
-    fun getCommentsForArticle(parentId: Int): Observable<List<Comment>>
+    fun getCommentsForArticle(parentId: Int): Flow<List<Comment>>
 
-    fun commentOnArticle(comment: Comment): Completable
+    fun commentOnArticle(comment: Comment)
 
 }

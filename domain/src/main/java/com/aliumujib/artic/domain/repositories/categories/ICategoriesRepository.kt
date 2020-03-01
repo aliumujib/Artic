@@ -1,13 +1,10 @@
 package com.aliumujib.artic.domain.repositories.categories
 
-import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.models.Category
-import io.reactivex.Completable
-import io.reactivex.Observable
-
+import kotlinx.coroutines.flow.Flow
 
 interface ICategoriesRepository {
 
-    fun getCategories(page: Int): Observable<List<Category>>
+    fun getCategories(page: Int): Flow<List<Category>>
 
 }

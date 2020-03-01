@@ -6,8 +6,6 @@ import com.aliumujib.artic.remote.models.responses.CategoriesFetchResponse
 import com.aliumujib.artic.remote.models.responses.CategoryDetailsResponse
 import com.aliumujib.artic.remote.models.responses.PagedPostsListResponse
 import com.aliumujib.artic.remote.models.responses.SinglePostResponse
-import io.reactivex.Completable
-import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -23,10 +21,10 @@ interface WordPressAPI {
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @GET("?json=get_posts$EXCLUDE_FIELD")
-    fun getPostByPage(
+    suspend fun getPostByPage(
         @Query("page") page: Int,
         @Query("count") count: Int
-    ): Observable<PagedPostsListResponse>
+    ): PagedPostsListResponse
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @GET("?json=get_post")
@@ -36,10 +34,10 @@ interface WordPressAPI {
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @GET("?json=get_search_results$EXCLUDE_FIELD")
-    fun getSearchPosts(
+    suspend fun getSearchPosts(
         @Query("search") search: String,
         @Query("count") count: Int
-    ): Observable<PagedPostsListResponse>
+    ): PagedPostsListResponse
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @GET("?json=get_category_posts$EXCLUDE_FIELD")
@@ -60,7 +58,7 @@ interface WordPressAPI {
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @POST("?api-fcm=register")
-    fun registerDevice(@Body deviceInfo: DeviceInfo): Completable
+    fun registerDevice(@Body deviceInfo: DeviceInfo): Call<Any>
 
     companion object {
 

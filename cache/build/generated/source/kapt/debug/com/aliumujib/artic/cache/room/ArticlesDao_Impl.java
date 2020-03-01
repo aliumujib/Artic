@@ -1,10 +1,11 @@
 package com.aliumujib.artic.cache.room;
 
 import android.database.Cursor;
+import androidx.room.CoroutinesRoom;
 import androidx.room.EntityInsertionAdapter;
 import androidx.room.RoomDatabase;
+import androidx.room.RoomDatabaseKt;
 import androidx.room.RoomSQLiteQuery;
-import androidx.room.RxRoom;
 import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
@@ -12,8 +13,8 @@ import androidx.sqlite.db.SupportSQLiteStatement;
 import com.aliumujib.artic.cache.models.ArticleCacheModel;
 import com.aliumujib.artic.cache.models.AuthorCacheModel;
 import com.aliumujib.artic.cache.models.CategoryCacheModel;
-import io.reactivex.Flowable;
 import java.lang.Exception;
+import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
@@ -21,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import javax.annotation.Generated;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlin.jvm.functions.Function1;
+import kotlinx.coroutines.flow.Flow;
 
 @Generated("androidx.room.RoomProcessor")
 @SuppressWarnings({"unchecked", "deprecation"})
@@ -139,54 +144,68 @@ public final class ArticlesDao_Impl implements ArticlesDao {
   }
 
   @Override
-  public void insert(final List<ArticleCacheModel> app) {
-    __db.assertNotSuspendingTransaction();
-    __db.beginTransaction();
-    try {
-      __insertionAdapterOfArticleCacheModel.insert(app);
-      __db.setTransactionSuccessful();
-    } finally {
-      __db.endTransaction();
-    }
+  public Object insert(final List<ArticleCacheModel> app, final Continuation<? super Unit> p1) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        __db.beginTransaction();
+        try {
+          __insertionAdapterOfArticleCacheModel.insert(app);
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+        }
+      }
+    }, p1);
   }
 
   @Override
-  public void insert(final ArticleCacheModel app) {
-    __db.assertNotSuspendingTransaction();
-    __db.beginTransaction();
-    try {
-      __insertionAdapterOfArticleCacheModel.insert(app);
-      __db.setTransactionSuccessful();
-    } finally {
-      __db.endTransaction();
-    }
+  public Object insert(final ArticleCacheModel app, final Continuation<? super Unit> p1) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        __db.beginTransaction();
+        try {
+          __insertionAdapterOfArticleCacheModel.insert(app);
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+        }
+      }
+    }, p1);
   }
 
   @Override
-  public void unBookmarkArticle(final int id) {
-    __db.beginTransaction();
-    try {
-      ArticlesDao.DefaultImpls.unBookmarkArticle(ArticlesDao_Impl.this, id);
-      __db.setTransactionSuccessful();
-    } finally {
-      __db.endTransaction();
-    }
+  public Object unBookmarkArticle(final int id, final Continuation<? super Unit> p1) {
+    return RoomDatabaseKt.withTransaction(__db, new Function1<Continuation<? super Unit>, Object>() {
+      @Override
+      public Object invoke(Continuation<? super Unit> __cont) {
+        return ArticlesDao.DefaultImpls.unBookmarkArticle(ArticlesDao_Impl.this, id, __cont);
+      }
+    }, p1);
   }
 
   @Override
-  public void deleteArticle(final int id) {
-    __db.assertNotSuspendingTransaction();
-    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteArticle.acquire();
-    int _argIndex = 1;
-    _stmt.bindLong(_argIndex, id);
-    __db.beginTransaction();
-    try {
-      _stmt.executeUpdateDelete();
-      __db.setTransactionSuccessful();
-    } finally {
-      __db.endTransaction();
-      __preparedStmtOfDeleteArticle.release(_stmt);
-    }
+  public Object deleteArticle(final int id, final Continuation<? super Unit> p1) {
+    return CoroutinesRoom.execute(__db, true, new Callable<Unit>() {
+      @Override
+      public Unit call() throws Exception {
+        final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteArticle.acquire();
+        int _argIndex = 1;
+        _stmt.bindLong(_argIndex, id);
+        __db.beginTransaction();
+        try {
+          _stmt.executeUpdateDelete();
+          __db.setTransactionSuccessful();
+          return Unit.INSTANCE;
+        } finally {
+          __db.endTransaction();
+          __preparedStmtOfDeleteArticle.release(_stmt);
+        }
+      }
+    }, p1);
   }
 
   @Override
@@ -303,10 +322,10 @@ public final class ArticlesDao_Impl implements ArticlesDao {
   }
 
   @Override
-  public Flowable<List<ArticleCacheModel>> getAllCachedArticles() {
+  public Flow<List<ArticleCacheModel>> getAllCachedArticles() {
     final String _sql = "SELECT * FROM ARTICLES ORDER BY date DESC ";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    return RxRoom.createFlowable(__db, false, new String[]{"ARTICLES"}, new Callable<List<ArticleCacheModel>>() {
+    return CoroutinesRoom.createFlow(__db, false, new String[]{"ARTICLES"}, new Callable<List<ArticleCacheModel>>() {
       @Override
       public List<ArticleCacheModel> call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
@@ -388,10 +407,10 @@ public final class ArticlesDao_Impl implements ArticlesDao {
   }
 
   @Override
-  public Flowable<List<ArticleCacheModel>> getAllBookmarkedArticles() {
+  public Flow<List<ArticleCacheModel>> getAllBookmarkedArticles() {
     final String _sql = "SELECT * FROM ARTICLES WHERE isBookmarked =  1 ORDER BY date DESC ";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
-    return RxRoom.createFlowable(__db, false, new String[]{"ARTICLES"}, new Callable<List<ArticleCacheModel>>() {
+    return CoroutinesRoom.createFlow(__db, false, new String[]{"ARTICLES"}, new Callable<List<ArticleCacheModel>>() {
       @Override
       public List<ArticleCacheModel> call() throws Exception {
         final Cursor _cursor = DBUtil.query(__db, _statement, false, null);

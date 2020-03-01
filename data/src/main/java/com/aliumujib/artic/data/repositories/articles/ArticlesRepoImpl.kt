@@ -1,54 +1,56 @@
 package com.aliumujib.artic.data.repositories.articles
 
 import com.aliumujib.artic.data.mapper.ArticleEntityMapper
+import com.aliumujib.artic.data.model.ArticleEntity
 import com.aliumujib.artic.data.repositories.contracts.cache.IArticlesCache
 import com.aliumujib.artic.data.repositories.contracts.remote.IArticlesRemote
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
-import io.reactivex.Completable
-import io.reactivex.Flowable
-import io.reactivex.Observable
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class ArticlesRepoImpl @Inject constructor(
-    var articlesRemote: IArticlesRemote,
-    var articlesCache: IArticlesCache,
-    var articleEntityMapper: ArticleEntityMapper
+    private val articlesRemote: IArticlesRemote,
+    private val articlesCache: IArticlesCache,
+    private val articleEntityMapper: ArticleEntityMapper
 ) : IArticlesRepository {
 
-    override fun getArticles(page: Int, isInternetAvailable: Boolean): Observable<List<Article>> {
+    override fun getArticles(page: Int, isInternetAvailable: Boolean): Flow<List<Article>> {
         return if (isInternetAvailable) {
-            articlesRemote.getArticles(page)
-                .doOnNext {
-                    articlesCache.saveArticles(it)
+            flow {
+                val articles: List<ArticleEntity> = articlesRemote.getArticles(page)
+                if (page == 1) {
+                    articlesCache.saveArticles(articles)
                 }
-                .map {
-                    articleEntityMapper.mapFromEntityList(it)
-                }
+                emit(articleEntityMapper.mapFromEntityList(articles))
+            }
         } else {
             articlesCache.getArticles().map {
                 articleEntityMapper.mapFromEntityList(it)
-            }.toObservable()
+            }
         }
     }
 
-    override fun bookmarkArticle(article: Article): Completable {
-        return articlesCache.setArticleAsBookmarked(articleEntityMapper.mapToEntity(article))
+
+    override suspend fun bookmarkArticle(article: Article) {
+        articlesCache.setArticleAsBookmarked(articleEntityMapper.mapToEntity(article))
     }
 
-    override fun unBookmarkArticle(articleId: Int): Completable {
+    override suspend fun unBookmarkArticle(articleId: Int) {
         return articlesCache.setArticleAsNotBookmarked(articleId)
     }
 
-    override fun getBookmarkedArticles(): Flowable<List<Article>> {
+    override fun getBookmarkedArticles(): Flow<List<Article>> {
         return articlesCache.getBookmarkedArticles().map {
             articleEntityMapper.mapFromEntityList(it)
         }
     }
 
-    override fun searchArticles(query: String, page: Int): Observable<List<Article>> {
-        return articlesRemote.searchArticles(search = query, page = page).map {
-            articleEntityMapper.mapFromEntityList(it)
+    override fun searchArticles(query: String, page: Int): Flow<List<Article>> {
+        return flow {
+            val articles: List<ArticleEntity> =
+                articlesRemote.searchArticles(search = query, page = page)
+            emit(articleEntityMapper.mapFromEntityList(articles))
         }
     }
 

@@ -10,12 +10,12 @@ plugins {
 dependencies {
     implementation(project(BuildModules.Libraries.DATA))
 
-    implementation(Dependencies.RX_JAVA_2)
+    implementation(Dependencies.COROUTINES)
     implementation(Dependencies.JODA_TIME)
     implementation(Dependencies.JAVAX_ANNOTATION)
     implementation(Dependencies.JAVAX_INJECT)
     implementation(Dependencies.ROOM)
-    implementation(Dependencies.ROOM_RX_JAVA_2)
+    implementation(Dependencies.ROOM_KTX)
     implementation(Dependencies.RETROFIT_CONVERTER)
 
     kapt(AnnotationProcessorsDependencies.ROOM)

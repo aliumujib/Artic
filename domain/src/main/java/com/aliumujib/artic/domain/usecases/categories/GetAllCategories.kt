@@ -2,18 +2,18 @@ package com.aliumujib.artic.domain.usecases.categories
 
 
 import com.aliumujib.artic.domain.executor.PostExecutionThread
-import com.aliumujib.artic.domain.usecases.ObservableUseCase
 import com.aliumujib.artic.domain.models.Category
 import com.aliumujib.artic.domain.repositories.categories.ICategoriesRepository
-import io.reactivex.Observable
+import com.aliumujib.artic.domain.usecases.base.FlowUseCase
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetAllCategories @Inject constructor(
     private val categoriesRepository: ICategoriesRepository,
     postExecutionThread: PostExecutionThread
-) : ObservableUseCase<GetAllCategories.Params, List<Category>>(postExecutionThread) {
+) : FlowUseCase<GetAllCategories.Params, List<Category>>(postExecutionThread) {
 
-    public override fun buildUseCaseObservable(params: Params?): Observable<List<Category>> {
+    override fun build(params: Params?): Flow<List<Category>> {
         if (params == null) {
             throw IllegalStateException("Your params can;t be null for this use case")
         }

@@ -9,12 +9,10 @@ plugins {
 
 dependencies {
 
-    implementation(Dependencies.RX_JAVA_2)
+    implementation(Dependencies.COROUTINES)
     implementation(Dependencies.JODA_TIME)
     implementation(Dependencies.JAVAX_INJECT)
     implementation(Dependencies.JAVAX_ANNOTATION)
-
-
 
     testImplementation (TestDependencies.KONVEYOR)
     testImplementation (TestDependencies.JUNIT)
