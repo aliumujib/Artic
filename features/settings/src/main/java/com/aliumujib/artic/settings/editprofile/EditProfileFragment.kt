@@ -6,19 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.aliumujib.artic.R
-import com.aliumujib.artic.settings.models.EventsObservable
-import com.aliumujib.artic.settings.models.StateSubscriber
-import com.aliumujib.artic.settings.models.user.UserProfileEditorModelStore
-import com.aliumujib.artic.settings.models.user.UserProfileEditorState
-import com.aliumujib.artic.settings.editprofile.EditProfileViewEvent.EmailChange
-import com.aliumujib.artic.settings.editprofile.EditProfileViewEvent.FullNameChange
-import kotlinx.android.synthetic.main.edit_profile_fragment.*
-import javax.inject.Inject
+import com.aliumujib.artic.settings.R
 
 class EditProfileFragment : Fragment() {
-
-
 
     companion object {
         fun newInstance() =

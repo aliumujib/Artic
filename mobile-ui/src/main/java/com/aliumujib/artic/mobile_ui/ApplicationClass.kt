@@ -1,9 +1,10 @@
 package com.aliumujib.artic.mobile_ui
 
+import android.content.Context
 import com.aliumujib.artic.mobile_ui.di.DaggerApplicationComponent
-import com.aliumujib.artic.ui.inject.components.CoreComponent
-import com.aliumujib.artic.ui.inject.components.DaggerCoreComponent
-import com.aliumujib.artic.ui.inject.module.ContextModule
+import com.aliumujib.artic.di.components.CoreComponent
+import com.aliumujib.artic.di.components.DaggerCoreComponent
+import com.aliumujib.artic.di.module.ContextModule
 import com.google.android.play.core.splitcompat.SplitCompatApplication
 import timber.log.Timber
 
@@ -47,6 +48,20 @@ class ApplicationClass : SplitCompatApplication() {
         }
 
         Timber.i("%s %d", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE)
+    }
+
+
+
+    companion object {
+
+        /**
+         * Obtain core dagger component.
+         *
+         * @param context The application context
+         */
+        @JvmStatic
+        fun coreComponent(context: Context) =
+            (context.applicationContext as? ApplicationClass)?.coreComponent
     }
 
 }

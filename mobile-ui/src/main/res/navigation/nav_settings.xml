@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_settings"
+    app:startDestination="@id/settingsFragment">
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.aliumujib.artic.settings.settings.SettingsFragment"
+        android:label="Settings"
+        app:moduleName="settings"
+        tools:layout="@layout/settings_fragment">
+        <action
+            android:id="@+id/action_settingsFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        app:moduleName="settings"
+        android:name="com.aliumujib.artic.settings.editprofile.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/edit_profile_fragment" />
+
+</navigation>

@@ -82,11 +82,15 @@ android {
 
 dependencies {
 
+    implementation(project(BuildModules.CORE))
+    implementation(project(BuildModules.Commons.VIEWS))
+
     implementation(Dependencies.KOTLIN)
     implementation(Dependencies.APPCOMPAT)
     implementation(Dependencies.MATERIAL)
     implementation(Dependencies.CONSTRAIN_LAYOUT)
     implementation(Dependencies.NAVIGATION_FRAGMENT)
+    implementation(Dependencies.NAVIGATION_DFM)
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.LOGGING)
     implementation(Dependencies.CRASHLYTICS)
@@ -111,13 +115,6 @@ dependencies {
     implementation(Dependencies.ROOM)
     implementation(Dependencies.RX_RELAYS)
     implementation(Dependencies.NAVIGATION_UI)
-
-
-    implementation(project(BuildModules.Libraries.DATA))
-    implementation(project(BuildModules.Libraries.DOMAIN))
-    implementation(project(BuildModules.Libraries.CACHE))
-    implementation(project(BuildModules.Libraries.REMOTE))
-    implementation(project(BuildModules.CORE))
 
 
     debugImplementation(DebugDependencies.LEAKCANARY)
