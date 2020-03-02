@@ -14,7 +14,7 @@ abstract class FlowUseCase<in Params, T> constructor(
      */
     abstract fun build(params: Params? = null): Flow<T>
 
-    open fun execute(params: Params? = null): Flow<T> {
+    protected fun execute(params: Params? = null): Flow<T> {
          return this.build(params)
             .flowOn(postExecutionThread.io)
     }

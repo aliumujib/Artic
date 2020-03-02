@@ -4,7 +4,7 @@ import android.content.Context
 import com.aliumujib.artic.mobile_ui.di.DaggerApplicationComponent
 import com.aliumujib.artic.di.components.CoreComponent
 import com.aliumujib.artic.di.components.DaggerCoreComponent
-import com.aliumujib.artic.di.module.ContextModule
+import com.aliumujib.artic.di.modules.ContextModule
 import com.google.android.play.core.splitcompat.SplitCompatApplication
 import timber.log.Timber
 

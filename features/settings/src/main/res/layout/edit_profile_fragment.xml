@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/save_profile_button_margin"
         android:background="@drawable/ic_auth_btn_bg"
-        android:text="@string/sign_up_with_google"
+        android:text="@string/save"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

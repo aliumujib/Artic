@@ -1,4 +1,4 @@
-package com.aliumujib.artic.di.module
+package com.aliumujib.artic.di.modules
 
 import com.aliumujib.artic.BuildConfig
 import com.aliumujib.artic.data.repositories.contracts.remote.IArticlesRemote

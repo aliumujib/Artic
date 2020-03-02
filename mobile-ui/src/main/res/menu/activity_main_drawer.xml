@@ -4,8 +4,7 @@
       tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single"
-        android:id="@+id/main_nav_destinations"
-        >
+        android:id="@+id/main_nav_destinations">
         <item
                 android:id="@+id/nav_home"
                 android:icon="@drawable/ic_home"

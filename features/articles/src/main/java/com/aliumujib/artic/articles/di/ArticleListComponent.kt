@@ -2,6 +2,7 @@
 
 package com.aliumujib.artic.articles.di
 
+import com.aliumujib.artic.articles.list.ArticleListFragment
 import com.aliumujib.artic.di.components.CoreComponent
 import com.aliumujib.artic.di.scopes.FeatureScope
 import dagger.Component
@@ -21,7 +22,7 @@ interface ArticleListComponent {
     /**
      * Inject dependencies on component.
      *
-     * @param listFragment Characters list component.
+     * @param listFragment Article list fragment.
      */
-    fun inject(listFragment: CharactersListFragment)
+    fun inject(listFragment: ArticleListFragment)
 }
