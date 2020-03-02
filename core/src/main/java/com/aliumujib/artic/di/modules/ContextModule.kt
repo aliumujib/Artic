@@ -1,4 +1,4 @@
-package com.aliumujib.artic.di.module
+package com.aliumujib.artic.di.modules
 
 import android.app.Application
 import android.content.Context

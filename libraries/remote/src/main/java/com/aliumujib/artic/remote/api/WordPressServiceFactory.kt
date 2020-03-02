@@ -18,7 +18,7 @@ object WordPressServiceFactory {
 
     private fun makeWordPressService(okHttpClient: OkHttpClient, gson: Gson): WordPressAPI {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+                .baseUrl("http://news.khuddam.ng/api/")
                 .client(okHttpClient)
                 //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -37,7 +37,7 @@ object WordPressServiceFactory {
     private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
         logging.level = if (isDebug) {
-            HttpLoggingInterceptor.Level.BODY
+            HttpLoggingInterceptor.Level.BASIC
         } else {
             HttpLoggingInterceptor.Level.NONE
         }

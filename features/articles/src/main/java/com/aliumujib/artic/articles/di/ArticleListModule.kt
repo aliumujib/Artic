@@ -3,10 +3,12 @@ package com.aliumujib.artic.articles.di
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.PRIVATE
 import com.aliumujib.artic.articles.list.ArticleListFragment
+import com.aliumujib.artic.articles.presentation.ArticleListActionProcessor
 import com.aliumujib.artic.di.scopes.FeatureScope
 import dagger.Module
 import dagger.Provides
-import com.aliumujib.artic.articles.list.ArticleListViewModel
+import com.aliumujib.artic.articles.presentation.ArticleListViewModel
+import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
 import com.aliumujib.artic.views.ext.viewModel
 
 /**
@@ -23,17 +25,25 @@ class ArticleListModule(
     /**
      * Create a provider method binding for [ArticleListViewModel].
      *
-     * @param getAllArticles Use case to get all articles, paged.
+     * @param articleListActionProcessor actionProcessor for MVI.
      * @return Instance of view model.
      * @see Provides
      */
     @FeatureScope
     @Provides
     fun providesArticleListViewModel(
-        getAllArticles: GetAllArticles
+        articleListActionProcessor: ArticleListActionProcessor
     ) = fragment.viewModel {
-        ArticleListViewModel(getAllArticles)
+        ArticleListViewModel(articleListActionProcessor)
     }
+
+    @FeatureScope
+    @Provides
+    fun providesArticleListActionProcessor(
+        getAllArticles: GetAllArticles
+    ) = ArticleListActionProcessor(getAllArticles)
+
+
 
 //    /**
 //     * Create a provider method binding for [CharactersListAdapter].

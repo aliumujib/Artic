@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="edit">Edit</string>
+    <string name="save">Save</string>
 </resources>
