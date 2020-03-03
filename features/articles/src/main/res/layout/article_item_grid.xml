@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_margin="@dimen/veritcal_list_card_margin">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="135dp"
+            tools:src="@color/colorAccent"
+            android:id="@+id/article_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/article_image"
+            app:layout_constraintStart_toStartOf="@+id/article_image"
+            android:layout_marginStart="@dimen/two_space"
+            android:layout_marginTop="@dimen/one_space"
+            android:id="@+id/article_category"
+            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/colorAccent"
+            android:layout_height="wrap_content"
+            tools:text="MONEY" />
+
+        <TextView
+            android:layout_width="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/article_category"
+            app:layout_constraintStart_toStartOf="@+id/article_category"
+            android:id="@+id/article_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="18sp"
+            android:layout_marginEnd="16dp"
+            android:textAlignment="textStart"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="How i made $200,000 when i was 16 years old." />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/article_title"
+            app:layout_constraintStart_toStartOf="@+id/article_category"
+            android:id="@+id/article_date_time_publish"
+            android:layout_marginTop="4dp"
+            android:textColor="#4F4F4F"
+            android:layout_height="wrap_content"
+            tools:text="12:32pm" />
+
+
+        <ImageView
+            android:layout_width="15dp"
+            android:id="@+id/share_icon"
+            android:layout_marginBottom="@dimen/two_space"
+            android:layout_marginTop="@dimen/two_space"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/article_date_time_publish"
+            app:layout_constraintStart_toStartOf="@+id/article_date_time_publish"
+            android:src="@drawable/ic_share"
+            android:layout_height="15dp"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:id="@+id/bookmark_icon"
+            android:layout_marginStart="@dimen/one_space"
+            app:layout_constraintBottom_toBottomOf="@+id/share_icon"
+            app:layout_constraintStart_toEndOf="@+id/share_icon"
+            android:src="@drawable/ic_bookmark"
+            android:layout_height="15dp"/>
+
+        <ImageView
+            android:layout_width="15dp"
+            android:id="@+id/comment_icon"
+            app:layout_constraintTop_toTopOf="@+id/bookmark_icon"
+            android:layout_marginEnd="@dimen/half_space"
+            app:layout_constraintEnd_toStartOf="@+id/comments_button"
+            android:src="@drawable/ic_comments"
+            android:layout_height="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/comment_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/comment_icon"
+            android:id="@+id/comments_button"
+            android:layout_marginEnd="@dimen/two_space"
+            android:textColor="#4F4F4F"
+            android:layout_height="wrap_content"
+            tools:text="50 comments" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
