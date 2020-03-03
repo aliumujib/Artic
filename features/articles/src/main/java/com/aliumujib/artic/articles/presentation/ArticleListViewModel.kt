@@ -3,6 +3,9 @@ package com.aliumujib.artic.articles.presentation
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewModelScope
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
+import com.aliumujib.artic.views.ext.merge
+import com.aliumujib.artic.views.ext.notOfType
+import com.aliumujib.artic.views.ext.ofType
 import com.aliumujib.artic.views.mvi.MVIViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
@@ -27,12 +30,13 @@ class ArticleListViewModel(
     fun processActions() {
         viewModelScope.launch {
             articleListActionProcessor.actionToResultTransformer(actionsFlow)
-                .onEach {result:ArticleListResult->
+                .onEach { result: ArticleListResult ->
                     Timber.v("onResult ${result::class.java.canonicalName}")
                 }
                 .scan(ArticleListViewState.Idle) { state: ArticleListViewState, result: ArticleListResult ->
                     state.reduce(result)
                 }
+                .distinctUntilChanged()
                 .onStart { Timber.d("subscribed to states") }
                 .collect {
                     Timber.v("onState ${it.data.size}")

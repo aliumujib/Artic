@@ -44,6 +44,8 @@ class ArticleListFragment : Fragment() {
         viewModel.processActions()
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,7 +55,6 @@ class ArticleListFragment : Fragment() {
             }
         }
 
-        viewModel.processIntent(ArticleListIntent.LoadArticleListIntent(true))
     }
 
     /**

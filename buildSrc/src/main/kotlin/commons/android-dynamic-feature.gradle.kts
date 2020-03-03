@@ -50,6 +50,8 @@ android {
         isExperimental = true
     }
 
+
+
     lintOptions {
         lintConfig = rootProject.file(".lint/config.xml")
         isCheckAllWarnings = true

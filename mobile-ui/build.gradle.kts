@@ -1,12 +1,9 @@
-import utils.createFabricProperties
-import dependencies.Dependencies
-import dependencies.DebugDependencies
 import dependencies.AnnotationProcessorsDependencies
+import dependencies.DebugDependencies
+import dependencies.Dependencies
 import extensions.addTestsDependencies
-import extensions.implementation
 import extensions.debugImplementation
-import extensions.getLocalProperty
-import extensions.buildConfigBooleanField
+import extensions.implementation
 import extensions.kapt
 
 plugins {
