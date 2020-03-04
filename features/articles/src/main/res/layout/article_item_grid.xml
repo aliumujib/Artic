@@ -39,13 +39,11 @@
             android:id="@+id/article_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textStyle="bold"
-
             app:layout_constraintEnd_toEndOf="parent"
             android:textSize="18sp"
             android:layout_marginEnd="16dp"
             android:textAlignment="textStart"
             android:layout_height="wrap_content"
-            android:maxLines="2"
             android:ellipsize="end"
             tools:text="How i made $200,000 when i was 16 years old." />
 

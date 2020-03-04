@@ -1,7 +1,9 @@
 package com.aliumujib.artic.views.ext
 
 import android.content.Context
+import android.util.DisplayMetrics
 import androidx.annotation.StringRes
+import kotlin.math.roundToInt
 
 /**
  * Get resource string from optional id
@@ -15,3 +17,10 @@ fun Context.getString(@StringRes resId: Int?) =
     } ?: run {
         ""
     }
+
+
+fun Context.dpToPx(dp: Int): Int {
+    var displayMetrics = resources.displayMetrics
+    return (dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
+}
+

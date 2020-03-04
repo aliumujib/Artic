@@ -42,7 +42,7 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    dataBinding {
+    viewBinding {
         isEnabled = true
     }
 

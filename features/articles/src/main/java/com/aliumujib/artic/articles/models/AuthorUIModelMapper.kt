@@ -1,8 +1,9 @@
 package com.aliumujib.artic.articles.models
 
 import com.aliumujib.artic.domain.models.Author
+import javax.inject.Inject
 
-class AuthorUIModelMapper : UIModelMapper<Author, AuthorUIModel>() {
+class AuthorUIModelMapper @Inject constructor() : UIModelMapper<Author, AuthorUIModel>() {
 
     override fun mapToUI(entity: Author): AuthorUIModel {
         return AuthorUIModel(

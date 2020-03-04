@@ -20,3 +20,10 @@ val RecyclerView.gridLayoutManager: GridLayoutManager?
  */
 val RecyclerView.linearLayoutManager: LinearLayoutManager?
     get() = layoutManager as? LinearLayoutManager
+
+
+fun RecyclerView.removeAllDecorations() {
+    while (this.itemDecorationCount > 0) {
+        this.removeItemDecoration(this.getItemDecorationAt(0))
+    }
+}
