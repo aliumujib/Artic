@@ -11,6 +11,14 @@ junitJacoco {
     excludes = listOf("**/extensions/NavigationExtensions*.*")
 }
 
+android{
+
+    viewBinding{
+        isEnabled = true
+    }
+
+}
+
 dependencies {
     implementation(Dependencies.LIFECYCLE_EXTENSIONS)
     implementation(Dependencies.LIFECYCLE_VIEWMODEL)

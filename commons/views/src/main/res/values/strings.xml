@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="veritcal_list_card_margin">16dp</dimen>
-
-
+    <string name="empty_state_icon">Empty State Icon</string>
 </resources>

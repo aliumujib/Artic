@@ -9,6 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import coil.size.Scale
+import coil.size.ViewSizeResolver
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articles.R
 import com.aliumujib.artic.articles.models.ArticleUIModel
 
@@ -105,6 +110,13 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
             this.articleCategory.text = model.categories.firstOrNull()?.title
             this.articleTitle.text = model.title_plain
             this.articleDateTimePublish.text = model.date.toString()
+            this.articleImage.load(model.fullImageURL) {
+                transformations(RoundedCornersTransformation(6.0f, 6.0f, 0.0f, 0.0f))
+                //error(errorPlaceHolder)
+                crossfade(true)
+                size(ViewSizeResolver.invoke(articleImage, false))
+                scale(Scale.FIT)
+            }
         }
     }
 

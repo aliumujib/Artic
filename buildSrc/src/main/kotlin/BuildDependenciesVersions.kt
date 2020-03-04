@@ -2,6 +2,7 @@
  * Configuration version of all build dependencies
  */
 object BuildDependenciesVersions {
+    const val SHIMMER = "0.1.0"
     const val KOTLIN = "1.3.61"
     const val APPCOMPAT = "1.1.0"
     const val MATERIAL = "1.1.0"
@@ -39,7 +40,7 @@ object BuildDependenciesVersions {
     const val MATERIAL_DESIGN_SPECS = "2.0.1"
     const val PICASSO_TRANSFORMATIONS = "2.2.1"
     const val CIRCLE_IMAGE_VIEW = "2.2.0"
-    const val  STETHO = "1.5.0"
+    const val STETHO = "1.5.0"
     const val RXBINDING_PLATFORM = "3.0.0"
 
     // Tests

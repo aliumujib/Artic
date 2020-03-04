@@ -8,7 +8,9 @@ import com.aliumujib.artic.views.mvi.MVIViewState
 sealed class ArticleListViewState(
     val isLoading: Boolean,
     val data: List<Article>,
-    val error: Throwable?
+    val error: Throwable?,
+    val isLoadingMore: Boolean = false,
+    val isGrid: Boolean = true
 ) : MVIViewState {
 
     data class Success(val countries: List<Article>) : ArticleListViewState(
@@ -17,10 +19,11 @@ sealed class ArticleListViewState(
         null
     )
 
-    data class Error(val throwable: Throwable) :
-        ArticleListViewState(false, emptyList(), throwable)
+    data class Error(val throwable: Throwable, val isLoadingMoreData: Boolean) :
+        ArticleListViewState(false, emptyList(), throwable, isLoadingMore = isLoadingMoreData)
 
-    object Loading : ArticleListViewState(true, emptyList(), null)
+    data class Loading(val isLoadingMoreData: Boolean) :
+        ArticleListViewState(true, emptyList(), null, isLoadingMoreData)
 
     object Idle : ArticleListViewState(
         false,
@@ -36,9 +39,9 @@ sealed class ArticleListViewState(
                         result.data
                     )
                     is LoadArticleListResults.Error -> Error(
-                        result.error
+                        result.error, false
                     )
-                    is LoadArticleListResults.Loading -> Loading
+                    is LoadArticleListResults.Loading -> Loading(false)
                 }
             }
             is RefreshArticleListResults -> {
@@ -46,8 +49,17 @@ sealed class ArticleListViewState(
                     is RefreshArticleListResults.Success -> Success(
                         result.data
                     )
-                    is RefreshArticleListResults.Error -> Error(result.error)
-                    is RefreshArticleListResults.Refreshing -> Loading
+                    is RefreshArticleListResults.Error -> Error(result.error, false)
+                    is RefreshArticleListResults.Refreshing -> Loading(false)
+                }
+            }
+            is FetchMoreArticleListResults -> {
+                when (result) {
+                    is FetchMoreArticleListResults.Success -> Success(
+                        result.data
+                    )
+                    is FetchMoreArticleListResults.Error -> Error(result.error, true)
+                    is FetchMoreArticleListResults.Loading -> Loading(true)
                 }
             }
         }

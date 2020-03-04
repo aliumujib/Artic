@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/empty_state_icon"
+        android:maxWidth="300dp"
+        android:maxHeight="170dp"
+        android:minWidth="250dp"
+        android:minHeight="120dp" />
+
+
+    <TextView
+        android:id="@+id/caption"
+        style="@style/TextAppearance.AppCompat.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/four_space"
+        android:layout_marginTop="@dimen/one_space"
+        android:layout_marginEnd="@dimen/four_space"
+        android:gravity="center"
+        android:textColor="@color/grey_text"
+        android:textSize="@dimen/text_18"
+        tools:text="You don’t have any notifications
+right now.When you do, we’ll let you know." />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/solidBackgroundButtonView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/two_space"
+        android:minWidth="200dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_16"
+
+        tools:text="Retry" />
+
+</LinearLayout>

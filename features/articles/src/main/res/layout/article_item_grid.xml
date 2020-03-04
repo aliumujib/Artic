@@ -13,7 +13,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="135dp"
-            tools:src="@color/colorAccent"
+            android:background="@color/colorAccent"
             android:id="@+id/article_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +37,7 @@
             app:layout_constraintTop_toBottomOf="@+id/article_category"
             app:layout_constraintStart_toStartOf="@+id/article_category"
             android:id="@+id/article_title"
+            android:gravity="start"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -99,6 +100,6 @@
             android:layout_height="wrap_content"
             tools:text="50 comments" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>
