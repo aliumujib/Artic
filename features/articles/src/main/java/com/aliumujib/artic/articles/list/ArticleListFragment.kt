@@ -126,7 +126,9 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             binding.errorView.hide()
             binding.articles.hide()
         }
+
         articlesAdapter.submitList(data)
+        articlesAdapter.setListState(ArticleListAdapter.ListState.Loading)
     }
 
     private fun presentErrorState(error: Throwable, isLoadingMoreData: Boolean) {
@@ -134,7 +136,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         binding.shimmerViewContainer.stopShimmerAnimation()
         binding.shimmerViewContainer.hide()
         if (isLoadingMoreData) {
-            //TODO show RV here
+            binding.articles.show()
+            articlesAdapter.setListState(ArticleListAdapter.ListState.Error(error))
         } else {
             binding.articles.hide()
             binding.errorView.show()
@@ -151,7 +154,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         when {
             isLoadingMoreData -> {
                 binding.articles.show()
-                //TODO show loading more view in adapter
+                articlesAdapter.setListState(ArticleListAdapter.ListState.Loading)
                 return
             }
             isGrid -> {

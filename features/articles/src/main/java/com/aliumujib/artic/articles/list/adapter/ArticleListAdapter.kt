@@ -3,7 +3,6 @@ package com.aliumujib.artic.articles.list.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -12,22 +11,25 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import coil.size.Scale
 import coil.size.ViewSizeResolver
-import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articles.R
+import com.aliumujib.artic.articles.databinding.LoadingItemBinding
 import com.aliumujib.artic.articles.models.ArticleUIModel
+import com.aliumujib.artic.views.ext.hide
+import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.iconandtitle.IconAndTitleView
+import timber.log.Timber
 
 
 class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
 
-    private val listState: ListState? = null
-    private val viewType: LAYOUT = LAYOUT.GRID
+    private var listState: ListState? = null
+    private var viewType: LAYOUT = LAYOUT.GRID
 
-    sealed class ListState {
-        sealed class Loading : ListState()
-        sealed class Idle : ListState()
-        sealed class Error(val error: Throwable) : ListState()
+    sealed class ListState(val error: Throwable?) {
+        object Loading : ListState(null)
+        object Idle : ListState(null)
+        data class Error (val throwable: Throwable) : ListState(throwable)
     }
 
     enum class LAYOUT(val value: Int) {
@@ -49,17 +51,19 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
                         .inflate(R.layout.article_item_list, parent, false)
                 ArticleViewHolder(view)
             }
-            else -> ArticleViewHolder(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.article_item_list,
-                    parent,
-                    false
+            else -> {
+                val inflater = LayoutInflater.from(parent.context)
+                val binding = LoadingItemBinding.inflate(inflater, parent, false)
+                LoadingViewHolder(
+                    binding.root,
+                    binding
                 )
-            )
+            }
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        Timber.d("Position: ${position} itemType: ${holder.itemViewType}")
         when (holder.itemViewType) {
             LAYOUT.GRID.value -> {
                 (holder as ArticleViewHolder).bind(getItem(position))
@@ -75,14 +79,14 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
 
     override fun getItemViewType(position: Int): Int {
         return when {
+            (hasExtraRow() && position == itemCount - 1) -> {
+                LAYOUT.LOADING.value
+            }
             viewType == LAYOUT.LIST -> {
                 LAYOUT.LIST.value
             }
             viewType == LAYOUT.GRID -> {
                 LAYOUT.GRID.value
-            }
-            isLoadingMore() -> {
-                LAYOUT.LOADING.value
             }
             else -> {
                 LAYOUT.LIST.value
@@ -90,8 +94,29 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
         }
     }
 
-    private fun isLastPosition(): Boolean {
-        return true
+
+    private fun hasExtraRow() = listState != null && listState != ListState.Idle
+
+    fun setListState(newListState: ListState?) {
+        val previousState = this.listState
+        val hadExtraRow = hasExtraRow()
+        this.listState = newListState
+        val hasExtraRow = hasExtraRow()
+        if (hadExtraRow != hasExtraRow) {
+            if (hadExtraRow) {
+                notifyItemRemoved(super.getItemCount())
+            } else {
+                notifyItemInserted(super.getItemCount())
+            }
+        } else if (hasExtraRow && previousState != newListState) {
+            notifyItemChanged(itemCount - 1)
+        }
+    }
+
+
+
+    override fun getItemCount(): Int {
+        return super.getItemCount() + if (hasExtraRow()) 1 else 0
     }
 
     private fun isLoadingMore(): Boolean {
@@ -122,11 +147,29 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
     }
 
 
-    class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+    class LoadingViewHolder(
+        itemView: View,
+        private val binding: LoadingItemBinding
+    ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(model: ListState?) {
-
+            when (model) {
+                is ListState.Idle -> {
+                    binding.loading.stopShimmerAnimation()
+                    binding.loading.hide()
+                    binding.retryLayout.hide()
+                }
+                is ListState.Loading -> {
+                    binding.loading.startShimmerAnimation()
+                    binding.loading.show()
+                    binding.retryLayout.hide()
+                }
+                is ListState.Error -> {
+                    binding.loading.stopShimmerAnimation()
+                    binding.loading.hide()
+                    binding.retryLayout.show()
+                }
+            }
         }
     }
 

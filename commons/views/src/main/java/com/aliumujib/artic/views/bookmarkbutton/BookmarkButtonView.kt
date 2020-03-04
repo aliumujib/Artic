@@ -41,9 +41,9 @@ class BookmarkButtonView : AppCompatImageView {
     }
 
     private fun initializeView() {
-        bookMarkedDrawable = ContextCompat.getDrawable(context, R.drawable.ic_bookmark)
+        bookMarkedDrawable = ContextCompat.getDrawable(context, R.drawable.ic_bookmarked)
 
-        unBookMarkedDrawable = ContextCompat.getDrawable(context, R.drawable.ic_bookmarked)
+        unBookMarkedDrawable = ContextCompat.getDrawable(context, R.drawable.ic_bookmark)
 
 
         setIcons()

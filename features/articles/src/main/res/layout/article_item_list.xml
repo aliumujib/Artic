@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/one_space"
             tools:src="@color/colorAccent"
+            android:scaleType="centerCrop"
             android:id="@+id/article_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
