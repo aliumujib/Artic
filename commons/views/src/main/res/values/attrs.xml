@@ -10,4 +10,12 @@
     </declare-styleable>
 
 
+    <declare-styleable name="IconAndTitleView">
+        <attr name="titleText" format="reference" localization="suggested" />
+        <attr name="hideTitle" format="boolean" />
+        <attr name="iconRes" format="reference" />
+        <attr name="textColorRes" format="reference" />
+    </declare-styleable>
+
+
 </resources>

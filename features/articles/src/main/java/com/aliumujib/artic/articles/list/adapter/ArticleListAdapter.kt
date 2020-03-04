@@ -16,6 +16,7 @@ import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articles.R
 import com.aliumujib.artic.articles.models.ArticleUIModel
+import com.aliumujib.artic.views.iconandtitle.IconAndTitleView
 
 
 class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
@@ -103,7 +104,7 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
         private val articleTitle = itemView.findViewById<TextView>(R.id.article_title)
         private val articleDateTimePublish =
             itemView.findViewById<TextView>(R.id.article_date_time_publish)
-        private val commentsButton = itemView.findViewById<TextView>(R.id.comments_button)
+        private val commentsButton = itemView.findViewById<IconAndTitleView>(R.id.comments_button)
 
 
         fun bind(model: ArticleUIModel) {
@@ -122,6 +123,8 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
 
 
     class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+
         fun bind(model: ListState?) {
 
         }

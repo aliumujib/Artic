@@ -10,7 +10,6 @@
         android:layout_height="match_parent" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -19,31 +18,47 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/articles"
-        tools:showIn="@layout/article_list_fragment">
+        app:layout_constraintTop_toTopOf="@+id/articles">
 
-        <include
+        <LinearLayout
             android:id="@+id/grid_loading"
-            layout="@layout/article_grid_loading" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <include
+            <include layout="@layout/article_grid_item_shimmer_group" />
+
+            <include layout="@layout/article_grid_item_shimmer_group" />
+
+            <include layout="@layout/article_grid_item_shimmer_group" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/list_loading"
-            layout="@layout/article_list_loading" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/article_list_item_shimmer_group" />
+
+            <include layout="@layout/article_list_item_shimmer_group" />
+
+            <include layout="@layout/article_list_item_shimmer_group" />
+        </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
 
-
     <com.aliumujib.artic.views.emptyerrorstate.SimpleEmptyStateView
         android:id="@+id/emptyView"
-        app:emptyStateImageSrc="@drawable/ic_empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:emptyStateImageSrc="@drawable/ic_empty" />
 
     <com.aliumujib.artic.views.emptyerrorstate.SimpleEmptyStateView
         android:id="@+id/errorView"
-        app:emptyStateImageSrc="@drawable/ic_error"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:emptyStateImageSrc="@drawable/ic_error" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

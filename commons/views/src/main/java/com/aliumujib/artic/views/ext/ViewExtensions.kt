@@ -10,29 +10,25 @@ import android.view.animation.DecelerateInterpolator
 internal val View.inflater: LayoutInflater get() = LayoutInflater.from(context)
 
 
-fun View.hide(setVisibility: Boolean = false) {
+fun View.hide() {
     this.animate().translationY(-this.bottom.toFloat())
         .setInterpolator(AccelerateInterpolator())
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 super.onAnimationEnd(animation)
-                if (setVisibility) {
-                    visibility = View.GONE
-                }
+                visibility = View.GONE
             }
         })
         .start()
 }
 
-fun View.show(setVisibility: Boolean = false) {
+fun View.show() {
     this.animate().translationY(0F)
         .setInterpolator(DecelerateInterpolator())
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 super.onAnimationEnd(animation)
-                if (setVisibility) {
-                    visibility = View.VISIBLE
-                }
+                visibility = View.VISIBLE
             }
         })
         .start()

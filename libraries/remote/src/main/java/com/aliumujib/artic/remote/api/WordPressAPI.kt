@@ -67,7 +67,7 @@ interface WordPressAPI {
 
 
         // minimize field for list of post
-        const val EXCLUDE_FIELD = "&exclude=content,categories,tags,comments,custom_fields"
+        const val EXCLUDE_FIELD = "&exclude=content,tags,comments,custom_fields"
     }
 
 

@@ -85,7 +85,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
         lifecycleScope.launchWhenResumed {
             viewModel.statesFlow.collect {
-                articlesAdapter.submitList(articleUIModelMapper.mapToUIList(it.data))
+                render(it)
             }
         }
     }
@@ -131,6 +131,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     private fun presentErrorState(error: Throwable, isLoadingMoreData: Boolean) {
         binding.emptyView.hide()
+        binding.shimmerViewContainer.stopShimmerAnimation()
+        binding.shimmerViewContainer.hide()
         if (isLoadingMoreData) {
             //TODO show RV here
         } else {
@@ -144,22 +146,27 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     private fun presentLoadingState(isGrid: Boolean, isLoadingMoreData: Boolean) {
+        binding.shimmerViewContainer.show()
         binding.shimmerViewContainer.startShimmerAnimation()
         when {
             isLoadingMoreData -> {
+                binding.articles.show()
                 //TODO show loading more view in adapter
                 return
             }
             isGrid -> {
+                binding.articles.hide()
+                binding.listLoading.hide()
                 binding.gridLoading.show()
             }
             else -> {
+                binding.articles.hide()
                 binding.listLoading.show()
+                binding.gridLoading.hide()
             }
         }
-        //emptyView.visible = false
-        //errorView.visible = false
-        //binding.articles.visible = false
+        binding.emptyView.hide()
+        binding.errorView.hide()
     }
 
     /**

@@ -33,7 +33,7 @@
         tools:text="You don’t have any notifications
 right now.When you do, we’ll let you know." />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/solidBackgroundButtonView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +41,6 @@ right now.When you do, we’ll let you know." />
         android:minWidth="200dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_16"
-
         tools:text="Retry" />
 
 </LinearLayout>
