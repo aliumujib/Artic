@@ -14,13 +14,10 @@ class ArticleListViewModel(
     private val articleListActionProcessor: ArticleListActionProcessor
 ) : ViewModel(), MVIViewModel<ArticleListIntent, ArticleListViewState> {
 
-
-
     private var currentPageNumber = 1
 
     private var _actionBroadcastChannel = ConflatedBroadcastChannel<ArticleListAction>()
     private var actionsFlow = _actionBroadcastChannel.asFlow()
-
 
     private var _statesBroadcastChannel = ConflatedBroadcastChannel<ArticleListViewState>()
     var statesFlow = _statesBroadcastChannel.asFlow()
@@ -29,9 +26,9 @@ class ArticleListViewModel(
     fun processActions() {
             articleListActionProcessor.actionToResultTransformer(actionsFlow)
                 .onEach { result: ArticleListResult ->
-                    Timber.v("New results of type: ${result::class.java.simpleName}")
+                    Timber.v("New results of type: ${result::class.java.canonicalName}")
                 }
-                .scan(ArticleListViewState.Idle) { previous: ArticleListViewState, result: ArticleListResult ->
+                .scan(ArticleListViewState.init()) { previous: ArticleListViewState, result: ArticleListResult ->
                     previous.reduce(previous,result)
                 }
                 .distinctUntilChanged()
@@ -47,8 +44,10 @@ class ArticleListViewModel(
         return statesFlow
     }
 
-    override fun processIntent(intent: ArticleListIntent) {
-        onAction(actionFromIntent(intent))
+    override fun processIntent(intents: Flow<ArticleListIntent>) {
+        intents.onEach {
+            onAction(actionFromIntent(it))
+        }.launchIn(viewModelScope)
     }
 
     private fun onAction(action: ArticleListAction) = _actionBroadcastChannel.offer(action)

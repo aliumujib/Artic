@@ -7,6 +7,6 @@ interface MVIView<I : MVIIntent, in S : MVIViewState> {
 
     fun render(state: S)
 
-    //fun intents(): Flow<I>
+    fun intents(): Flow<I>
 
 }

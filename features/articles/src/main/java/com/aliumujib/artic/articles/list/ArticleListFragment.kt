@@ -14,7 +14,6 @@ import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
 import com.aliumujib.artic.articles.di.ArticleListModule
 import com.aliumujib.artic.articles.di.DaggerArticleListComponent
 import com.aliumujib.artic.articles.list.adapter.ArticleListAdapter
-import com.aliumujib.artic.articles.list.adapter.InfiniteScrollListener
 import com.aliumujib.artic.articles.models.ArticleUIModel
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.articles.presentation.ArticleListIntent
@@ -25,10 +24,8 @@ import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.SpacingItemDecoration
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.*
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
 import javax.inject.Inject
 
@@ -49,6 +46,9 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private var _binding: ArticleListFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val loadInitialIntent =
+        ConflatedBroadcastChannel<ArticleListIntent>() //Is this really the best [BroadcastChannel] to use here? TODO find out if theres something better
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -65,7 +65,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         super.onActivityCreated(savedInstanceState)
 
         viewModel.processActions()
-        viewModel.processIntent(ArticleListIntent.LoadArticleListIntent(true))
+        viewModel.processIntent(intents())
+        loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
     }
 
 
@@ -94,35 +95,38 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             adapter = articlesAdapter
         }
 
+    }
 
-        binding.articles.scrollStateChanges()
+    private fun loadMoreIntent(): Flow<ArticleListIntent> {
+        return binding.articles.scrollStateChanges()
             .filter { _ -> !articlesAdapter.isLoadingNextPage() }
             .filter { event -> event == RecyclerView.SCROLL_STATE_IDLE }
             .filter { _ -> binding.articles.isLastItemDisplaying() }
-            .onEach {
-                viewModel.processIntent(ArticleListIntent.FetchMoreArticleListIntent)
-            }.launchIn(lifecycleScope)
+            .map {
+                ArticleListIntent.FetchMoreArticleListIntent
+            }
+    }
+
+    private fun loadInitialIntent(): Flow<ArticleListIntent> {
+        return loadInitialIntent.asFlow().take(1)
     }
 
 
     override fun render(state: ArticleListViewState) {
-        when (state) {
-            is ArticleListViewState.Success -> presentSuccessState(
+        when {
+            !state.isLoading && (state.error == null) -> presentSuccessState(
                 articleUIModelMapper.mapToUIList(
-                    state.countries
+                    state.data
                 )
             )
-            is ArticleListViewState.Error -> presentErrorState(
-                state.throwable,
-                state.isLoadingMoreData
+            state.error != null -> presentErrorState(
+                state.error,
+                state.isLoadingMore
             )
-            is ArticleListViewState.Loading -> presentLoadingState(
+            state.isLoading -> presentLoadingState(
                 state.isGrid,
                 state.isLoadingMore
             )
-            is ArticleListViewState.Idle -> {
-
-            }
         }
     }
 
@@ -196,6 +200,10 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             .articleListModule(ArticleListModule(this))
             .build()
             .inject(this)
+    }
+
+    override fun intents(): Flow<ArticleListIntent> {
+        return loadInitialIntent().mergeWith(loadMoreIntent())
     }
 
 
