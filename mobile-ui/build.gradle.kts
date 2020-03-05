@@ -79,6 +79,8 @@ android {
 
 dependencies {
 
+    api("androidx.legacy:legacy-support-v4:1.0.0")
+    api("androidx.legacy:legacy-support-v4:1.0.0")
     implementation(project(BuildModules.CORE))
     implementation(project(BuildModules.Commons.VIEWS))
 

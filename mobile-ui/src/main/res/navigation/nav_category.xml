@@ -3,17 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_category"
-    app:startDestination="@id/articleListFragment">
+    app:startDestination="@id/categoryListFragment">
 
     <fragment
-        android:id="@+id/articleListFragment"
+        android:id="@+id/categoryListFragment"
         app:moduleName="articles"
-        android:name="com.aliumujib.artic.articles.list.ArticleListFragment"
+        android:name="com.aliumujib.artic.categories.CategoriesFragment"
         android:label="Categories"
         tools:layout="@layout/article_list_fragment">
-        <action
-            android:id="@+id/action_articleListFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"

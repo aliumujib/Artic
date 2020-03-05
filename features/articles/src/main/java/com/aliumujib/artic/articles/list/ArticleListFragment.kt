@@ -46,8 +46,11 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private var _binding: ArticleListFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val loadInitialIntent =
-        ConflatedBroadcastChannel<ArticleListIntent>() //Is this really the best [BroadcastChannel] to use here? TODO find out if theres something better
+    private val _loadInitialIntent =
+        ConflatedBroadcastChannel<ArticleListIntent>()
+
+    private val loadInitialIntent = _loadInitialIntent.asFlow().take(1)
+    //Is this really the best [BroadcastChannel] to use here? TODO find out if theres something better
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -66,7 +69,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
         viewModel.processActions()
         viewModel.processIntent(intents())
-        loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
+        _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
     }
 
 
@@ -108,7 +111,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     private fun loadInitialIntent(): Flow<ArticleListIntent> {
-        return loadInitialIntent.asFlow().take(1)
+        return loadInitialIntent
     }
 
 

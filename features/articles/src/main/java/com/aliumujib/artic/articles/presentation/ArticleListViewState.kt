@@ -33,14 +33,14 @@ data class ArticleListViewState(
             is LoadArticleListResults -> {
                 when (result) {
                     is LoadArticleListResults.Success -> previousState.copy(isLoading = false, isLoadingMore = false, data = result.data, error = null)
-                    is LoadArticleListResults.Error -> previousState.copy(error = result.error)
+                    is LoadArticleListResults.Error -> previousState.copy(error = result.error, isLoadingMore = true)
                     is LoadArticleListResults.Loading -> previousState.copy(isLoading = true, isLoadingMore = false)
                 }
             }
             is RefreshArticleListResults -> {
                 when (result) {
                     is RefreshArticleListResults.Success ->  previousState.copy(isLoading = false, isLoadingMore = false, data = result.data, error = null)
-                    is RefreshArticleListResults.Error -> previousState.copy(error = result.error)
+                    is RefreshArticleListResults.Error -> previousState.copy(error = result.error, isLoadingMore = true)
                     is RefreshArticleListResults.Refreshing -> previousState.copy(isLoading = true, isLoadingMore = false)
                 }
             }
@@ -51,7 +51,7 @@ data class ArticleListViewState(
                         newData.addAll(result.data)
                         previousState.copy(isLoading = false, isLoadingMore = false, data = newData, error = null)
                     }
-                    is FetchMoreArticleListResults.Error -> previousState.copy(error = result.error)
+                    is FetchMoreArticleListResults.Error -> previousState.copy(error = result.error, isLoadingMore = true)
                     is FetchMoreArticleListResults.Loading -> previousState.copy(isLoading = true, isLoadingMore = true)
                 }
             }
