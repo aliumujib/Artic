@@ -13,9 +13,9 @@ interface WordPressAPI {
 
     /* Category API transaction --------------------------- */
 
-    @get:Headers("Cache-Control: max-age=0", "User-Agent: Artic")
-    @get:GET("?json=get_category_index")
-    val allCategories: Call<CategoriesFetchResponse>
+    @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
+    @GET("?json=get_category_index")
+    suspend fun fetchAllCategories(): CategoriesFetchResponse
 
     /* Post API transaction ------------------------------- */
 
@@ -28,9 +28,9 @@ interface WordPressAPI {
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @GET("?json=get_post")
-    fun getPostDetialsById(
+    suspend fun getPostDetialsById(
         @Query("id") id: Int
-    ): Call<SinglePostResponse>
+    ): SinglePostResponse
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @GET("?json=get_search_results$EXCLUDE_FIELD")
@@ -41,24 +41,24 @@ interface WordPressAPI {
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @GET("?json=get_category_posts$EXCLUDE_FIELD")
-    fun getCategoryDetailsByPage(
+    suspend fun getCategoryDetailsByPage(
         @Query("id") id: Int,
         @Query("page") page: Int,
         @Query("count") count: Int
-    ): Call<CategoryDetailsResponse>
+    ): CategoryDetailsResponse
 
-//    @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
-//    @GET("?json=respond/submit_comment")
-//    fun sendComment(
-//        @Query("post_id") post_id: Long,
-//        @Query("name") name: String,
-//        @Query("email") email: String,
-//        @Query("content") content: String
-//    ): Call<CallbackComment>
+    @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
+    @GET("?json=respond/submit_comment")
+    suspend fun sendComment(
+        @Query("post_id") post_id: Long,
+        @Query("name") name: String,
+        @Query("email") email: String,
+        @Query("content") content: String
+    ): Any
 
     @Headers("Cache-Control: max-age=0", "User-Agent: Artic")
     @POST("?api-fcm=register")
-    fun registerDevice(@Body deviceInfo: DeviceInfo): Call<Any>
+    suspend fun registerDevice(@Body deviceInfo: DeviceInfo): Any
 
     companion object {
 

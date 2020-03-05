@@ -1,4 +1,4 @@
-package com.aliumujib.artic.articles.list
+package com.aliumujib.artic.articles.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
 import com.aliumujib.artic.articles.di.ArticleListModule
 import com.aliumujib.artic.articles.di.DaggerArticleListComponent
-import com.aliumujib.artic.articles.list.adapter.ArticleListAdapter
+import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.articles.models.ArticleUIModel
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.articles.presentation.ArticleListIntent

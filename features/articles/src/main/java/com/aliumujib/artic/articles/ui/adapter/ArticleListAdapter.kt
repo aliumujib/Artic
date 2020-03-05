@@ -1,4 +1,4 @@
-package com.aliumujib.artic.articles.list.adapter
+package com.aliumujib.artic.articles.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
