@@ -1,13 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
         android:id="@+id/articles"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</FrameLayout>
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:duration="800"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/articles">
+
+        <LinearLayout
+            android:id="@+id/grid_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/article_grid_item_shimmer_group" />
+
+            <include layout="@layout/article_grid_item_shimmer_group" />
+
+            <include layout="@layout/article_grid_item_shimmer_group" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/list_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/article_list_item_shimmer_group" />
+
+            <include layout="@layout/article_list_item_shimmer_group" />
+
+            <include layout="@layout/article_list_item_shimmer_group" />
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    <com.aliumujib.artic.views.emptyerrorstate.SimpleEmptyStateView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyStateImageSrc="@drawable/ic_empty" />
+
+    <com.aliumujib.artic.views.emptyerrorstate.SimpleEmptyStateView
+        android:id="@+id/errorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyStateImageSrc="@drawable/ic_error" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

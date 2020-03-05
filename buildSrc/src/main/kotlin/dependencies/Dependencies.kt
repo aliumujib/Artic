@@ -29,13 +29,19 @@ object Dependencies {
     const val STETHO = "com.facebook.stetho:stetho:${BuildDependenciesVersions.STETHO}"
     const val RXBINDING_PLATFORM = "com.jakewharton.rxbinding3:rxbinding:${BuildDependenciesVersions.RXBINDING_PLATFORM}"
     const val CARD_VIEW = "androidx.cardview:cardview:${BuildDependenciesVersions.MATERIAL}"
-
+    const val FLOWBINDING_ANDROID = "io.github.reactivecircus.flowbinding:flowbinding-android:${BuildDependenciesVersions.FLOW_BINDING}"
+    const val FLOWBINDING_APPCOMPAT = "io.github.reactivecircus.flowbinding:flowbinding-appcompat:${BuildDependenciesVersions.FLOW_BINDING}"
+    const val FLOWBINDING_CORE = "io.github.reactivecircus.flowbinding:flowbinding-core:${BuildDependenciesVersions.FLOW_BINDING}"
+    const val FLOWBINDING_RECYCLERVIEW = "io.github.reactivecircus.flowbinding:flowbinding-recyclerview:${BuildDependenciesVersions.FLOW_BINDING}"
+    const val FLOWBINDING_SWIPEREFRESH = "io.github.reactivecircus.flowbinding:flowbinding-swiperefreshlayout:${BuildDependenciesVersions.FLOW_BINDING}"
 
 
     const val RECYCLE_VIEW = "androidx.recyclerview:recyclerview:${BuildDependenciesVersions.RECYCLE_VIEW}"
     const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${BuildDependenciesVersions.NAVIGATION}"
     const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${BuildDependenciesVersions.NAVIGATION}"
     const val NAVIGATION_DFM = "androidx.navigation:navigation-dynamic-features-fragment:${BuildDependenciesVersions.NAVIGATION}"
+    const val SHIMMER = "com.facebook.shimmer:shimmer:${BuildDependenciesVersions.SHIMMER}@aar"
+
 
     const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${BuildDependenciesVersions.LIFECYCLE}"
     const val LIFECYCLE_VIEWMODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${BuildDependenciesVersions.LIFECYCLE}"

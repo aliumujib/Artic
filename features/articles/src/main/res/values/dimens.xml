@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="veritcal_list_card_margin">16dp</dimen>
-    <dimen name="one_space">8dp</dimen>
-    <dimen name="two_space">16dp</dimen>
-    <dimen name="half_space">4dp</dimen>
+
 
 </resources>

@@ -10,5 +10,14 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="standard_margin">16dp</dimen>
     <dimen name="save_profile_button_margin">64dp</dimen>
+    <dimen name="text_18">18sp</dimen>
+
+
+    <dimen name="four_space">32dp</dimen>
+    <dimen name="one_space">8dp</dimen>
+    <dimen name="two_space">16dp</dimen>
+    <dimen name="three_space">24dp</dimen>
+    <dimen name="half_space">4dp</dimen>
+    <dimen name="text_16">16sp</dimen>
 
 </resources>

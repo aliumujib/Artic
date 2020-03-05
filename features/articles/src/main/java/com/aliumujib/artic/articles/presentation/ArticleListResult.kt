@@ -11,6 +11,12 @@ sealed class ArticleListResult : MVIResult {
         data class Error(val error: Throwable) : LoadArticleListResults()
     }
 
+    sealed class FetchMoreArticleListResults() : ArticleListResult() {
+        data class Success(val data: List<Article>) : FetchMoreArticleListResults()
+        object Loading : FetchMoreArticleListResults()
+        data class Error(val error: Throwable) : FetchMoreArticleListResults()
+    }
+
     sealed class RefreshArticleListResults : ArticleListResult() {
         data class Success(val data: List<Article>) : RefreshArticleListResults()
         object Refreshing : RefreshArticleListResults()

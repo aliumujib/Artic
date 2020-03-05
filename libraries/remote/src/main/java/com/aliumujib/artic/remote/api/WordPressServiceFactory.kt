@@ -11,27 +11,28 @@ object WordPressServiceFactory {
 
     open fun makeWordPressService(isDebug: Boolean): WordPressAPI {
         val okHttpClient = makeOkHttpClient(
-                makeLoggingInterceptor((isDebug))
+            makeLoggingInterceptor((isDebug))
         )
         return makeWordPressService(okHttpClient, Gson())
     }
 
     private fun makeWordPressService(okHttpClient: OkHttpClient, gson: Gson): WordPressAPI {
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://news.khuddam.ng/api/")
-                .client(okHttpClient)
-                //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
+            .baseUrl("http://demo.dream-space.web.id/koran/")
+            //.baseUrl("http://news.khuddam.ng/api/")
+            .client(okHttpClient)
+            //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
         return retrofit.create(WordPressAPI::class.java)
     }
 
     private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor(httpLoggingInterceptor)
-                .connectTimeout(120, TimeUnit.SECONDS)
-                .readTimeout(120, TimeUnit.SECONDS)
-                .build()
+            .addInterceptor(httpLoggingInterceptor)
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
     }
 
     private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {

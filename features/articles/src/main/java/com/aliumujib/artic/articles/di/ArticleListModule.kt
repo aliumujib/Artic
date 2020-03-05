@@ -3,6 +3,7 @@ package com.aliumujib.artic.articles.di
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.PRIVATE
 import com.aliumujib.artic.articles.list.ArticleListFragment
+import com.aliumujib.artic.articles.list.adapter.ArticleListAdapter
 import com.aliumujib.artic.articles.presentation.ArticleListActionProcessor
 import com.aliumujib.artic.di.scopes.FeatureScope
 import dagger.Module
@@ -45,16 +46,14 @@ class ArticleListModule(
 
 
 
-//    /**
-//     * Create a provider method binding for [CharactersListAdapter].
-//     *
-//     * @return Instance of adapter.
-//     * @see Provides
-//     */
-//    @FeatureScope
-//    @Provides
-//    fun providesCharactersListAdapter(
-//        viewModel: CharactersListViewModel
-//    ) = CharactersListAdapter(viewModel)
+    /**
+     * Create a provider method binding for [ArticleListAdapter].
+     *
+     * @return Instance of adapter.
+     * @see Provides
+     */
+    @FeatureScope
+    @Provides
+    fun providesArticleListAdapter() = ArticleListAdapter()
 
 }

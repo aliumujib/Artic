@@ -11,6 +11,7 @@ import extensions.addTestsDependencies
 import extensions.implementation
 import extensions.testImplementation
 import extensions.kapt
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("com.android.dynamic-feature")
@@ -21,6 +22,12 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.vanniktech.android.junit.jacoco")
     id("com.vanniktech.dependency.graph.generator")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 android {
@@ -42,7 +49,7 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    dataBinding {
+    viewBinding {
         isEnabled = true
     }
 
@@ -74,8 +81,13 @@ dependencies {
     implementation(project(BuildModules.Commons.VIEWS))
     implementation(project(BuildModules.Libraries.DOMAIN))
 
-    implementation(Dependencies.KOTLIN)
+    implementation(Dependencies.FLOWBINDING_ANDROID)
+    implementation(Dependencies.FLOWBINDING_APPCOMPAT)
+    implementation(Dependencies.FLOWBINDING_CORE)
+    implementation(Dependencies.FLOWBINDING_RECYCLERVIEW)
+    implementation(Dependencies.FLOWBINDING_SWIPEREFRESH)
     implementation(Dependencies.APPCOMPAT)
+    implementation(Dependencies.SHIMMER)
     implementation(Dependencies.COROUTINES)
     implementation(Dependencies.COROUTINES_ANDROID)
     implementation(Dependencies.NAVIGATION_FRAGMENT)
@@ -88,6 +100,7 @@ dependencies {
     implementation(Dependencies.DAGGER)
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.LOGGING)
+    implementation(Dependencies.COIL)
 
     kapt(AnnotationProcessorsDependencies.DAGGER)
     kapt(AnnotationProcessorsDependencies.DATABINDING)
