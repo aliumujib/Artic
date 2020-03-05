@@ -16,8 +16,9 @@ class ArticleListActionProcessor @Inject constructor(
     fun actionToResultTransformer(actionsFlow: Flow<ArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge {
             loadArticleListResult(actionsFlow.ofType(ArticleListAction.LoadArticleListAction::class.java))
-                .mergeWith(
-                    pullToRefreshResult(actionsFlow.ofType(ArticleListAction.RefreshArticleListAction::class.java))
+                .merge(
+                    pullToRefreshResult(actionsFlow.ofType(ArticleListAction.RefreshArticleListAction::class.java)),
+                    loadAnotherArticleListResult(actionsFlow.ofType(ArticleListAction.FetchMoreArticleListAction::class.java))
                 )
         }
     }
@@ -33,6 +34,21 @@ class ArticleListActionProcessor @Inject constructor(
                 .catch {
                     Timber.e(it)
                     emit(ArticleListResult.LoadArticleListResults.Error(it))
+                }
+        }
+    }
+
+    private fun loadAnotherArticleListResult(actionsFlow: Flow<ArticleListAction.FetchMoreArticleListAction>): Flow<ArticleListResult> {
+        return actionsFlow.flatMapMerge { action ->
+            getAllArticles.build(GetAllArticles.Params.make(true, action.page))
+                .onEach { delay(2000) }
+                .map { articles ->
+                    ArticleListResult.FetchMoreArticleListResults.Success(data = articles) as ArticleListResult
+                }
+                .onStart { emit(ArticleListResult.FetchMoreArticleListResults.Loading) }
+                .catch {
+                    Timber.e(it)
+                    emit(ArticleListResult.FetchMoreArticleListResults.Error(it))
                 }
         }
     }

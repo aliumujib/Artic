@@ -79,7 +79,7 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            (hasExtraRow() && position == itemCount - 1) -> {
+            (isLoadingNextPage() && position == itemCount - 1) -> {
                 LAYOUT.LOADING.value
             }
             viewType == LAYOUT.LIST -> {
@@ -95,13 +95,13 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
     }
 
 
-    private fun hasExtraRow() = listState != null && listState != ListState.Idle
+     fun isLoadingNextPage() = listState != null && listState != ListState.Idle
 
     fun setListState(newListState: ListState?) {
         val previousState = this.listState
-        val hadExtraRow = hasExtraRow()
+        val hadExtraRow = isLoadingNextPage()
         this.listState = newListState
-        val hasExtraRow = hasExtraRow()
+        val hasExtraRow = isLoadingNextPage()
         if (hadExtraRow != hasExtraRow) {
             if (hadExtraRow) {
                 notifyItemRemoved(super.getItemCount())
@@ -116,7 +116,7 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
 
 
     override fun getItemCount(): Int {
-        return super.getItemCount() + if (hasExtraRow()) 1 else 0
+        return super.getItemCount() + if (isLoadingNextPage()) 1 else 0
     }
 
     private fun isLoadingMore(): Boolean {

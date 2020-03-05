@@ -42,6 +42,7 @@ object BuildDependenciesVersions {
     const val CIRCLE_IMAGE_VIEW = "2.2.0"
     const val STETHO = "1.5.0"
     const val RXBINDING_PLATFORM = "3.0.0"
+    const val FLOW_BINDING = "0.10.1"
 
     // Tests
     const val TEST = "1.2.0"

@@ -7,7 +7,7 @@ import com.aliumujib.artic.views.mvi.MVIViewState
 
 sealed class ArticleListViewState(
     val isLoading: Boolean,
-    val data: List<Article>,
+    val data: List<Article> = mutableListOf(),
     val error: Throwable?,
     val isLoadingMore: Boolean = false,
     val isGrid: Boolean = true
@@ -20,18 +20,18 @@ sealed class ArticleListViewState(
     )
 
     data class Error(val throwable: Throwable, val isLoadingMoreData: Boolean) :
-        ArticleListViewState(false, emptyList(), throwable, isLoadingMore = isLoadingMoreData)
+        ArticleListViewState(false, mutableListOf(), throwable, isLoadingMore = isLoadingMoreData)
 
     data class Loading(val isLoadingMoreData: Boolean) :
-        ArticleListViewState(true, emptyList(), null, isLoadingMoreData)
+        ArticleListViewState(true, mutableListOf(), null, isLoadingMoreData)
 
     object Idle : ArticleListViewState(
         false,
-        emptyList(),
+        mutableListOf(),
         null
     )
 
-    fun reduce(result: ArticleListResult): ArticleListViewState {
+    fun reduce(previousState : ArticleListViewState, result: ArticleListResult): ArticleListViewState {
         return when (result) {
             is LoadArticleListResults -> {
                 when (result) {
@@ -55,9 +55,11 @@ sealed class ArticleListViewState(
             }
             is FetchMoreArticleListResults -> {
                 when (result) {
-                    is FetchMoreArticleListResults.Success -> Success(
-                        result.data
-                    )
+                    is FetchMoreArticleListResults.Success -> {
+                        val newData = previousState.data as MutableList
+                        newData.addAll(result.data)
+                        Success(newData)
+                    }
                     is FetchMoreArticleListResults.Error -> Error(result.error, true)
                     is FetchMoreArticleListResults.Loading -> Loading(true)
                 }

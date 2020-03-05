@@ -14,20 +14,22 @@ import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
 import com.aliumujib.artic.articles.di.ArticleListModule
 import com.aliumujib.artic.articles.di.DaggerArticleListComponent
 import com.aliumujib.artic.articles.list.adapter.ArticleListAdapter
+import com.aliumujib.artic.articles.list.adapter.InfiniteScrollListener
 import com.aliumujib.artic.articles.models.ArticleUIModel
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.articles.presentation.ArticleListIntent
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
 import com.aliumujib.artic.articles.presentation.ArticleListViewState
 import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
-import com.aliumujib.artic.views.ext.dpToPx
-import com.aliumujib.artic.views.ext.hide
-import com.aliumujib.artic.views.ext.removeAllDecorations
-import com.aliumujib.artic.views.ext.show
+import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.SpacingItemDecoration
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.recyclerview.scrollStateChanges
 import javax.inject.Inject
 
 
@@ -43,7 +45,6 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     @Inject
     lateinit var articleUIModelMapper: ArticleUIModelMapper
-
 
     private var _binding: ArticleListFragmentBinding? = null
     private val binding get() = _binding!!
@@ -71,6 +72,16 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initializeViews()
+
+        viewModel.statesFlow
+            .onEach {
+                render(it)
+            }.launchIn(lifecycleScope)
+    }
+
+    private fun initializeViews() {
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         binding.articles.apply {
             removeAllDecorations()
             addItemDecoration(
@@ -79,15 +90,18 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                     context.dpToPx(16), doubleFirstItemLeftMargin = false, isVertical = true
                 )
             )
-            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+            layoutManager = staggeredGridLayoutManager
             adapter = articlesAdapter
         }
 
-        lifecycleScope.launchWhenResumed {
-            viewModel.statesFlow.collect {
-                render(it)
-            }
-        }
+
+        binding.articles.scrollStateChanges()
+            .filter { _ -> !articlesAdapter.isLoadingNextPage() }
+            .filter { event -> event == RecyclerView.SCROLL_STATE_IDLE }
+            .filter { _ -> binding.articles.isLastItemDisplaying() }
+            .onEach {
+                viewModel.processIntent(ArticleListIntent.FetchMoreArticleListIntent)
+            }.launchIn(lifecycleScope)
     }
 
 
@@ -114,6 +128,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     private fun presentSuccessState(data: List<ArticleUIModel>) {
         binding.shimmerViewContainer.stopShimmerAnimation()
+        articlesAdapter.setListState(ArticleListAdapter.ListState.Idle)
         binding.gridLoading.hide()
         binding.listLoading.hide()
 
@@ -128,7 +143,6 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         }
 
         articlesAdapter.submitList(data)
-        articlesAdapter.setListState(ArticleListAdapter.ListState.Loading)
     }
 
     private fun presentErrorState(error: Throwable, isLoadingMoreData: Boolean) {

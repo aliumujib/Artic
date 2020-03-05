@@ -81,7 +81,11 @@ dependencies {
     implementation(project(BuildModules.Commons.VIEWS))
     implementation(project(BuildModules.Libraries.DOMAIN))
 
-    implementation(Dependencies.KOTLIN)
+    implementation(Dependencies.FLOWBINDING_ANDROID)
+    implementation(Dependencies.FLOWBINDING_APPCOMPAT)
+    implementation(Dependencies.FLOWBINDING_CORE)
+    implementation(Dependencies.FLOWBINDING_RECYCLERVIEW)
+    implementation(Dependencies.FLOWBINDING_SWIPEREFRESH)
     implementation(Dependencies.APPCOMPAT)
     implementation(Dependencies.SHIMMER)
     implementation(Dependencies.COROUTINES)
