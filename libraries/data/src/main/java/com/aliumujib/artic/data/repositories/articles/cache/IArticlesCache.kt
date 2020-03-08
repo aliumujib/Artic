@@ -1,4 +1,4 @@
-package com.aliumujib.artic.data.repositories.contracts.cache
+package com.aliumujib.artic.data.repositories.articles.cache
 
 import com.aliumujib.artic.data.model.ArticleEntity
 import kotlinx.coroutines.flow.Flow

@@ -100,12 +100,14 @@ fun <U, V> Flow<U>.notOfType(clazz: Class<V>): Flow<V> {
     }.cast(clazz)
 }
 
+@ExperimentalCoroutinesApi
 fun <U, V> Flow<U>.ofType(clazz: Class<V>): Flow<V> {
     return filter {
         clazz.isInstance(it)
     }.cast(clazz)
 }
 
+@ExperimentalCoroutinesApi
 fun <U, V> Flow<U>.cast(clazz: Class<V>): Flow<V> {
     return map {
         clazz.cast(it)!!

@@ -21,7 +21,7 @@ import com.aliumujib.artic.views.iconandtitle.IconAndTitleView
 import timber.log.Timber
 
 
-class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
+class ArticleListAdapter : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
 
     private var listState: ListState? = null
     private var viewType: LAYOUT = LAYOUT.GRID
@@ -55,7 +55,6 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
                 val inflater = LayoutInflater.from(parent.context)
                 val binding = LoadingItemBinding.inflate(inflater, parent, false)
                 LoadingViewHolder(
-                    binding.root,
                     binding
                 )
             }
@@ -119,9 +118,6 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
         return super.getItemCount() + if (isLoadingNextPage()) 1 else 0
     }
 
-    private fun isLoadingMore(): Boolean {
-        return true
-    }
 
     class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val articleImage = itemView.findViewById<ImageView>(R.id.article_image)
@@ -148,9 +144,8 @@ class ArticleListAdapter() : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder
 
 
     class LoadingViewHolder(
-        itemView: View,
         private val binding: LoadingItemBinding
-    ) : RecyclerView.ViewHolder(itemView) {
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model: ListState?) {
             when (model) {

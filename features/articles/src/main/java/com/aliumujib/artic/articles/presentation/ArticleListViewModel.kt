@@ -23,7 +23,7 @@ class ArticleListViewModel(
     private var actionsFlow = _actionBroadcastChannel.asFlow()
 
     private var _statesBroadcastChannel = ConflatedBroadcastChannel<ArticleListViewState>()
-    var statesFlow = _statesBroadcastChannel.asFlow()
+    private var statesFlow = _statesBroadcastChannel.asFlow()
 
 
     fun processActions() {

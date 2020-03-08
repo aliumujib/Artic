@@ -3,7 +3,7 @@ package com.aliumujib.artic.remote.impl
 import com.aliumujib.artic.data.model.ArticleEntity
 import com.aliumujib.artic.remote.api.WordPressAPI
 import com.aliumujib.artic.remote.mapper.PostsMapper
-import com.aliumujib.artic.data.repositories.contracts.remote.IArticlesRemote
+import com.aliumujib.artic.data.repositories.articles.remote.IArticlesRemote
 import javax.inject.Inject
 
 class ArticlesRemote @Inject constructor(

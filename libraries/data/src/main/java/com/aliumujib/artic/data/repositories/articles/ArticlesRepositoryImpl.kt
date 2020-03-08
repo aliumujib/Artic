@@ -2,14 +2,14 @@ package com.aliumujib.artic.data.repositories.articles
 
 import com.aliumujib.artic.data.mapper.ArticleEntityMapper
 import com.aliumujib.artic.data.model.ArticleEntity
-import com.aliumujib.artic.data.repositories.contracts.cache.IArticlesCache
-import com.aliumujib.artic.data.repositories.contracts.remote.IArticlesRemote
+import com.aliumujib.artic.data.repositories.articles.cache.IArticlesCache
+import com.aliumujib.artic.data.repositories.articles.remote.IArticlesRemote
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-class ArticlesRepoImpl @Inject constructor(
+class ArticlesRepositoryImpl @Inject constructor(
     private val articlesRemote: IArticlesRemote,
     private val articlesCache: IArticlesCache,
     private val articleEntityMapper: ArticleEntityMapper

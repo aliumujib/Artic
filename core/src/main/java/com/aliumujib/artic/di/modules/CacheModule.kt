@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.aliumujib.artic.cache.impl.ArticlesCacheImpl
 import com.aliumujib.artic.cache.room.ArticlesDao
-import com.aliumujib.artic.data.repositories.contracts.cache.IArticlesCache
+import com.aliumujib.artic.data.repositories.articles.cache.IArticlesCache
 import com.aliumujib.artic.cache.room.DBClass
 import dagger.Module
 import dagger.Provides

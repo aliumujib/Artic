@@ -1,6 +1,5 @@
 package com.aliumujib.artic.articles.ui
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,12 +13,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
 import com.aliumujib.artic.articles.di.ArticleListModule
 import com.aliumujib.artic.articles.di.DaggerArticleListComponent
-import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.articles.models.ArticleUIModel
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.articles.presentation.ArticleListIntent
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
 import com.aliumujib.artic.articles.presentation.ArticleListViewState
+import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
 import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
@@ -29,13 +28,11 @@ import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
-import timber.log.Timber
 import javax.inject.Inject
 
 
 @ExperimentalCoroutinesApi
 class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListViewState> {
-
 
     @Inject
     lateinit var viewModel: ArticleListViewModel
@@ -49,11 +46,9 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private var _binding: ArticleListFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val _loadInitialIntent =
-        ConflatedBroadcastChannel<ArticleListIntent>()
-
+    private val _loadInitialIntent = ConflatedBroadcastChannel<ArticleListIntent>()
     private val loadInitialIntent = _loadInitialIntent.asFlow().take(1)
-    //Is this really the best [BroadcastChannel] to use here? TODO find out if theres something better
+    //Is this really the best [BroadcastChannel] to use here? TODO replace with https://github.com/Kotlin/kotlinx.coroutines/pull/1354 as soon as its out
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -85,7 +80,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
         initializeViews()
 
-        viewModel.statesFlow
+        viewModel.states()
             .onEach {
                 render(it)
             }.launchIn(lifecycleScope)
@@ -98,7 +93,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             addItemDecoration(
                 SpacingItemDecoration(
                     context.dpToPx(16),
-                    context.dpToPx(16), doubleFirstItemLeftMargin = false, isVertical = true
+                    context.dpToPx(16)
                 )
             )
             layoutManager = staggeredGridLayoutManager

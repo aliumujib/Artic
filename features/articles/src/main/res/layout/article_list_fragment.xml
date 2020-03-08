@@ -54,6 +54,7 @@
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:visibility="invisible"
+        app:emptyStateCaptionText="@string/no_articles_to_show"
         android:layout_height="match_parent"
         app:emptyStateImageSrc="@drawable/ic_empty" />
 

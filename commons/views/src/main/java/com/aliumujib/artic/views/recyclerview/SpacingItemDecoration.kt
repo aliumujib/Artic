@@ -5,10 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 class SpacingItemDecoration(
-    private val horizontalSpacing: Int, private val verticalSpacing: Int,
-    private val doubleFirstItemLeftMargin: Boolean = true,
-    private val isVertical: Boolean = false
-) : RecyclerView.ItemDecoration() {
+    private val horizontalSpacing: Int, private val verticalSpacing: Int) : RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(
         outRect: Rect,
@@ -18,14 +15,7 @@ class SpacingItemDecoration(
     ) {
         super.getItemOffsets(outRect, view, parent, state)
 
-        if (parent.getChildAdapterPosition(view) == 0 && doubleFirstItemLeftMargin) {
-            outRect.left = horizontalSpacing * 2
-        } else if (isVertical) {
-            outRect.left = horizontalSpacing / 2
-        } else {
-            outRect.left = horizontalSpacing
-        }
-
+        outRect.left = horizontalSpacing / 2
         outRect.right = this.horizontalSpacing / 2
         outRect.top = this.verticalSpacing / 2
         outRect.bottom = this.verticalSpacing / 2

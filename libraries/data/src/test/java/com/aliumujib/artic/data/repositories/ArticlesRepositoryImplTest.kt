@@ -5,9 +5,9 @@ import com.aliumujib.artic.data.mapper.ArticleEntityMapper
 import com.aliumujib.artic.data.mapper.AuthorEntityMapper
 import com.aliumujib.artic.data.mapper.CategoryEntityMapper
 import com.aliumujib.artic.data.remote.api.WordPressAPI
-import com.aliumujib.artic.data.repositories.articles.ArticlesRepoImpl
-import com.aliumujib.artic.data.repositories.contracts.cache.IArticlesCache
-import com.aliumujib.artic.data.repositories.contracts.remote.IArticlesRemote
+import com.aliumujib.artic.data.repositories.articles.ArticlesRepositoryImpl
+import com.aliumujib.artic.data.repositories.articles.cache.IArticlesCache
+import com.aliumujib.artic.data.repositories.articles.remote.IArticlesRemote
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
@@ -18,7 +18,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class ArticlesRepoImplTest {
+class ArticlesRepositoryImplTest {
 
     @Mock
     lateinit var articlesRemote: IArticlesRemote
@@ -31,7 +31,7 @@ class ArticlesRepoImplTest {
 
     lateinit var articlesEntityMapper: ArticleEntityMapper
 
-    lateinit var articlesRepoImpl: ArticlesRepoImpl
+    lateinit var articlesRepositoryImpl: ArticlesRepositoryImpl
 
 
     @Before
@@ -40,7 +40,7 @@ class ArticlesRepoImplTest {
 
         articlesEntityMapper = ArticleEntityMapper(authorEntityMapper, categoryEntityMapper)
 
-        articlesRepoImpl = ArticlesRepoImpl(
+        articlesRepositoryImpl = ArticlesRepositoryImpl(
             articlesRemote,
             articlesCache,
             articlesEntityMapper
@@ -55,35 +55,35 @@ class ArticlesRepoImplTest {
 
     @Test
     fun `check that calling getArticles with noInternet flag as false fetches from cache`() {
-        articlesRepoImpl.getArticles(0, false).test()
+        articlesRepositoryImpl.getArticles(0, false).test()
         verify(articlesCache).getArticles()
     }
 
     @Test
     fun `check that calling getArticles with noInternet flag as true fetches from network`() {
-        articlesRepoImpl.getArticles(0, true).test()
+        articlesRepositoryImpl.getArticles(0, true).test()
         verify(articlesRemote).getArticles(0)
     }
 
     @Test
     fun `check that bookmarking an article completes`() {
-        var testObserver = articlesRepoImpl.bookmarkArticle(any()).test()
+        var testObserver = articlesRepositoryImpl.bookmarkArticle(any()).test()
         testObserver.assertComplete()
     }
 
     @Test
     fun `check that unbookmarking an article completes`() {
-        var testObserver = articlesRepoImpl.unBookmarkArticle(any()).test()
+        var testObserver = articlesRepositoryImpl.unBookmarkArticle(any()).test()
         testObserver.assertComplete()
     }
 
 
     fun stubBookmarkArticleCompletion() {
-        whenever(articlesRepoImpl.bookmarkArticle(any())).thenReturn(Completable.complete())
+        whenever(articlesRepositoryImpl.bookmarkArticle(any())).thenReturn(Completable.complete())
     }
 
     fun stubUnBookmarkArticleCompletion() {
-        whenever(articlesRepoImpl.unBookmarkArticle(any())).thenReturn(Completable.complete())
+        whenever(articlesRepositoryImpl.unBookmarkArticle(any())).thenReturn(Completable.complete())
     }
 
     fun stubArticleCacheResponse() {
