@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/one_space">
+    android:paddingBottom="@dimen/one_space"
+    android:paddingStart="@dimen/two_space"
+    android:paddingEnd="@dimen/two_space"
+    android:paddingTop="@dimen/one_space">
 
     <View
         android:layout_width="36dp"

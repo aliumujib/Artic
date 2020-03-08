@@ -92,7 +92,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             removeAllDecorations()
             addItemDecoration(
                 SpacingItemDecoration(
-                    context.dpToPx(16),
+                    context.dpToPx(32),
                     context.dpToPx(16)
                 )
             )

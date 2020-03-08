@@ -2,24 +2,15 @@ package com.aliumujib.artic.categories.ui
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
-import com.aliumujib.artic.articles.di.ArticleListModule
-import com.aliumujib.artic.articles.di.DaggerArticleListComponent
-import com.aliumujib.artic.articles.models.ArticleUIModel
 import com.aliumujib.artic.articles.models.CategoryUIModel
 import com.aliumujib.artic.articles.models.CategoryUIModelMapper
-import com.aliumujib.artic.articles.presentation.ArticleListIntent
-import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
-import com.aliumujib.artic.categories.R
 import com.aliumujib.artic.categories.databinding.FragmentCategoriesBinding
 import com.aliumujib.artic.categories.di.CategoryListModule
 import com.aliumujib.artic.categories.di.DaggerCategoryListComponent
@@ -99,7 +90,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
             removeAllDecorations()
             addItemDecoration(
                 SpacingItemDecoration(
-                    context.dpToPx(16),
+                    context.dpToPx(32),
                     context.dpToPx(16)
                 )
             )
