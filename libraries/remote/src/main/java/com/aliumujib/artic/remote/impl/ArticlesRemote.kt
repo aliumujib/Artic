@@ -20,7 +20,7 @@ class ArticlesRemote @Inject constructor(
     }
 
     companion object {
-        private const val PER_PAGE = 15
+        private const val PER_PAGE = 5
     }
 
 }

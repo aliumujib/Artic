@@ -3,10 +3,10 @@
  */
 object BuildDependenciesVersions {
     const val SHIMMER = "0.1.0"
-    const val KOTLIN = "1.3.61"
+    const val KOTLIN = "1.3.70"
     const val APPCOMPAT = "1.1.0"
     const val MATERIAL = "1.1.0"
-    const val COROUTINES = "1.3.0"
+    const val COROUTINES = "1.3.4"
     const val ROOM = "2.2.3"
     const val RECYCLE_VIEW = "1.1.0"
     const val NAVIGATION = "2.3.0-alpha02"

@@ -24,4 +24,5 @@ abstract class RemoteModule {
     @Binds
     abstract fun bindsArticlesRemote(remote: ArticlesRemote): IArticlesRemote
 
+    
 }

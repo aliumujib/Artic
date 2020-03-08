@@ -1,5 +1,6 @@
 package com.aliumujib.artic.articles.ui
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,8 +26,10 @@ import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.SpacingItemDecoration
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -64,12 +67,16 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         initDependencyInjection()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.processActions()
+        _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.processActions()
         viewModel.processIntent(intents())
-        _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
     }
 
 
@@ -207,6 +214,10 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     override fun intents(): Flow<ArticleListIntent> {
         return loadInitialIntent().mergeWith(loadMoreIntent())
+            .onEach {
+                delay(500)
+            }
+            .conflate()
     }
 
 

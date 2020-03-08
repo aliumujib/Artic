@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object WordPressServiceFactory {
 
-    open fun makeWordPressService(isDebug: Boolean): WordPressAPI {
+    fun makeWordPressService(isDebug: Boolean): WordPressAPI {
         val okHttpClient = makeOkHttpClient(
             makeLoggingInterceptor((isDebug))
         )
@@ -38,7 +38,7 @@ object WordPressServiceFactory {
     private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
         logging.level = if (isDebug) {
-            HttpLoggingInterceptor.Level.BASIC
+            HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
