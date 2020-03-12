@@ -41,7 +41,6 @@ class GetAllCategoriesTest {
         stubGetCategories(flow {
             emit(list)
         })
-
         val result = getCategories.build(GetAllCategories.Params.make(randomBuild())).first()
         assertThat(result, `is`((equalTo(list))))
     }
@@ -49,11 +48,9 @@ class GetAllCategoriesTest {
     @Test(expected = IllegalStateException::class)
     fun `confirm that using getProjects with params throws an exception`() = runBlockingTest {
         val list = ArticleDataFactory.makeCategoryList(10)
-
         stubGetCategories(flow {
             emit(list)
         })
-
         val result = getCategories.build().first()
         assertThat(result, `is`((instanceOf(IllegalStateException::class.java))))
     }
