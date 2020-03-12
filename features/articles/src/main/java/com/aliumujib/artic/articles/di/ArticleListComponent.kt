@@ -2,7 +2,7 @@
 
 package com.aliumujib.artic.articles.di
 
-import com.aliumujib.artic.articles.list.ArticleListFragment
+import com.aliumujib.artic.articles.ui.ArticleListFragment
 import com.aliumujib.artic.di.components.CoreComponent
 import com.aliumujib.artic.di.scopes.FeatureScope
 import dagger.Component

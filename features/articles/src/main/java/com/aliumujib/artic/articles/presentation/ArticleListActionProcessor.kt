@@ -2,9 +2,7 @@ package com.aliumujib.artic.articles.presentation
 
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
 import com.aliumujib.artic.views.ext.merge
-import com.aliumujib.artic.views.ext.mergeWith
 import com.aliumujib.artic.views.ext.ofType
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -12,6 +10,30 @@ import javax.inject.Inject
 class ArticleListActionProcessor @Inject constructor(
     private val getAllArticles: GetAllArticles
 ) {
+
+    fun actionToResultTransformer(action: ArticleListAction): Flow<ArticleListResult> {
+        return when (action) {
+            is ArticleListAction.LoadArticleListAction -> {
+                loadArticleListResult(flowOf(action))
+            }
+            is ArticleListAction.RefreshArticleListAction -> {
+                pullToRefreshResult(flowOf(action))
+            }
+            is ArticleListAction.FetchMoreArticleListAction -> {
+                loadAnotherArticleListResult(flowOf(action))
+            }
+        }
+    }
+
+    /**
+     * For some reason, passing in a flow here produces more than one emission
+     * So flowOf(A) emmits A, A or sometimes A,A,A which in turn executes more than one action.
+     * This is very weird behaviour considering the fact that I'm only trying to flatMap my flow.
+     * TODO find out why it behaves like that and see if the behaviour can be remedied.
+     *
+     * I tried writing a holdOn operator which holds all the sudden emissions for a time period and emmits only
+     * the latest one, didn't make a lot of progress with that ... TODO finish writing it for the science
+     * */
 
     fun actionToResultTransformer(actionsFlow: Flow<ArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge {
@@ -26,7 +48,6 @@ class ArticleListActionProcessor @Inject constructor(
     private fun loadArticleListResult(actionsFlow: Flow<ArticleListAction.LoadArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
             getAllArticles.build(GetAllArticles.Params.make(true, action.page))
-                .onEach { delay(2000) }
                 .map { articles ->
                     ArticleListResult.LoadArticleListResults.Success(data = articles) as ArticleListResult
                 }
@@ -41,7 +62,6 @@ class ArticleListActionProcessor @Inject constructor(
     private fun loadAnotherArticleListResult(actionsFlow: Flow<ArticleListAction.FetchMoreArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
             getAllArticles.build(GetAllArticles.Params.make(true, action.page))
-                .onEach { delay(2000) }
                 .map { articles ->
                     ArticleListResult.FetchMoreArticleListResults.Success(data = articles) as ArticleListResult
                 }
@@ -56,7 +76,6 @@ class ArticleListActionProcessor @Inject constructor(
     private fun pullToRefreshResult(actionsFlow: Flow<ArticleListAction.RefreshArticleListAction>): Flow<ArticleListResult> =
         actionsFlow.flatMapMerge {
             getAllArticles.build(GetAllArticles.Params.make(true, 1))
-                .onEach { delay(2000) }
                 .map { articles ->
                     ArticleListResult.RefreshArticleListResults.Success(data = articles) as ArticleListResult
                 }

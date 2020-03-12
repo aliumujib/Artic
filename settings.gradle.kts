@@ -1,3 +1,4 @@
+include(":libraries:testutilities")
 include(
     ":core",
     ":libraries:domain",

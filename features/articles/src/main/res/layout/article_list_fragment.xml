@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:visibility="invisible"
         app:duration="800"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,12 +53,15 @@
     <com.aliumujib.artic.views.emptyerrorstate.SimpleEmptyStateView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
+        android:visibility="invisible"
+        app:emptyStateCaptionText="@string/no_articles_to_show"
         android:layout_height="match_parent"
         app:emptyStateImageSrc="@drawable/ic_empty" />
 
     <com.aliumujib.artic.views.emptyerrorstate.SimpleEmptyStateView
         android:id="@+id/errorView"
         android:layout_width="match_parent"
+        android:visibility="invisible"
         android:layout_height="match_parent"
         app:emptyStateImageSrc="@drawable/ic_error" />
 

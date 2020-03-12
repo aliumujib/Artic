@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object WordPressServiceFactory {
 
-    open fun makeWordPressService(isDebug: Boolean): WordPressAPI {
+    fun makeWordPressService(isDebug: Boolean): WordPressAPI {
         val okHttpClient = makeOkHttpClient(
             makeLoggingInterceptor((isDebug))
         )
@@ -21,7 +21,6 @@ object WordPressServiceFactory {
             .baseUrl("http://demo.dream-space.web.id/koran/")
             //.baseUrl("http://news.khuddam.ng/api/")
             .client(okHttpClient)
-            //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
         return retrofit.create(WordPressAPI::class.java)
@@ -30,15 +29,15 @@ object WordPressServiceFactory {
     private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
             .build()
     }
 
     private fun makeLoggingInterceptor(isDebug: Boolean): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
         logging.level = if (isDebug) {
-            HttpLoggingInterceptor.Level.BASIC
+            HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.NONE
         }

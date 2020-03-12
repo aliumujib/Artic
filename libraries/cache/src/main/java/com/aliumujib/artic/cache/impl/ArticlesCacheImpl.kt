@@ -3,7 +3,7 @@ package com.aliumujib.artic.cache.impl
 import com.aliumujib.artic.cache.models.mappers.ArticleCacheModelMapper
 import com.aliumujib.artic.cache.room.ArticlesDao
 import com.aliumujib.artic.data.model.ArticleEntity
-import com.aliumujib.artic.data.repositories.contracts.cache.IArticlesCache
+import com.aliumujib.artic.data.repositories.articles.cache.IArticlesCache
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.*

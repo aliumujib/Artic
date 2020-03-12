@@ -4,51 +4,53 @@ import com.aliumujib.artic.domain.executor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
 import com.aliumujib.artic.domain.test.ArticleDataFactory
-import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Observable
+import com.aliumujib.artic.domain.test.TestPostExecutionThreadImpl
+import io.mockk.MockKAnnotations
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.single
+import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.MatcherAssert
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is
+import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
 
 
-@RunWith(MockitoJUnitRunner::class)
 class GetAllBookmarkedArticlesTest {
 
-    private lateinit var getAllBookmarkedArticlesTest: GetAllBookmarkedArticles
-    @Mock
+    private lateinit var getAllBookmarkedArticles: GetAllBookmarkedArticles
+    @MockK(relaxed = true)
     lateinit var articlesRepository: IArticlesRepository
-    @Mock
-    lateinit var postExecutionThread: PostExecutionThread
+    private val postExecutionThread: PostExecutionThread = TestPostExecutionThreadImpl()
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
-        getAllBookmarkedArticlesTest = GetAllBookmarkedArticles(articlesRepository, postExecutionThread)
+        MockKAnnotations.init(this)
+        getAllBookmarkedArticles = GetAllBookmarkedArticles(articlesRepository, postExecutionThread)
     }
 
     @Test
-    fun `confirm that calling getBookmarkedArticles completes`() {
-        stubGetBookmarkedArticles(Observable.just(ArticleDataFactory.makeArticlesList(2)))
-        val testObserver = getAllBookmarkedArticlesTest.buildUseCaseObservable().test()
-        testObserver.assertComplete()
-    }
-
-
-    @Test
-    fun `confirm that calling getBookmarkedArticles returns data`() {
+    fun `confirm that calling getBookmarkedArticles returns data`() = runBlockingTest{
         val list = ArticleDataFactory.makeArticlesList(10)
-        stubGetBookmarkedArticles(Observable.just(list))
-        val testObserver = getAllBookmarkedArticlesTest.buildUseCaseObservable().test()
-        testObserver.assertValue(list)
+        stubGetBookmarkedArticles(flow {
+            emit(list)
+        })
+        val result = getAllBookmarkedArticles.build().single()
+        assertThat(result, `is`((equalTo(list))))
     }
 
 
-    private fun stubGetBookmarkedArticles(observable: Observable<List<Article>>) {
-        whenever(articlesRepository.getBookmarkedArticles())
-            .thenReturn(observable)
+    private fun stubGetBookmarkedArticles(flow: Flow<List<Article>>) {
+        every {
+            articlesRepository.getBookmarkedArticles()
+        } returns flow
     }
 
 }

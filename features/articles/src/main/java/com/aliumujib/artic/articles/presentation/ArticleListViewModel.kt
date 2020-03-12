@@ -2,9 +2,12 @@ package com.aliumujib.artic.articles.presentation
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewModelScope
+import com.aliumujib.artic.views.ext.holdOn
 import com.aliumujib.artic.views.mvi.MVIViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,23 +23,30 @@ class ArticleListViewModel(
     private var actionsFlow = _actionBroadcastChannel.asFlow()
 
     private var _statesBroadcastChannel = ConflatedBroadcastChannel<ArticleListViewState>()
-    var statesFlow = _statesBroadcastChannel.asFlow()
+    private var statesFlow = _statesBroadcastChannel.asFlow()
 
 
     fun processActions() {
-            articleListActionProcessor.actionToResultTransformer(actionsFlow)
-                .onEach { result: ArticleListResult ->
-                    Timber.v("New results of type: ${result::class.java.canonicalName}")
-                }
-                .scan(ArticleListViewState.init()) { previous: ArticleListViewState, result: ArticleListResult ->
-                    previous.reduce(previous,result)
-                }
-                .distinctUntilChanged()
-                .onStart { Timber.d("subscribed to states") }
-                .onEach {
-                    Timber.v("new view state with data size: ${it.data.size}")
-                    _statesBroadcastChannel.offer(it)
-                }.launchIn(viewModelScope)
+
+        actionsFlow.flatMapMerge {
+            articleListActionProcessor.actionToResultTransformer(it)
+        }.onEach { result: ArticleListResult ->
+            Timber.v(
+                "New results of type: ${result::class.java.canonicalName?.replace(
+                    "com.aliumujib.artic.articles.presentation.ArticleListResult.",
+                    ""
+                )}"
+            )
+        }
+            .scan(ArticleListViewState.init()) { previous: ArticleListViewState, result: ArticleListResult ->
+                previous.reduce(previous, result)
+            }
+            .distinctUntilChanged()
+            .onStart { Timber.d("subscribed to states") }
+            .onEach {
+                Timber.v("new view state with data size: ${it.data.size}")
+                _statesBroadcastChannel.offer(it)
+            }.launchIn(viewModelScope)
     }
 
 
@@ -46,6 +56,7 @@ class ArticleListViewModel(
 
     override fun processIntent(intents: Flow<ArticleListIntent>) {
         intents.onEach {
+            Timber.v("New Intent: ${it::class.java.simpleName}")
             onAction(actionFromIntent(it))
         }.launchIn(viewModelScope)
     }
@@ -66,6 +77,5 @@ class ArticleListViewModel(
             }
         }
     }
-
 
 }

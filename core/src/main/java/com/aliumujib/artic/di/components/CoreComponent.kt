@@ -5,6 +5,7 @@ import android.content.Context
 import com.aliumujib.artic.di.modules.*
 import com.aliumujib.artic.domain.executor.PostExecutionThread
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
+import com.aliumujib.artic.domain.repositories.categories.ICategoriesRepository
 import com.aliumujib.artic.remote.api.WordPressAPI
 import dagger.Component
 import javax.inject.Singleton
@@ -29,6 +30,8 @@ interface CoreComponent {
     fun wordPressAPI(): WordPressAPI
 
     fun articlesRepository(): IArticlesRepository
+
+    fun categoriesRepository(): ICategoriesRepository
 
     fun postExecutionThread(): PostExecutionThread
 

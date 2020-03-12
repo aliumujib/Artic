@@ -2,58 +2,53 @@ package com.aliumujib.artic.domain.usecases.articles
 
 import com.aliumujib.artic.domain.executor.PostExecutionThread
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Completable
+import com.aliumujib.artic.domain.test.TestPostExecutionThreadImpl
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.impl.annotations.MockK
+import konveyor.base.randomBuild
+import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
-import java.lang.IllegalStateException
 
-@RunWith(MockitoJUnitRunner::class)
 class UnBookmarkArticleTest {
 
     private lateinit var unBookmarkArticle: UnBookmarkArticle
-    @Mock
+    @MockK(relaxed = true)
     lateinit var articlesRepository: IArticlesRepository
-    @Mock
-    lateinit var postExecutionThread: PostExecutionThread
+    private val postExecutionThread: PostExecutionThread = TestPostExecutionThreadImpl()
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         unBookmarkArticle = UnBookmarkArticle(articlesRepository, postExecutionThread)
     }
 
 
     @Test
-    fun `test that calling bookmarkArticle completes`(){
-        stubBookmarkCompletable(Completable.defer {
-            Completable.complete()
-        })
-
-        val completableTest = unBookmarkArticle.buildUseCaseCompletable(UnBookmarkArticle.Params(articleId = any())).test()
-        completableTest.assertComplete()
+    fun `test that calling bookmarkArticle completes`() = runBlockingTest {
+        stubUnBookmarkOperation()
+        val result = unBookmarkArticle.invoke(UnBookmarkArticle.Params(randomBuild()))
+        assertThat(result, `is`((instanceOf(Unit::class.java))))
     }
 
 
     @Test(expected = IllegalStateException::class)
-    fun `test that calling bookmarkArticle without params throws an exception`(){
-        stubBookmarkCompletable(Completable.defer {
-            Completable.complete()
-        })
-
-        val completableTest = unBookmarkArticle.buildUseCaseCompletable().test()
-        completableTest.assertComplete()
+    fun `test that calling bookmarkArticle without params throws an exception`() = runBlockingTest{
+        stubUnBookmarkOperation()
+        val result = unBookmarkArticle.invoke()
+        assertThat(result, `is`(instanceOf(IllegalStateException::class.java)))
     }
 
 
-    private fun stubBookmarkCompletable(completable: Completable) {
-        whenever(articlesRepository.unBookmarkArticle(any()))
-            .thenReturn(completable)
+    private fun stubUnBookmarkOperation() {
+        coEvery {
+            articlesRepository.unBookmarkArticle(any())
+        } returns Unit
     }
 
 }
