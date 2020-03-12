@@ -21,7 +21,6 @@ object WordPressServiceFactory {
             .baseUrl("http://demo.dream-space.web.id/koran/")
             //.baseUrl("http://news.khuddam.ng/api/")
             .client(okHttpClient)
-            //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
         return retrofit.create(WordPressAPI::class.java)

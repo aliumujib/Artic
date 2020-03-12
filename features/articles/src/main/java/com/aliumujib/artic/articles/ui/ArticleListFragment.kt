@@ -22,7 +22,8 @@ import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
 import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
-import com.aliumujib.artic.views.recyclerview.SpacingItemDecoration
+import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecoration
+import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
@@ -91,9 +92,10 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         binding.articles.apply {
             removeAllDecorations()
             addItemDecoration(
-                SpacingItemDecoration(
-                    context.dpToPx(32),
-                    context.dpToPx(16)
+                GridSpacingItemDecoration(
+                    2,
+                    context.dpToPx(16),
+                    true
                 )
             )
             layoutManager = staggeredGridLayoutManager

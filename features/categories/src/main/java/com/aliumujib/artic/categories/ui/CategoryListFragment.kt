@@ -24,7 +24,7 @@ import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.removeAllDecorations
 import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.mvi.MVIView
-import com.aliumujib.artic.views.recyclerview.SpacingItemDecoration
+import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -89,7 +89,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
         binding.categories.apply {
             removeAllDecorations()
             addItemDecoration(
-                SpacingItemDecoration(
+                ListSpacingItemDecorator(
                     context.dpToPx(32),
                     context.dpToPx(16)
                 )

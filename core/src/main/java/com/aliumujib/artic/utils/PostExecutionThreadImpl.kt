@@ -9,8 +9,8 @@ import javax.inject.Inject
 
 class PostExecutionThreadImpl @Inject constructor() : PostExecutionThread {
 
-    override val ui: CoroutineDispatcher = Dispatchers.IO
-    override val io: CoroutineDispatcher = Dispatchers.Main
+    override val ui: CoroutineDispatcher = Dispatchers.Main
+    override val io: CoroutineDispatcher = Dispatchers.IO
     override val default: CoroutineDispatcher = Dispatchers.Default
 
 }

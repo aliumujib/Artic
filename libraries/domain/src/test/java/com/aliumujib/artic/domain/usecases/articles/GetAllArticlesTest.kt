@@ -4,59 +4,63 @@ import com.aliumujib.artic.domain.executor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
 import com.aliumujib.artic.domain.test.ArticleDataFactory
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Observable
+import com.aliumujib.artic.domain.test.TestPostExecutionThreadImpl
+import io.mockk.MockKAnnotations
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import konveyor.base.randomBuild
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
+@ExperimentalCoroutinesApi
 class GetAllArticlesTest {
 
     private lateinit var getArticles: GetAllArticles
-    @Mock
+    @MockK(relaxed = true)
     lateinit var articlesRepository: IArticlesRepository
-    @Mock
-    lateinit var postExecutionThread: PostExecutionThread
+    private val postExecutionThread: PostExecutionThread = TestPostExecutionThreadImpl()
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         getArticles = GetAllArticles(articlesRepository, postExecutionThread)
     }
 
-    @Test
-    fun `confirm that calling getProjects completes`() {
-        stubGetArticles(Observable.just(ArticleDataFactory.makeArticlesList(2)))
-        val testObserver = getArticles.buildUseCaseObservable(GetAllArticles.Params.make(
-            any(),
-            any())).test()
-        testObserver.assertComplete()
-    }
 
     @Test
-    fun `confirm that calling getProjects returns data`() {
+    fun `confirm that calling getArticles returns data`() = runBlockingTest{
         val list = ArticleDataFactory.makeArticlesList(10)
-        stubGetArticles(Observable.just(list))
-        val testObserver = getArticles.buildUseCaseObservable(GetAllArticles.Params.make(any(), any())).test()
-        testObserver.assertValue(list)
+        stubGetArticles(flow {
+            emit(list)
+        })
+        val result = getArticles.build(GetAllArticles.Params.make(randomBuild(), randomBuild())).first()
+        assertThat(result, `is`((equalTo(list))))
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `confirm that using getProjects with params throws an exception`() {
+    fun `confirm that using getArticles with params throws an exception`() = runBlockingTest {
         val projects = ArticleDataFactory.makeArticlesList(10)
-        stubGetArticles(Observable.just(projects))
-        val testObserver = getArticles.buildUseCaseObservable().test()
-        testObserver.assertValue(projects)
+        stubGetArticles(flow {
+            emit(projects)
+        })
+        val result = getArticles.build().first()
+        assertThat(result, `is`((instanceOf(IllegalStateException::class.java))))
     }
 
-    private fun stubGetArticles(observable: Observable<List<Article>>) {
-        whenever(articlesRepository.getArticles(any(), any()))
-            .thenReturn(observable)
+    private fun stubGetArticles(flow: Flow<List<Article>>) {
+        every {
+            articlesRepository.getArticles(any(), any())
+        } returns flow
     }
 
 }

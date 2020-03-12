@@ -17,5 +17,5 @@ dependencies {
 
     testImplementation (TestDependencies.KONVEYOR)
     testImplementation (TestDependencies.JUNIT)
-    testImplementation (TestDependencies.MOCKITO)
+    testImplementation (TestDependencies.MOCKK)
 }

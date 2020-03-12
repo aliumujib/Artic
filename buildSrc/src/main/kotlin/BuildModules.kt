@@ -27,6 +27,6 @@ object BuildModules {
         const val CACHE = ":libraries:cache"
         const val REMOTE = ":libraries:remote"
 
-        const val TEST_UTILS = ":libraries:test_utils"
+        const val TEST_UTILS = ":libraries:testutilities"
     }
 }

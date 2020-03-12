@@ -4,58 +4,64 @@ import com.aliumujib.artic.domain.executor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Category
 import com.aliumujib.artic.domain.repositories.categories.ICategoriesRepository
 import com.aliumujib.artic.domain.test.ArticleDataFactory
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Observable
+import com.aliumujib.artic.domain.test.TestPostExecutionThreadImpl
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import konveyor.base.randomBuild
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
+
 class GetAllCategoriesTest {
 
     private lateinit var getCategories: GetAllCategories
-    @Mock
+    @MockK
     lateinit var categoriesRepository: ICategoriesRepository
-    @Mock
-    lateinit var postExecutionThread: PostExecutionThread
+    private val postExecutionThread: PostExecutionThread = TestPostExecutionThreadImpl()
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         getCategories = GetAllCategories(categoriesRepository, postExecutionThread)
     }
 
-    @Test
-    fun `confirm that calling getProjects completes`() {
-        stubGetCategories(Observable.just(ArticleDataFactory.makeCategoryList(2)))
-        val testObserver = getCategories.buildUseCaseObservable(GetAllCategories.Params.make(
-            any())).test()
-        testObserver.assertComplete()
-    }
 
     @Test
-    fun `confirm that calling getProjects returns data`() {
+    fun `confirm that calling getProjects returns data`() = runBlockingTest {
         val list = ArticleDataFactory.makeCategoryList(10)
-        stubGetCategories(Observable.just(list))
-        val testObserver = getCategories.buildUseCaseObservable(GetAllCategories.Params.make(any())).test()
-        testObserver.assertValue(list)
+        stubGetCategories(flow {
+            emit(list)
+        })
+
+        val result = getCategories.build(GetAllCategories.Params.make(randomBuild())).first()
+        assertThat(result, `is`((equalTo(list))))
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `confirm that using getProjects with params throws an exception`() {
-        val projects = ArticleDataFactory.makeCategoryList(10)
-        stubGetCategories(Observable.just(projects))
-        val testObserver = getCategories.buildUseCaseObservable().test()
-        testObserver.assertValue(projects)
+    fun `confirm that using getProjects with params throws an exception`() = runBlockingTest {
+        val list = ArticleDataFactory.makeCategoryList(10)
+
+        stubGetCategories(flow {
+            emit(list)
+        })
+
+        val result = getCategories.build().first()
+        assertThat(result, `is`((instanceOf(IllegalStateException::class.java))))
     }
 
-    private fun stubGetCategories(observable: Observable<List<Category>>) {
-        whenever(categoriesRepository.getCategories(any()))
-            .thenReturn(observable)
+    private fun stubGetCategories(flow: Flow<List<Category>>) {
+        every {
+            categoriesRepository.getCategories(any())
+        } returns flow
     }
 
 }

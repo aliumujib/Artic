@@ -12,6 +12,7 @@ import extensions.addTestsDependencies
 import extensions.implementation
 import extensions.testImplementation
 import extensions.kapt
+import gradle.kotlin.dsl.accessors._eb3fa7792a1da1c6feddbc49bdf98dc7.testImplementation
 
 plugins {
     id("com.android.library")
@@ -71,5 +72,6 @@ dependencies {
 
     kapt(AnnotationProcessorsDependencies.DAGGER)
 
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
     addTestsDependencies()
 }
