@@ -19,4 +19,6 @@ class DetailsFragment : Fragment() {
 
     }
 
+
+
 }

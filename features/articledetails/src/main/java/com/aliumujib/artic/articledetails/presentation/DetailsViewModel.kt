@@ -1,4 +1,4 @@
-package com.aliumujib.artic.articledetails.details
+package com.aliumujib.artic.articledetails.presentation
 
 import androidx.lifecycle.ViewModel;
 

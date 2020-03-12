@@ -12,6 +12,7 @@ import com.aliumujib.artic.views.ext.viewModel
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 
 /**
  * Class that contributes to the object graph [CategoryListComponent].
@@ -56,6 +57,6 @@ class CategoryListModule(
      */
     @FeatureScope
     @Provides
-    fun providesCategoryListAdapter() = CategoryListAdapter()
+    fun providesCategoryListAdapter() = CategoryListAdapter(ConflatedBroadcastChannel())
 
 }

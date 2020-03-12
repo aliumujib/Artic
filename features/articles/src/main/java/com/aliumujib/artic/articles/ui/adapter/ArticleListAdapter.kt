@@ -18,18 +18,29 @@ import com.aliumujib.artic.articles.models.ArticleUIModel
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.iconandtitle.IconAndTitleView
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapMerge
+import kotlinx.coroutines.flow.onEach
+import reactivecircus.flowbinding.android.view.clicks
 import timber.log.Timber
 
 
-class ArticleListAdapter : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
+class ArticleListAdapter(private val articleClicks: ConflatedBroadcastChannel<ArticleUIModel>) :
+    ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
 
     private var listState: ListState? = null
     private var viewType: LAYOUT = LAYOUT.GRID
 
+    fun clicks(): Flow<ArticleUIModel> {
+        return articleClicks.asFlow()
+    }
+
     sealed class ListState(val error: Throwable?) {
         object Loading : ListState(null)
         object Idle : ListState(null)
-        data class Error (val throwable: Throwable) : ListState(throwable)
+        data class Error(val throwable: Throwable) : ListState(throwable)
     }
 
     enum class LAYOUT(val value: Int) {
@@ -43,13 +54,13 @@ class ArticleListAdapter : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(
             LAYOUT.GRID.value -> {
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.article_item_grid, parent, false)
-                ArticleViewHolder(view)
+                ArticleViewHolder(view, articleClicks)
             }
             LAYOUT.LIST.value -> {
                 val view =
                     LayoutInflater.from(parent.context)
                         .inflate(R.layout.article_item_list, parent, false)
-                ArticleViewHolder(view)
+                ArticleViewHolder(view, articleClicks)
             }
             else -> {
                 val inflater = LayoutInflater.from(parent.context)
@@ -94,7 +105,7 @@ class ArticleListAdapter : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(
     }
 
 
-     fun isLoadingNextPage() = listState != null && listState != ListState.Idle
+    fun isLoadingNextPage() = listState != null && listState != ListState.Idle
 
     fun setListState(newListState: ListState?) {
         val previousState = this.listState
@@ -113,13 +124,12 @@ class ArticleListAdapter : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(
     }
 
 
-
     override fun getItemCount(): Int {
         return super.getItemCount() + if (isLoadingNextPage()) 1 else 0
     }
 
 
-    class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ArticleViewHolder(itemView: View, var articleClicks: ConflatedBroadcastChannel<ArticleUIModel>) : RecyclerView.ViewHolder(itemView) {
         private val articleImage = itemView.findViewById<ImageView>(R.id.article_image)
         private val articleCategory = itemView.findViewById<TextView>(R.id.article_category)
         private val articleTitle = itemView.findViewById<TextView>(R.id.article_title)
@@ -129,6 +139,9 @@ class ArticleListAdapter : ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(
 
 
         fun bind(model: ArticleUIModel) {
+            this.articleImage.setOnClickListener {
+                articleClicks.offer(model)
+            }
             this.articleCategory.text = model.categories.firstOrNull()?.title
             this.articleTitle.text = model.title_plain
             this.articleDateTimePublish.text = model.date.toString()

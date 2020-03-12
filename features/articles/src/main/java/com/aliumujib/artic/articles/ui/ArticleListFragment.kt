@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
@@ -58,6 +59,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         return _binding!!.root
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         initDependencyInjection()
@@ -81,6 +83,10 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
         initializeViews()
 
+        observeStates()
+    }
+
+    private fun observeStates() {
         viewModel.states()
             .onEach {
                 render(it)
@@ -102,6 +108,9 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             adapter = articlesAdapter
         }
 
+        articlesAdapter.clicks().onEach {
+            findNavController().navigate(ArticleListFragmentDirections.actionArticleListFragmentToNavDetails())
+        }.launchIn(lifecycleScope)
     }
 
     private fun loadMoreIntent(): Flow<ArticleListIntent> {

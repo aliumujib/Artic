@@ -11,6 +11,7 @@ import dagger.Provides
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
 import com.aliumujib.artic.views.ext.viewModel
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 
 /**
  * Class that contributes to the object graph [ArticleListComponent].
@@ -54,6 +55,6 @@ class ArticleListModule(
      */
     @FeatureScope
     @Provides
-    fun providesArticleListAdapter() = ArticleListAdapter()
+    fun providesArticleListAdapter() = ArticleListAdapter(ConflatedBroadcastChannel())
 
 }

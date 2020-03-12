@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aliumujib.artic.articles.models.CategoryUIModel
 import com.aliumujib.artic.articles.models.CategoryUIModelMapper
@@ -29,6 +30,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
+import com.aliumujib.artic.categories.ui.CategoryListFragmentDirections
 
 @ExperimentalCoroutinesApi
 class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryListViewState> {
@@ -97,6 +99,10 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
             layoutManager = linearLayoutManager
             adapter = categoryListAdapter
         }
+
+        categoryListAdapter.categoryClicks().onEach {
+
+        }.launchIn(lifecycleScope)
     }
 
 
