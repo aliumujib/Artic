@@ -7,16 +7,23 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aliumujib.artic.articles.models.CategoryUIModel
 import com.aliumujib.artic.categories.databinding.CategoryListItemBinding
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
 
-class CategoryListAdapter @Inject constructor() :
+class CategoryListAdapter @Inject constructor(private val conflatedBroadcastChannel: ConflatedBroadcastChannel<CategoryUIModel>) :
     ListAdapter<CategoryUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
             CategoryListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CategoryViewHolder(binding)
+        return CategoryViewHolder(binding, conflatedBroadcastChannel)
+    }
+
+    fun categoryClicks(): Flow<CategoryUIModel> {
+        return conflatedBroadcastChannel.asFlow()
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -24,10 +31,13 @@ class CategoryListAdapter @Inject constructor() :
     }
 
 
-    class CategoryViewHolder(private val binding: CategoryListItemBinding) :
+    class CategoryViewHolder(private val binding: CategoryListItemBinding, private val conflatedBroadcastChannel: ConflatedBroadcastChannel<CategoryUIModel>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model: CategoryUIModel) {
+            itemView.setOnClickListener {
+                conflatedBroadcastChannel.offer(model)
+            }
             binding.categoryName.text = model.title
             binding.categoryCount.text = model.postCount.toString()
         }

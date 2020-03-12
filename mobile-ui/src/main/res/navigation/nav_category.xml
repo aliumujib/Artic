@@ -12,7 +12,11 @@
         android:label="Categories"
         tools:layout="@layout/article_list_fragment">
 
+        <action
+            android:id="@+id/action_categoryListFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/detailsFragment"
         app:moduleName="articledetails"

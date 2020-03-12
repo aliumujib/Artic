@@ -11,16 +11,14 @@
         android:label="Articles"
         app:moduleName="articles"
         tools:layout="@layout/article_list_fragment">
+
         <action
-            android:id="@+id/action_articleListFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            android:id="@+id/action_articleListFragment_to_nav_details"
+            app:destination="@id/nav_details" />
+
     </fragment>
 
-    <fragment
-        android:id="@+id/detailsFragment"
-        app:moduleName="articledetails"
-        android:name="com.aliumujib.artic.articledetails.details.DetailsFragment"
-        android:label="Details"
-        tools:layout="@layout/details_fragment" />
+    <include app:graph="@navigation/nav_details" />
+
 
 </navigation>
