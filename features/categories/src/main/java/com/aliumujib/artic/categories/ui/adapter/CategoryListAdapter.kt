@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.aliumujib.artic.articles.models.CategoryUIModel
+import com.aliumujib.artic.views.models.CategoryUIModel
 import com.aliumujib.artic.categories.databinding.CategoryListItemBinding
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.Flow

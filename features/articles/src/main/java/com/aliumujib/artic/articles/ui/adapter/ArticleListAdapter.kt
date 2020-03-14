@@ -14,13 +14,10 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articles.R
 import com.aliumujib.artic.articles.databinding.LoadingItemBinding
-import com.aliumujib.artic.articles.models.ArticleUIModel
+import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.iconandtitle.IconAndTitleView
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.*
-import reactivecircus.flowbinding.android.view.clicks
 import timber.log.Timber
 
 

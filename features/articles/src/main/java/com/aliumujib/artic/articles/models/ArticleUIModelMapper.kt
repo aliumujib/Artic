@@ -1,7 +1,8 @@
 package com.aliumujib.artic.articles.models
 
 import com.aliumujib.artic.domain.models.Article
-import com.aliumujib.artic.domain.models.Author
+import com.aliumujib.artic.views.models.ArticleUIModel
+import com.aliumujib.artic.views.models.mappers.UIModelMapper
 import javax.inject.Inject
 
 class ArticleUIModelMapper @Inject constructor(

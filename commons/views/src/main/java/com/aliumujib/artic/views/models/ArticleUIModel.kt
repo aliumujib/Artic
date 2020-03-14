@@ -1,4 +1,4 @@
-package com.aliumujib.artic.articles.models
+package com.aliumujib.artic.views.models
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
