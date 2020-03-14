@@ -41,6 +41,7 @@ object Dependencies {
     const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${BuildDependenciesVersions.NAVIGATION}"
     const val NAVIGATION_DFM = "androidx.navigation:navigation-dynamic-features-fragment:${BuildDependenciesVersions.NAVIGATION}"
     const val SHIMMER = "com.facebook.shimmer:shimmer:${BuildDependenciesVersions.SHIMMER}@aar"
+    const val HTML_TEXT_VIEW = "org.sufficientlysecure:html-textview:${BuildDependenciesVersions.HTML_TEXTVIEW}"
 
 
     const val LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${BuildDependenciesVersions.LIFECYCLE}"

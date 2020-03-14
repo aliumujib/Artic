@@ -1,4 +1,5 @@
 import extensions.implementation
+import dependencies.Dependencies
 
 plugins {
     id("commons.android-dynamic-feature")
@@ -7,4 +8,5 @@ plugins {
 
 dependencies{
     implementation (project(BuildModules.Features.ARTICLES))
+    implementation (Dependencies.HTML_TEXT_VIEW)
 }

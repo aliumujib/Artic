@@ -14,9 +14,9 @@
         android:background="@drawable/toolbar_background"
         android:paddingStart="@dimen/standard_margin"
         android:paddingEnd="@dimen/standard_margin"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        app:contentInsetStartWithNavigation="0dp"
+        app:contentInsetLeft="@dimen/four_space"
+        app:contentInsetStart="@dimen/four_space"
+        app:contentInsetStartWithNavigation="@dimen/two_space"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     <androidx.fragment.app.FragmentContainerView

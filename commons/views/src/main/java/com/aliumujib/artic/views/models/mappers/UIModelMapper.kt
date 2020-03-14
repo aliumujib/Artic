@@ -1,4 +1,4 @@
-package com.aliumujib.artic.articles.models
+package com.aliumujib.artic.views.models.mappers
 
 abstract class UIModelMapper<D, U> {
 

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
 import com.aliumujib.artic.articles.di.ArticleListModule
 import com.aliumujib.artic.articles.di.DaggerArticleListComponent
-import com.aliumujib.artic.articles.models.ArticleUIModel
+import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.articles.presentation.ArticleListIntent
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
@@ -50,8 +50,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     @Inject
     lateinit var articleUIModelMapper: ArticleUIModelMapper
 
-    private var _binding: ArticleListFragmentBinding? = null
-    private val binding get() = _binding!!
+    private var _binding by autoDispose<ArticleListFragmentBinding>()
+    private val binding get() = _binding
 
     private val _loadInitialIntent = BroadcastChannel<ArticleListIntent>(1)
     private val loadInitialIntent = _loadInitialIntent.asFlow().take(1)
@@ -61,7 +61,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = ArticleListFragmentBinding.inflate(inflater, container, false)
-        return _binding!!.root
+        return _binding.root
     }
 
 
@@ -225,7 +225,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun invoke(articleUIModel: ArticleUIModel) {
-        findNavController().navigate(ArticleListFragmentDirections.actionArticleListFragmentToNavDetails())
+        findNavController().navigate(ArticleListFragmentDirections.actionArticleListFragmentToNavDetails(articleUIModel))
     }
 
 

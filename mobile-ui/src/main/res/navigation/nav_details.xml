@@ -9,7 +9,12 @@
         android:id="@+id/detailsFragment"
         app:moduleName="articledetails"
         android:name="com.aliumujib.artic.articledetails.details.DetailsFragment"
-        android:label="details_fragment"
-        tools:layout="@layout/details_fragment" />
+        android:label="@string/article_details"
+        tools:layout="@layout/details_fragment" >
+        <argument android:name="article"
+            app:nullable="false"
+            app:argType="com.aliumujib.artic.views.models.ArticleUIModel"
+            />
+    </fragment>
 
 </navigation>

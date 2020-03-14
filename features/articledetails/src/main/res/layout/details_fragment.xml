@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.articledetail.DetailsFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/two_space"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/article_category_names"
+        tools:text="MONEY"
+        android:textColor="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/red" />
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+    <TextView
+        app:layout_constraintStart_toStartOf="@+id/article_category_names"
+        app:layout_constraintTop_toBottomOf="@id/article_category_names"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/article_name"
+        android:layout_marginTop="@dimen/one_space"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        tools:text="How i made $200,000 when i was 16 years old."
+        android:textColor="@color/black"
+        android:gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/one_space"
+        tools:text="12:32pm"
+        app:layout_constraintStart_toStartOf="@+id/article_name"
+        app:layout_constraintTop_toBottomOf="@id/article_name"
+        android:id="@+id/article_date_time_publish"
+        android:layout_height="wrap_content"/>
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:src="@color/black"
+        android:id="@+id/article_image"
+        android:layout_marginTop="@dimen/one_space"
+        app:layout_constraintTop_toBottomOf="@+id/article_date_time_publish"
+        android:layout_height="200dp"/>
+
+    <org.sufficientlysecure.htmltextview.HtmlTextView
+        android:id="@+id/html_text"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/one_space"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/article_image"
+        android:layout_height="0dp"
+        android:textAppearance="@android:style/TextAppearance.Small" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

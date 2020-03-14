@@ -18,5 +18,6 @@
     <string name="menu_about">About</string>
     <string name="action_search">Search</string>
     <string name="nav_header_desc">Navigation drawer.</string>
+    <string name="article_details">Article Details</string>
 
 </resources>
