@@ -55,6 +55,6 @@ class ArticleListModule(
      */
     @FeatureScope
     @Provides
-    fun providesArticleListAdapter() = ArticleListAdapter(ConflatedBroadcastChannel())
+    fun providesArticleListAdapter() = ArticleListAdapter(fragment)
 
 }

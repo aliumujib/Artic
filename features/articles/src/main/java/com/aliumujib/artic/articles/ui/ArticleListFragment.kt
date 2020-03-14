@@ -19,22 +19,27 @@ import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.articles.presentation.ArticleListIntent
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
 import com.aliumujib.artic.articles.presentation.ArticleListViewState
+import com.aliumujib.artic.articles.ui.adapter.ArticleClickListener
 import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
 import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecoration
-import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
+import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
+import timber.log.Timber
 import javax.inject.Inject
 
 
 @ExperimentalCoroutinesApi
-class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListViewState> {
+class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListViewState>,
+    ArticleClickListener {
 
     @Inject
     lateinit var viewModel: ArticleListViewModel
@@ -48,7 +53,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private var _binding: ArticleListFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val _loadInitialIntent = ConflatedBroadcastChannel<ArticleListIntent>()
+    private val _loadInitialIntent = BroadcastChannel<ArticleListIntent>(1)
     private val loadInitialIntent = _loadInitialIntent.asFlow().take(1)
     //Is this really the best [BroadcastChannel] to use here? TODO replace with https://github.com/Kotlin/kotlinx.coroutines/pull/1354 as soon as its out
 
@@ -68,13 +73,20 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.processActions()
-        _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        lifecycleScope.launch {
+            _loadInitialIntent.consumeEach {
+                Timber.d("New intent from activity: $it")
+            }
+        }
+
         viewModel.processIntent(intents())
+        _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
+
     }
 
 
@@ -107,15 +119,11 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             layoutManager = staggeredGridLayoutManager
             adapter = articlesAdapter
         }
-
-        articlesAdapter.clicks().onEach {
-            findNavController().navigate(ArticleListFragmentDirections.actionArticleListFragmentToNavDetails())
-        }.launchIn(lifecycleScope)
     }
 
     private fun loadMoreIntent(): Flow<ArticleListIntent> {
         return binding.articles.scrollStateChanges()
-            .filter { _ -> !articlesAdapter.isLoadingNextPage() }
+            .filter { _ -> !articlesAdapter.isLoadingNextPage() } //only runs when adapter is NOT loading
             .filter { event -> event == RecyclerView.SCROLL_STATE_IDLE }
             .filter { _ -> binding.articles.isLastItemDisplaying() }
             .map {
@@ -124,25 +132,15 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     private fun loadInitialIntent(): Flow<ArticleListIntent> {
-        return loadInitialIntent
+        return loadInitialIntent.filter { articlesAdapter.isEmpty() } //only runs when adapter is empty
     }
 
 
     override fun render(state: ArticleListViewState) {
         when {
-            !state.isLoading && (state.error == null) -> presentSuccessState(
-                articleUIModelMapper.mapToUIList(
-                    state.data
-                )
-            )
-            state.error != null -> presentErrorState(
-                state.error,
-                state.isLoadingMore
-            )
-            state.isLoading -> presentLoadingState(
-                state.isGrid,
-                state.isLoadingMore
-            )
+            !state.isLoading && (state.error == null) -> presentSuccessState(articleUIModelMapper.mapToUIList(state.data))
+            state.error != null -> presentErrorState(state.error, state.isLoadingMore)
+            state.isLoading -> presentLoadingState(state.isGrid, state.isLoadingMore)
         }
     }
 
@@ -219,11 +217,15 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun intents(): Flow<ArticleListIntent> {
-        return loadInitialIntent().mergeWith(loadMoreIntent())
+        return merge(loadMoreIntent(), loadInitialIntent())
             .onEach {
                 delay(500)
             }
             .conflate()
+    }
+
+    override fun invoke(articleUIModel: ArticleUIModel) {
+        findNavController().navigate(ArticleListFragmentDirections.actionArticleListFragmentToNavDetails())
     }
 
 

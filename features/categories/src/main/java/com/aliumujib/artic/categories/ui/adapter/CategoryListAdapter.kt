@@ -22,6 +22,8 @@ class CategoryListAdapter @Inject constructor(private val conflatedBroadcastChan
         return CategoryViewHolder(binding, conflatedBroadcastChannel)
     }
 
+    fun isEmpty() = super.getItemCount()  == 0
+
     fun categoryClicks(): Flow<CategoryUIModel> {
         return conflatedBroadcastChannel.asFlow()
     }
