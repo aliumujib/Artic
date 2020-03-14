@@ -24,8 +24,7 @@ class CategoryListViewModel(
     private var statesFlow = _statesBroadcastChannel.asFlow()
 
 
-    fun processActions() {
-
+    init {
         actionsFlow.flatMapMerge {
             categoryListActionProcessor.actionToResultTransformer(it)
         }

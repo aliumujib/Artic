@@ -1,7 +1,6 @@
 package com.aliumujib.artic.articles.presentation
 
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
-import com.aliumujib.artic.views.ext.merge
 import com.aliumujib.artic.views.ext.ofType
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -37,11 +36,9 @@ class ArticleListActionProcessor @Inject constructor(
 
     fun actionToResultTransformer(actionsFlow: Flow<ArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge {
-            loadArticleListResult(actionsFlow.ofType(ArticleListAction.LoadArticleListAction::class.java))
-                .merge(
-                    pullToRefreshResult(actionsFlow.ofType(ArticleListAction.RefreshArticleListAction::class.java)),
-                    loadAnotherArticleListResult(actionsFlow.ofType(ArticleListAction.FetchMoreArticleListAction::class.java))
-                )
+            merge(loadArticleListResult(actionsFlow.ofType(ArticleListAction.LoadArticleListAction::class.java)),
+                pullToRefreshResult(actionsFlow.ofType(ArticleListAction.RefreshArticleListAction::class.java)),
+                loadAnotherArticleListResult(actionsFlow.ofType(ArticleListAction.FetchMoreArticleListAction::class.java)))
         }
     }
 

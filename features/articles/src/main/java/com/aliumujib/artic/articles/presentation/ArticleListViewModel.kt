@@ -6,6 +6,7 @@ import com.aliumujib.artic.views.ext.holdOn
 import com.aliumujib.artic.views.mvi.MVIViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -19,15 +20,18 @@ class ArticleListViewModel(
 
     private var currentPageNumber = 1
 
-    private var _actionBroadcastChannel = ConflatedBroadcastChannel<ArticleListAction>()
+    private var _actionBroadcastChannel = BroadcastChannel<ArticleListAction>(30)
     private var actionsFlow = _actionBroadcastChannel.asFlow()
 
     private var _statesBroadcastChannel = ConflatedBroadcastChannel<ArticleListViewState>()
     private var statesFlow = _statesBroadcastChannel.asFlow()
 
 
-    fun processActions() {
+    init {
+        _actionBroadcastChannel.offer(ArticleListAction.LoadArticleListAction(true, 1))
+    }
 
+    fun processActions() {
         actionsFlow.flatMapMerge {
             articleListActionProcessor.actionToResultTransformer(it)
         }.onEach { result: ArticleListResult ->
@@ -56,7 +60,7 @@ class ArticleListViewModel(
 
     override fun processIntent(intents: Flow<ArticleListIntent>) {
         intents.onEach {
-            Timber.v("New Intent: ${it::class.java.simpleName}")
+            Timber.v("New intent in vm: ${it::class.java.simpleName}")
             onAction(actionFromIntent(it))
         }.launchIn(viewModelScope)
     }

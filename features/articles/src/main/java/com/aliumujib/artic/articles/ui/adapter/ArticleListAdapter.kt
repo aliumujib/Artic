@@ -19,23 +19,17 @@ import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.iconandtitle.IconAndTitleView
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.flatMapMerge
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import reactivecircus.flowbinding.android.view.clicks
 import timber.log.Timber
 
 
-class ArticleListAdapter(private val articleClicks: ConflatedBroadcastChannel<ArticleUIModel>) :
+class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
     ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
 
     private var listState: ListState? = null
     private var viewType: LAYOUT = LAYOUT.GRID
 
-    fun clicks(): Flow<ArticleUIModel> {
-        return articleClicks.asFlow()
-    }
 
     sealed class ListState(val error: Throwable?) {
         object Loading : ListState(null)
@@ -107,6 +101,8 @@ class ArticleListAdapter(private val articleClicks: ConflatedBroadcastChannel<Ar
 
     fun isLoadingNextPage() = listState != null && listState != ListState.Idle
 
+    fun isEmpty() = super.getItemCount()  == 0
+
     fun setListState(newListState: ListState?) {
         val previousState = this.listState
         val hadExtraRow = isLoadingNextPage()
@@ -129,7 +125,7 @@ class ArticleListAdapter(private val articleClicks: ConflatedBroadcastChannel<Ar
     }
 
 
-    class ArticleViewHolder(itemView: View, var articleClicks: ConflatedBroadcastChannel<ArticleUIModel>) : RecyclerView.ViewHolder(itemView) {
+    class ArticleViewHolder(itemView: View, var articleClicks: ArticleClickListener) : RecyclerView.ViewHolder(itemView) {
         private val articleImage = itemView.findViewById<ImageView>(R.id.article_image)
         private val articleCategory = itemView.findViewById<TextView>(R.id.article_category)
         private val articleTitle = itemView.findViewById<TextView>(R.id.article_title)
@@ -140,7 +136,7 @@ class ArticleListAdapter(private val articleClicks: ConflatedBroadcastChannel<Ar
 
         fun bind(model: ArticleUIModel) {
             this.articleImage.setOnClickListener {
-                articleClicks.offer(model)
+                articleClicks.invoke(model)
             }
             this.articleCategory.text = model.categories.firstOrNull()?.title
             this.articleTitle.text = model.title_plain
