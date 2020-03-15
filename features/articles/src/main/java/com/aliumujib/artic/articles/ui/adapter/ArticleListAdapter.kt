@@ -137,7 +137,7 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
             }
             this.articleCategory.text = model.categories.firstOrNull()?.title
             this.articleTitle.text = model.title_plain
-            this.articleDateTimePublish.text = model.date.toString()
+            this.articleDateTimePublish.text = model.dateString
             this.articleImage.load(model.fullImageURL) {
                 transformations(RoundedCornersTransformation(6.0f, 6.0f, 0.0f, 0.0f))
                 //error(errorPlaceHolder)

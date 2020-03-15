@@ -17,14 +17,10 @@ sealed class ArticleDetailsResult : MVIResult {
         data class Error(val error: Throwable) : RefreshArticleDetailsResult()
     }
 
-    sealed class BookmarkArticleResult : ArticleDetailsResult() {
-        object Success : BookmarkArticleResult()
-        data class Error(val error: Throwable) : BookmarkArticleResult()
+    sealed class SetBookmarkStatusResult : ArticleDetailsResult() {
+        object Success : SetBookmarkStatusResult()
+        data class Error(val error: Throwable) : SetBookmarkStatusResult()
     }
 
-    sealed class UnBookmarkArticleResult : ArticleDetailsResult() {
-        object Success : UnBookmarkArticleResult()
-        data class Error(val error: Throwable) : UnBookmarkArticleResult()
-    }
 
 }

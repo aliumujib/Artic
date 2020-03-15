@@ -1,6 +1,7 @@
 package com.aliumujib.artic.data.repositories.articles.cache
 
 import com.aliumujib.artic.data.model.ArticleEntity
+import com.aliumujib.artic.domain.models.Article
 import kotlinx.coroutines.flow.Flow
 
 interface IArticlesCache  {
@@ -13,7 +14,7 @@ interface IArticlesCache  {
 
     fun getBookmarkedArticles(): Flow<List<ArticleEntity>>
 
-    suspend  fun setArticleAsBookmarked(articleId: Int)
+    suspend  fun setArticleAsBookmarked(article: ArticleEntity)
 
     suspend  fun setArticleAsNotBookmarked(articleId: Int)
 
@@ -22,4 +23,5 @@ interface IArticlesCache  {
     suspend fun setLastCacheTime(lastCache: Long)
 
     suspend fun isArticlesCacheExpired(): Boolean
+    suspend fun isCacheEmpty(): Boolean
 }

@@ -32,16 +32,40 @@ data class ArticleListViewState(
         return when (result) {
             is LoadArticleListResults -> {
                 when (result) {
-                    is LoadArticleListResults.Success -> previousState.copy(isLoading = false, isLoadingMore = false, data = result.data, error = null)
-                    is LoadArticleListResults.Error -> previousState.copy(error = result.error, isLoadingMore = true)
-                    is LoadArticleListResults.Loading -> previousState.copy(isLoading = true, isLoadingMore = false)
+                    is LoadArticleListResults.Success -> previousState.copy(
+                        isLoading = false,
+                        isLoadingMore = false,
+                        data = result.data,
+                        error = null
+                    )
+                    is LoadArticleListResults.Error -> previousState.copy(
+                        error = result.error,
+                        isLoadingMore = true
+                    )
+                    is LoadArticleListResults.Loading -> previousState.copy(
+                        isLoading = true,
+                        isLoadingMore = false,
+                        error = null
+                    )
                 }
             }
             is RefreshArticleListResults -> {
                 when (result) {
-                    is RefreshArticleListResults.Success ->  previousState.copy(isLoading = false, isLoadingMore = false, data = result.data, error = null)
-                    is RefreshArticleListResults.Error -> previousState.copy(error = result.error, isLoadingMore = true)
-                    is RefreshArticleListResults.Refreshing -> previousState.copy(isLoading = true, isLoadingMore = false)
+                    is RefreshArticleListResults.Success -> previousState.copy(
+                        isLoading = false,
+                        isLoadingMore = false,
+                        data = result.data,
+                        error = null
+                    )
+                    is RefreshArticleListResults.Error -> previousState.copy(
+                        error = result.error,
+                        isLoadingMore = true
+                    )
+                    is RefreshArticleListResults.Refreshing -> previousState.copy(
+                        isLoading = true,
+                        isLoadingMore = false,
+                        error = null
+                    )
                 }
             }
             is FetchMoreArticleListResults -> {
@@ -49,10 +73,32 @@ data class ArticleListViewState(
                     is FetchMoreArticleListResults.Success -> {
                         val newData = previousState.data as MutableList
                         newData.addAll(result.data)
-                        previousState.copy(isLoading = false, isLoadingMore = false, data = newData, error = null)
+                        previousState.copy(
+                            isLoading = false,
+                            isLoadingMore = false,
+                            data = newData,
+                            error = null
+                        )
                     }
-                    is FetchMoreArticleListResults.Error -> previousState.copy(error = result.error, isLoadingMore = true)
-                    is FetchMoreArticleListResults.Loading -> previousState.copy(isLoading = true, isLoadingMore = true)
+                    is FetchMoreArticleListResults.Error -> previousState.copy(
+                        error = result.error,
+                        isLoadingMore = true
+                    )
+                    is FetchMoreArticleListResults.Loading -> previousState.copy(
+                        isLoading = true,
+                        isLoadingMore = true,
+                        error = null
+                    )
+                }
+            }
+            is SetBookmarkStatusResults -> {
+                when (result) {
+                    SetBookmarkStatusResults.Success -> {
+                        previousState
+                    }
+                    is SetBookmarkStatusResults.Error -> {
+                        previousState
+                    }
                 }
             }
         }

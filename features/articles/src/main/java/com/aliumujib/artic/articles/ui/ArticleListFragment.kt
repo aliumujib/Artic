@@ -3,14 +3,17 @@ package com.aliumujib.artic.articles.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.aliumujib.artic.articles.R
 import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
 import com.aliumujib.artic.articles.di.ArticleListModule
 import com.aliumujib.artic.articles.di.DaggerArticleListComponent
@@ -25,15 +28,11 @@ import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
 import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecoration
-import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -72,13 +71,14 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.processActions()
+        setHasOptionsMenu(true)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.processIntent(intents())
-        _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
+        _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent)
 
     }
 
@@ -92,10 +92,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     private fun observeStates() {
-        viewModel.states()
-            .onEach {
-                render(it)
-            }.launchIn(lifecycleScope)
+        nonNullObserve(viewModel.states(), ::render)
     }
 
     private fun initializeViews() {
@@ -229,5 +226,18 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         )
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_home, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_search ->  // do stuff
+                return true
+            R.id.action_switch_mode ->  // do more stuff
+                return true
+        }
+        return false
+    }
 
 }

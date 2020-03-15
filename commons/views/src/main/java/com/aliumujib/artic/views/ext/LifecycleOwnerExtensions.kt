@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 
 /**
  * Adds the given observer to the observers list within the lifespan of the given
- * owner. The events are dispatched on the main thread. If LiveData already has data
+ * owner. The events are dispatched on the main_home thread. If LiveData already has data
  * set, it will be delivered to the observer.
  *
  * @param liveData The liveData to observe.
@@ -22,7 +22,7 @@ fun <T> LifecycleOwner.observe(liveData: LiveData<T>, observer: (T) -> Unit) {
 
 /**
  * Adds the given observer to the observers list within the lifespan of the given
- * owner. The events are dispatched on the main thread. If LiveData already has data
+ * owner. The events are dispatched on the main_home thread. If LiveData already has data
  * set, it will be delivered to the observer.
  *
  * @param liveData The mutableLiveData to observe.

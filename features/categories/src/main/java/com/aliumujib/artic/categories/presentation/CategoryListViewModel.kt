@@ -1,15 +1,13 @@
 package com.aliumujib.artic.categories.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewModelScope
-import com.aliumujib.artic.views.ext.holdOn
 import com.aliumujib.artic.views.mvi.MVIViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @ExperimentalCoroutinesApi
@@ -20,8 +18,8 @@ class CategoryListViewModel(
     private var _actionBroadcastChannel = ConflatedBroadcastChannel<CategoryListAction>()
     private var actionsFlow = _actionBroadcastChannel.asFlow()
 
-    private var _statesBroadcastChannel = ConflatedBroadcastChannel<CategoryListViewState>()
-    private var statesFlow = _statesBroadcastChannel.asFlow()
+    private var _states = MutableLiveData<CategoryListViewState>()
+    private var states:LiveData<CategoryListViewState> = _states
 
 
     init {
@@ -35,13 +33,13 @@ class CategoryListViewModel(
             .onStart { Timber.d("subscribed to states") }
             .onEach {
                 Timber.v("new view state with data size: ${it.data.size}")
-                _statesBroadcastChannel.offer(it)
+                _states.postValue(it)
             }.launchIn(viewModelScope)
     }
 
 
-    override fun states(): Flow<CategoryListViewState> {
-        return statesFlow
+    override fun states(): LiveData<CategoryListViewState> {
+        return states
     }
 
     override fun processIntent(intents: Flow<CategoryListIntent>) {

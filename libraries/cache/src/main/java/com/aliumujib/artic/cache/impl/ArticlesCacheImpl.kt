@@ -6,7 +6,7 @@ import com.aliumujib.artic.data.model.ArticleEntity
 import com.aliumujib.artic.data.repositories.articles.cache.IArticlesCache
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 class ArticlesCacheImpl @Inject constructor(
@@ -19,8 +19,13 @@ class ArticlesCacheImpl @Inject constructor(
         articlesDao.deleteAllArticles()
     }
 
+    override suspend fun isCacheEmpty() :Boolean{
+       return articlesDao.getAllCachedArticlesCount() == 0
+    }
+
     override suspend fun saveArticles(articles: List<ArticleEntity>) {
         articlesDao.insert(articleCacheModelMapper.mapToModelList(articles))
+        cacheTimeManager.saveLastCacheTime(System.currentTimeMillis())
     }
 
     override  fun getArticles(): Flow<List<ArticleEntity>> {
@@ -35,8 +40,8 @@ class ArticlesCacheImpl @Inject constructor(
         }
     }
 
-    override suspend fun setArticleAsBookmarked(articleId: Int) {
-        //articlesDao.insert(articleCacheModelMapper.mapToModel(article))
+    override suspend fun setArticleAsBookmarked(article: ArticleEntity) {
+        articlesDao.insert(articleCacheModelMapper.mapToModel(article))
     }
 
     override suspend fun setArticleAsNotBookmarked(articleId: Int) {

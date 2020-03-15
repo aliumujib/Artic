@@ -7,7 +7,6 @@ sealed class ArticleDetailsIntent : MVIIntent {
 
     data class LoadArticleDetailsIntent(val article: Article) : ArticleDetailsIntent()
     data class RefreshArticleDetailsIntent(val article: Article) : ArticleDetailsIntent()
-    data class BookmarkArticleIntent(val article: Article) : ArticleDetailsIntent()
-    data class UnBookmarkArticleIntent(val article: Article) : ArticleDetailsIntent()
+    data class SetArticleBookmarkStatusIntent(val article: Article, val isBookmarked :Boolean) : ArticleDetailsIntent()
 
 }

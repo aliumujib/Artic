@@ -1,10 +1,11 @@
 package com.aliumujib.artic.articledetails.presentation
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aliumujib.artic.views.mvi.MVIViewModel
 import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
 
 class ArticleDetailsViewModel(private val articleDetailActionProcessor: ArticleDetailActionProcessor) :
@@ -13,17 +14,14 @@ class ArticleDetailsViewModel(private val articleDetailActionProcessor: ArticleD
     private var _actionBroadcastChannel = BroadcastChannel<ArticleDetailsAction>(30)
     private var actionsFlow = _actionBroadcastChannel.asFlow()
 
-    private var _statesBroadcastChannel = ConflatedBroadcastChannel<ArticleDetailsViewState>()
-    private var statesFlow = _statesBroadcastChannel.asFlow()
+    private var _states = MutableLiveData<ArticleDetailsViewState>()
+    private var states:LiveData<ArticleDetailsViewState> = _states
 
 
     private fun actionFromIntent(intent: ArticleDetailsIntent): ArticleDetailsAction {
         return when (intent) {
-            is ArticleDetailsIntent.BookmarkArticleIntent -> ArticleDetailsAction.BookmarkArticleAction(
-                intent.article.id
-            )
-            is ArticleDetailsIntent.UnBookmarkArticleIntent -> ArticleDetailsAction.UnBookmarkArticleAction(
-                intent.article.id
+            is ArticleDetailsIntent.SetArticleBookmarkStatusIntent -> ArticleDetailsAction.BookmarkArticleAction(
+                intent.article, intent.isBookmarked
             )
             is ArticleDetailsIntent.RefreshArticleDetailsIntent -> {
                 ArticleDetailsAction.RefreshArticleDetailsAction(intent.article.id)
@@ -43,7 +41,7 @@ class ArticleDetailsViewModel(private val articleDetailActionProcessor: ArticleD
             }
             .distinctUntilChanged()
             .onEach {
-                _statesBroadcastChannel.offer(it)
+                _states.postValue(it)
             }.launchIn(viewModelScope)
     }
 
@@ -55,8 +53,8 @@ class ArticleDetailsViewModel(private val articleDetailActionProcessor: ArticleD
         }.launchIn(viewModelScope)
     }
 
-    override fun states(): Flow<ArticleDetailsViewState> {
-        return statesFlow
+    override fun states(): LiveData<ArticleDetailsViewState> {
+        return states
     }
 
 

@@ -14,9 +14,9 @@ import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
 
-class BookmarkArticleTest {
+class SetArticleBookmarkStatusTest {
 
-    private lateinit var bookmarkArticle: BookmarkArticle
+    private lateinit var setArticleBookmarkStatus: SetArticleBookmarkStatus
     @MockK(relaxed = true)
     lateinit var articlesRepository: IArticlesRepository
 
@@ -25,14 +25,14 @@ class BookmarkArticleTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        bookmarkArticle = BookmarkArticle(articlesRepository, postExecutionThread)
+        setArticleBookmarkStatus = SetArticleBookmarkStatus(articlesRepository, postExecutionThread)
     }
 
 
     @Test
     fun `test that calling bookmarkArticle completes`() = runBlockingTest {
             stubBookmarkOperation()
-            val result = bookmarkArticle.invoke(BookmarkArticle.Params(randomBuild()))
+            val result = setArticleBookmarkStatus.invoke(SetArticleBookmarkStatus.Params(randomBuild()))
             MatcherAssert.assertThat(result, `is`((instanceOf(Unit::class.java))))
     }
 
@@ -40,7 +40,7 @@ class BookmarkArticleTest {
     @Test(expected = IllegalStateException::class)
     fun `test that calling bookmarkArticle without params throws an exception`() = runBlockingTest {
         stubBookmarkOperation()
-        val result = bookmarkArticle.invoke()
+        val result = setArticleBookmarkStatus.invoke()
         MatcherAssert.assertThat(result, `is`((instanceOf(IllegalStateException::class.java))))
     }
 

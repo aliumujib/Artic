@@ -3,4 +3,5 @@
     <string name="no_articles_to_show">There are no articles to display.</string>
     <string name="there_was_an_error">An error occured while we performed your request.</string>
     <string name="retry">Retry</string>
+    <string name="action_switch">Switch Mode</string>
 </resources>

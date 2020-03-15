@@ -15,7 +15,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 
-class UnBookmarkArticleTest {
+class UnSetArticleBookmarkStatusTest {
 
     private lateinit var unBookmarkArticle: UnBookmarkArticle
     @MockK(relaxed = true)

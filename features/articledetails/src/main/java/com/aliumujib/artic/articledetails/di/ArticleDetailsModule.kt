@@ -5,14 +5,10 @@ import androidx.annotation.VisibleForTesting.PRIVATE
 import com.aliumujib.artic.articledetails.details.ArticleDetailsFragment
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailActionProcessor
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsViewModel
-import com.aliumujib.artic.articles.ui.ArticleListFragment
-import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
-import com.aliumujib.artic.articles.presentation.ArticleListActionProcessor
 import com.aliumujib.artic.di.scopes.FeatureScope
-import com.aliumujib.artic.domain.usecases.articles.BookmarkArticle
+import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
 import dagger.Module
 import dagger.Provides
-import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
 import com.aliumujib.artic.domain.usecases.articles.GetArticleDetails
 import com.aliumujib.artic.domain.usecases.articles.UnBookmarkArticle
 import com.aliumujib.artic.views.ext.viewModel
@@ -46,9 +42,8 @@ class ArticleDetailsModule(
     @FeatureScope
     @Provides
     fun providesArticleDetailActionProcessor(
-        unBookmarkArticle: UnBookmarkArticle,
-        bookmarkArticle: BookmarkArticle,
+        setArticleBookmarkStatus: SetArticleBookmarkStatus,
         getArticleDetails: GetArticleDetails
-    ) = ArticleDetailActionProcessor(unBookmarkArticle, bookmarkArticle, getArticleDetails)
+    ) = ArticleDetailActionProcessor(setArticleBookmarkStatus, getArticleDetails)
 
 }
