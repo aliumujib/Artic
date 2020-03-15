@@ -35,8 +35,8 @@ class ArticlesCacheImpl @Inject constructor(
         }
     }
 
-    override suspend fun setArticleAsBookmarked(article: ArticleEntity) {
-        articlesDao.insert(articleCacheModelMapper.mapToModel(article))
+    override suspend fun setArticleAsBookmarked(articleId: Int) {
+        //articlesDao.insert(articleCacheModelMapper.mapToModel(article))
     }
 
     override suspend fun setArticleAsNotBookmarked(articleId: Int) {

@@ -50,12 +50,12 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     @Inject
     lateinit var articleUIModelMapper: ArticleUIModelMapper
 
-    private var _binding by autoDispose<ArticleListFragmentBinding>()
+    private lateinit var _binding: ArticleListFragmentBinding
     private val binding get() = _binding
 
     private val _loadInitialIntent = BroadcastChannel<ArticleListIntent>(1)
     private val loadInitialIntent = _loadInitialIntent.asFlow().take(1)
-    //Is this really the best [BroadcastChannel] to use here? TODO replace with https://github.com/Kotlin/kotlinx.coroutines/pull/1354 as soon as its out
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -63,7 +63,6 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         _binding = ArticleListFragmentBinding.inflate(inflater, container, false)
         return _binding.root
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -77,12 +76,6 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        lifecycleScope.launch {
-            _loadInitialIntent.consumeEach {
-                Timber.d("New intent from activity: $it")
-            }
-        }
 
         viewModel.processIntent(intents())
         _loadInitialIntent.offer(ArticleListIntent.LoadArticleListIntent(true))
@@ -138,7 +131,11 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     override fun render(state: ArticleListViewState) {
         when {
-            !state.isLoading && (state.error == null) -> presentSuccessState(articleUIModelMapper.mapToUIList(state.data))
+            !state.isLoading && (state.error == null) -> presentSuccessState(
+                articleUIModelMapper.mapToUIList(
+                    state.data
+                )
+            )
             state.error != null -> presentErrorState(state.error, state.isLoadingMore)
             state.isLoading -> presentLoadingState(state.isGrid, state.isLoadingMore)
         }
@@ -225,7 +222,11 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun invoke(articleUIModel: ArticleUIModel) {
-        findNavController().navigate(ArticleListFragmentDirections.actionArticleListFragmentToNavDetails(articleUIModel))
+        findNavController().navigate(
+            ArticleListFragmentDirections.actionArticleListFragmentToNavDetails(
+                articleUIModel
+            )
+        )
     }
 
 

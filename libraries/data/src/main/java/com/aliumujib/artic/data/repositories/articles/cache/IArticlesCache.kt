@@ -13,7 +13,7 @@ interface IArticlesCache  {
 
     fun getBookmarkedArticles(): Flow<List<ArticleEntity>>
 
-    suspend  fun setArticleAsBookmarked(article: ArticleEntity)
+    suspend  fun setArticleAsBookmarked(articleId: Int)
 
     suspend  fun setArticleAsNotBookmarked(articleId: Int)
 

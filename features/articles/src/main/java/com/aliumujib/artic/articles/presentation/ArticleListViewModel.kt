@@ -27,10 +27,6 @@ class ArticleListViewModel(
     private var statesFlow = _statesBroadcastChannel.asFlow()
 
 
-    init {
-        _actionBroadcastChannel.offer(ArticleListAction.LoadArticleListAction(true, 1))
-    }
-
     fun processActions() {
         actionsFlow.flatMapMerge {
             articleListActionProcessor.actionToResultTransformer(it)

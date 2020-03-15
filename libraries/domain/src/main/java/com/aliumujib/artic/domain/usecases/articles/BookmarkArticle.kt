@@ -12,9 +12,9 @@ class BookmarkArticle @Inject constructor(
     postExecutionThread: PostExecutionThread
 ) : NoResultSuspendUseCase<BookmarkArticle.Params>(postExecutionThread) {
 
-    data class Params constructor(val article: Article) {
+    data class Params constructor(val articleId: Int) {
         companion object {
-            fun make(articleId: Article): Params {
+            fun make(articleId: Int): Params {
                 return Params(articleId)
             }
         }
@@ -24,7 +24,7 @@ class BookmarkArticle @Inject constructor(
         if (params == null) {
             throw IllegalStateException("Your params can't be null for this use case")
         }
-        return articlesRepository.bookmarkArticle(params.article)
+        return articlesRepository.bookmarkArticle(params.articleId)
     }
 
 }
