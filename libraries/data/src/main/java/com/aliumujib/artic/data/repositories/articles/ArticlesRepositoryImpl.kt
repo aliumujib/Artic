@@ -15,19 +15,35 @@ class ArticlesRepositoryImpl @Inject constructor(
     private val articleEntityMapper: ArticleEntityMapper
 ) : IArticlesRepository {
 
-    override fun getArticles(page: Int, isInternetAvailable: Boolean): Flow<List<Article>> {
-        return if (isInternetAvailable) {
-            flow {
-                val articles: List<ArticleEntity> = articlesRemote.getArticles(page)
-                if (page == 1) {
-                    articlesCache.saveArticles(articles)
-                }
-                emit(articleEntityMapper.mapFromEntityList(articles))
+    private val bookmarksMap: HashMap<Int, Boolean> = HashMap()
+
+    override fun getArticles(refresh: Boolean, page: Int): Flow<List<Article>> {
+        return flow {
+            if (articlesCache.isArticlesCacheExpired()) {
+                articlesCache.clearArticles()
+            } else if (articlesCache.isCacheEmpty().not() && refresh) {
+                val cachedData = articlesCache.getArticles().first()
+                updateBookmarkMap(cachedData)
+                emit(articleEntityMapper.mapFromEntityList(cachedData))
             }
-        } else {
-            articlesCache.getArticles().map {
-                articleEntityMapper.mapFromEntityList(it)
+            val articles: List<ArticleEntity> = articlesRemote.getArticles(page)
+            updateArticleList(articles)
+            if (page == 1 && refresh) {
+                articlesCache.saveArticles(articles)
             }
+            emit(articleEntityMapper.mapFromEntityList(articles))
+        }
+    }
+
+    private fun updateArticleList(list: List<ArticleEntity>) {
+        list.forEach {
+            it.isBookmarked = bookmarksMap[it.id] ?: false
+        }
+    }
+
+    private fun updateBookmarkMap(list: List<ArticleEntity>) {
+        list.forEach {
+            bookmarksMap[it.id] = it.isBookmarked
         }
     }
 
@@ -38,9 +54,8 @@ class ArticlesRepositoryImpl @Inject constructor(
         }
     }
 
-
-    override suspend fun bookmarkArticle(articleId: Int) {
-        articlesCache.setArticleAsBookmarked(articleId)
+    override suspend fun bookmarkArticle(article: Article) {
+        articlesCache.setArticleAsBookmarked(articleEntityMapper.mapToEntity(article))
     }
 
     override suspend fun unBookmarkArticle(articleId: Int) {
@@ -48,9 +63,13 @@ class ArticlesRepositoryImpl @Inject constructor(
     }
 
     override fun getBookmarkedArticles(): Flow<List<Article>> {
-        return articlesCache.getBookmarkedArticles().map {
-            articleEntityMapper.mapFromEntityList(it)
-        }
+        return articlesCache.getBookmarkedArticles()
+            .onEach {
+                updateBookmarkMap(it)
+            }
+            .map {
+                articleEntityMapper.mapFromEntityList(it)
+            }
     }
 
     override fun searchArticles(query: String, page: Int): Flow<List<Article>> {

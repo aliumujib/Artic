@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface IArticlesRepository {
 
-    fun getArticles(page: Int, isInternetAvailable: Boolean = true): Flow<List<Article>>
+    fun getArticles(refresh:Boolean, page: Int): Flow<List<Article>>
 
     fun getArticleById(articleId: Int): Flow<Article>
 
-    suspend fun bookmarkArticle(article: Int)
+    suspend fun bookmarkArticle(article: Article)
 
     suspend fun unBookmarkArticle(articleId: Int)
 

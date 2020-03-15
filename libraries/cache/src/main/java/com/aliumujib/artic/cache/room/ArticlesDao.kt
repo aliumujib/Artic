@@ -14,7 +14,7 @@ interface ArticlesDao {
     suspend fun insert(app: ArticleCacheModel)
 
     @Query("SELECT * FROM ARTICLES WHERE id =:id")
-    fun getArticle(id: Int): ArticleCacheModel?
+    suspend  fun getArticle(id: Int): ArticleCacheModel?
 
     @Transaction
     suspend fun unBookmarkArticle(id: Int) {
@@ -26,7 +26,7 @@ interface ArticlesDao {
     }
 
     @Query("SELECT COUNT(*) FROM ARTICLES ORDER BY date DESC ")
-    fun getAllCachedArticlesCount(): Int
+    suspend fun getAllCachedArticlesCount(): Int
 
     @Query("SELECT * FROM ARTICLES ORDER BY date DESC ")
     fun getAllCachedArticles(): Flow<List<ArticleCacheModel>>
@@ -38,5 +38,5 @@ interface ArticlesDao {
     suspend fun deleteArticle(id: Int)
 
     @Query("DELETE FROM ARTICLES")
-    fun deleteAllArticles()
+    suspend fun deleteAllArticles()
 }

@@ -39,7 +39,8 @@ data class ArticleDetailsViewState(
                         error = result.error
                     )
                     is LoadArticleDetailsResult.Loading -> previousState.copy(
-                        isLoading = true
+                        isLoading = true,
+                        error = null
                     )
                 }
             }
@@ -54,26 +55,17 @@ data class ArticleDetailsViewState(
                         error = result.error
                     )
                     is RefreshArticleDetailsResult.Refreshing -> previousState.copy(
-                        isLoading = true
+                        isLoading = true,
+                        error = null
                     )
                 }
             }
-            is BookmarkArticleResult -> {
+            is SetBookmarkStatusResult -> {
                 when (result) {
-                    is BookmarkArticleResult.Success -> {
+                    is SetBookmarkStatusResult.Success -> {
                         previousState
                     }
-                    is BookmarkArticleResult.Error -> previousState.copy(
-                        error = result.error
-                    )
-                }
-            }
-            is UnBookmarkArticleResult -> {
-                when (result) {
-                    is UnBookmarkArticleResult.Success -> {
-                        previousState
-                    }
-                    is UnBookmarkArticleResult.Error -> previousState.copy(
+                    is SetBookmarkStatusResult.Error -> previousState.copy(
                         error = result.error
                     )
                 }

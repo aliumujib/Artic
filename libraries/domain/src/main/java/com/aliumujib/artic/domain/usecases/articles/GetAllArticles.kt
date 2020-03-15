@@ -15,14 +15,14 @@ class GetAllArticles @Inject constructor(
 
     override fun build(params: Params?): Flow<List<Article>> {
         if (params == null) throw IllegalStateException("Your params can't be null for this use case")
-        return this.articlesRepository.getArticles(params.page, params.isConnected)
+        return this.articlesRepository.getArticles(params.refresh, params.page)
     }
 
 
-    data class Params constructor(val isConnected: Boolean, val page: Int) {
+    data class Params constructor(val refresh: Boolean, val page: Int) {
         companion object {
-            fun make(isConnected: Boolean, page: Int): Params {
-                return Params(isConnected, page)
+            fun make(refresh: Boolean, page: Int): Params {
+                return Params(refresh, page)
             }
         }
     }

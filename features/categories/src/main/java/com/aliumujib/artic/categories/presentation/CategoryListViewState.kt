@@ -34,7 +34,7 @@ data class CategoryListViewState(
                 error = null
             )
             is LoadCategoryListResults.Error -> previousState.copy(error = result.error)
-            is LoadCategoryListResults.Loading -> previousState.copy(isLoading = true)
+            is LoadCategoryListResults.Loading -> previousState.copy(isLoading = true, error = null)
         }
     }
 

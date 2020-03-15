@@ -1,13 +1,15 @@
 package com.aliumujib.artic.articles.presentation
 
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
+import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
 import com.aliumujib.artic.views.ext.ofType
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
 
 class ArticleListActionProcessor @Inject constructor(
-    private val getAllArticles: GetAllArticles
+    private val getAllArticles: GetAllArticles,
+    private val setArticleBookmarkStatus: SetArticleBookmarkStatus
 ) {
 
     fun actionToResultTransformer(action: ArticleListAction): Flow<ArticleListResult> {
@@ -20,6 +22,9 @@ class ArticleListActionProcessor @Inject constructor(
             }
             is ArticleListAction.FetchMoreArticleListAction -> {
                 loadAnotherArticleListResult(flowOf(action))
+            }
+            is ArticleListAction.SetArticleBookmarkStatusAction -> {
+                bookmarkArticleResult(flowOf(action))
             }
         }
     }
@@ -36,9 +41,11 @@ class ArticleListActionProcessor @Inject constructor(
 
     fun actionToResultTransformer(actionsFlow: Flow<ArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge {
-            merge(loadArticleListResult(actionsFlow.ofType(ArticleListAction.LoadArticleListAction::class.java)),
+            merge(
+                loadArticleListResult(actionsFlow.ofType(ArticleListAction.LoadArticleListAction::class.java)),
                 pullToRefreshResult(actionsFlow.ofType(ArticleListAction.RefreshArticleListAction::class.java)),
-                loadAnotherArticleListResult(actionsFlow.ofType(ArticleListAction.FetchMoreArticleListAction::class.java)))
+                loadAnotherArticleListResult(actionsFlow.ofType(ArticleListAction.FetchMoreArticleListAction::class.java))
+            )
         }
     }
 
@@ -58,7 +65,7 @@ class ArticleListActionProcessor @Inject constructor(
 
     private fun loadAnotherArticleListResult(actionsFlow: Flow<ArticleListAction.FetchMoreArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
-            getAllArticles.build(GetAllArticles.Params.make(true, action.page))
+            getAllArticles.build(GetAllArticles.Params.make(false, action.page))
                 .map { articles ->
                     ArticleListResult.FetchMoreArticleListResults.Success(data = articles) as ArticleListResult
                 }
@@ -82,4 +89,25 @@ class ArticleListActionProcessor @Inject constructor(
                     emit(ArticleListResult.RefreshArticleListResults.Error(it))
                 }
         }
+
+
+    private fun bookmarkArticleResult(actionsFlow: Flow<ArticleListAction.SetArticleBookmarkStatusAction>): Flow<ArticleListResult> {
+        return actionsFlow.flatMapMerge { action ->
+            flow {
+                emit(
+                    setArticleBookmarkStatus.invoke(
+                        SetArticleBookmarkStatus.Params.make(
+                            action.article,
+                            action.isBookmarked
+                        )
+                    )
+                )
+            }.map {
+                ArticleListResult.SetBookmarkStatusResults.Success as ArticleListResult
+            }.catch {
+                Timber.e(it)
+                emit(ArticleListResult.SetBookmarkStatusResults.Error(it))
+            }
+        }
+    }
 }

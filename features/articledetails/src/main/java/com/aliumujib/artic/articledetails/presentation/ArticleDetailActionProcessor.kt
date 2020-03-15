@@ -1,15 +1,13 @@
 package com.aliumujib.artic.articledetails.presentation
 
-import com.aliumujib.artic.domain.usecases.articles.BookmarkArticle
+import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
 import com.aliumujib.artic.domain.usecases.articles.GetArticleDetails
-import com.aliumujib.artic.domain.usecases.articles.UnBookmarkArticle
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
 
 class ArticleDetailActionProcessor @Inject constructor(
-    private val unBookmarkArticle: UnBookmarkArticle,
-    private val bookmarkArticle: BookmarkArticle,
+    private val setArticleBookmarkStatus: SetArticleBookmarkStatus,
     private val getArticleDetails: GetArticleDetails
 ) {
 
@@ -20,9 +18,6 @@ class ArticleDetailActionProcessor @Inject constructor(
             }
             is ArticleDetailsAction.RefreshArticleDetailsAction -> {
                 pullToRefreshResult(flowOf(action))
-            }
-            is ArticleDetailsAction.UnBookmarkArticleAction -> {
-                unBookmarkArticleResult(flowOf(action))
             }
             is ArticleDetailsAction.BookmarkArticleAction -> {
                 bookmarkArticleResult(flowOf(action))
@@ -58,28 +53,15 @@ class ArticleDetailActionProcessor @Inject constructor(
                 }
         }
 
-    private fun unBookmarkArticleResult(actionsFlow: Flow<ArticleDetailsAction.UnBookmarkArticleAction>): Flow<ArticleDetailsResult> {
-        return actionsFlow.flatMapMerge { action ->
-            flow {
-                emit(unBookmarkArticle.invoke(UnBookmarkArticle.Params.make(action.articleId)))
-            }.map {
-                ArticleDetailsResult.UnBookmarkArticleResult.Success as ArticleDetailsResult
-            }.catch {
-                    Timber.e(it)
-                    emit(ArticleDetailsResult.UnBookmarkArticleResult.Error(it))
-                }
-        }
-    }
-
     private fun bookmarkArticleResult(actionsFlow: Flow<ArticleDetailsAction.BookmarkArticleAction>): Flow<ArticleDetailsResult> {
         return actionsFlow.flatMapMerge { action ->
             flow {
-                emit(bookmarkArticle.invoke(BookmarkArticle.Params.make(action.articleId)))
+                emit(setArticleBookmarkStatus.invoke(SetArticleBookmarkStatus.Params.make(action.article, action.bookmarked)))
             }.map {
-                ArticleDetailsResult.BookmarkArticleResult.Success as ArticleDetailsResult
+                ArticleDetailsResult.SetBookmarkStatusResult.Success as ArticleDetailsResult
             }.catch {
                 Timber.e(it)
-                emit(ArticleDetailsResult.BookmarkArticleResult.Error(it))
+                emit(ArticleDetailsResult.SetBookmarkStatusResult.Error(it))
             }
         }
     }

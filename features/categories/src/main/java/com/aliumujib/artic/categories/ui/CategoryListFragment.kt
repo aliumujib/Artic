@@ -19,13 +19,9 @@ import com.aliumujib.artic.categories.presentation.CategoryListViewModel
 import com.aliumujib.artic.categories.presentation.CategoryListViewState
 import com.aliumujib.artic.categories.ui.adapter.CategoryListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass
-import com.aliumujib.artic.views.ext.dpToPx
-import com.aliumujib.artic.views.ext.hide
-import com.aliumujib.artic.views.ext.removeAllDecorations
-import com.aliumujib.artic.views.ext.show
+import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
-import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -74,9 +70,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
 
         initializeViews()
 
-        viewModel.states().onEach {
-            render(it)
-        }.launchIn(lifecycleScope)
+        nonNullObserve(viewModel.states(), ::render)
 
         _loadInitialIntent.offer(CategoryListIntent.LoadCategoriesListIntent)
     }

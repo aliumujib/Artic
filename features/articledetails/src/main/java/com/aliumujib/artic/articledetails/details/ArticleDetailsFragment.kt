@@ -3,13 +3,14 @@ package com.aliumujib.artic.articledetails.details
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import coil.api.load
-import coil.size.Scale
 import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articledetails.R
@@ -19,26 +20,25 @@ import com.aliumujib.artic.articledetails.di.DaggerArticleDetailsComponent
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsIntent
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsViewModel
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsViewState
-import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
-import com.aliumujib.artic.articles.di.ArticleListModule
-import com.aliumujib.artic.articles.di.DaggerArticleListComponent
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
-import com.aliumujib.artic.articles.presentation.ArticleListIntent
-import com.aliumujib.artic.articles.presentation.ArticleListViewModel
 import com.aliumujib.artic.mobile_ui.ApplicationClass
 import com.aliumujib.artic.views.ext.hide
+import com.aliumujib.artic.views.ext.nonNullObserve
 import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.mvi.MVIView
 import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.take
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
 import javax.inject.Inject
 
+
 class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, ArticleDetailsViewState> {
 
-    val articleArgs by navArgs<ArticleDetailsFragmentArgs>()
+    private val articleArgs by navArgs<ArticleDetailsFragmentArgs>()
 
     @Inject
     lateinit var viewModel: ArticleDetailsViewModel
@@ -75,7 +75,10 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel.processActions()
+        setHasOptionsMenu(true)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -99,12 +102,8 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
         observeStates()
     }
 
-
     private fun observeStates() {
-        viewModel.states()
-            .onEach {
-                render(it)
-            }.launchIn(lifecycleScope)
+        nonNullObserve(viewModel.states(), ::render)
     }
 
     override fun render(state: ArticleDetailsViewState) {
@@ -131,7 +130,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
     private fun presentSuccessState(article: ArticleUIModel) {
         binding.articleCategoryNames.text = article.categories.first().title
         binding.articleName.text = article.title
-        binding.articleDateTimePublish.text = article.date.toString()
+        binding.articleDateTimePublish.text = article.dateString
         binding.articleImage.load(article.fullImageURL) {
             transformations(RoundedCornersTransformation(12.0f, 12.0f, 12.0f, 12.0f))
             //error(errorPlaceHolder)
@@ -144,5 +143,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
     override fun intents(): Flow<ArticleDetailsIntent> {
         return loadInitialIntent
     }
+
+
 
 }

@@ -10,6 +10,8 @@ import dagger.Module
 import dagger.Provides
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
+import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
+import com.aliumujib.artic.domain.usecases.articles.UnBookmarkArticle
 import com.aliumujib.artic.views.ext.viewModel
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 
@@ -42,8 +44,9 @@ class ArticleListModule(
     @FeatureScope
     @Provides
     fun providesArticleListActionProcessor(
-        getAllArticles: GetAllArticles
-    ) = ArticleListActionProcessor(getAllArticles)
+        getAllArticles: GetAllArticles,
+        setArticleBookmarkStatus: SetArticleBookmarkStatus
+    ) = ArticleListActionProcessor(getAllArticles, setArticleBookmarkStatus)
 
 
 

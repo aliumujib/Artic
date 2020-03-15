@@ -19,5 +19,5 @@ import java.util.*
     var comment_count: Int,
     var categories: List<CategoryEntity>,
     var author: AuthorEntity,
-    var isBookmarked: Boolean = false
+    var isBookmarked: Boolean
 )
