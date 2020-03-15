@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/two_space">
+
+    <View
+        android:background="@color/demo_dark_transparent"
+        android:id="@+id/article_category_names_shimmer"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="MONEY" />
+
+    <View
+        android:id="@+id/article_name_shimmer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/demo_dark_transparent"
+        android:layout_marginTop="@dimen/one_space"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/article_category_names_shimmer"
+        app:layout_constraintTop_toBottomOf="@id/article_category_names_shimmer"
+         />
+
+    <View
+        android:id="@+id/article_date_time_publish_shimmer"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:background="@color/demo_dark_transparent"
+        android:layout_marginTop="@dimen/one_space"
+        app:layout_constraintStart_toStartOf="@+id/article_name_shimmer"
+        app:layout_constraintTop_toBottomOf="@id/article_name_shimmer"
+        />
+
+    <View
+        android:id="@+id/article_image_shimmer"
+        android:layout_width="match_parent"
+        android:background="@color/demo_dark_transparent"
+        android:layout_height="200dp"
+        android:layout_marginTop="@dimen/two_space"
+        app:layout_constraintTop_toBottomOf="@+id/article_date_time_publish_shimmer"
+         />
+
+    <View
+        android:id="@+id/html_text"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="@dimen/two_space"
+        android:background="@color/demo_dark_transparent"
+        app:layout_constraintTop_toBottomOf="@+id/article_image_shimmer" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

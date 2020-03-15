@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/detailsFragment"
         app:moduleName="articledetails"
-        android:name="com.aliumujib.artic.articledetails.details.DetailsFragment"
+        android:name="com.aliumujib.artic.articledetails.details.ArticleDetailsFragment"
         android:label="@string/article_details"
         tools:layout="@layout/details_fragment" >
         <argument android:name="article"

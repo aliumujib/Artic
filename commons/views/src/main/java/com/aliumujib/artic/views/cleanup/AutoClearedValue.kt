@@ -59,6 +59,7 @@ class AutoClearedValue<T : Any>(val fragment: Fragment) : ReadWriteProperty<Frag
         Timber.d("auto set to $value")
         _value = value
     }
+
 }
 
 /**

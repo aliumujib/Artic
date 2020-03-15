@@ -31,9 +31,16 @@ class ArticlesRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getArticleById(articleId: Int): Flow<Article> {
+        return flow {
+            val articles = articlesRemote.getArticle(articleId)
+            emit(articleEntityMapper.mapFromEntity(articles))
+        }
+    }
 
-    override suspend fun bookmarkArticle(article: Article) {
-        articlesCache.setArticleAsBookmarked(articleEntityMapper.mapToEntity(article))
+
+    override suspend fun bookmarkArticle(articleId: Int) {
+        articlesCache.setArticleAsBookmarked(articleId)
     }
 
     override suspend fun unBookmarkArticle(articleId: Int) {

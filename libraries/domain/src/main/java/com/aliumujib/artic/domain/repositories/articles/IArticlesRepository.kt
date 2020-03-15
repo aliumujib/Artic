@@ -8,7 +8,9 @@ interface IArticlesRepository {
 
     fun getArticles(page: Int, isInternetAvailable: Boolean = true): Flow<List<Article>>
 
-    suspend fun bookmarkArticle(article: Article)
+    fun getArticleById(articleId: Int): Flow<Article>
+
+    suspend fun bookmarkArticle(article: Int)
 
     suspend fun unBookmarkArticle(articleId: Int)
 

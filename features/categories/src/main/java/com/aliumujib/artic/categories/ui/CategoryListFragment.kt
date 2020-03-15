@@ -43,7 +43,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
     @Inject
     lateinit var categoryUIModelMapper: CategoryUIModelMapper
 
-    private var _binding by autoDispose<FragmentCategoriesBinding>()
+    private lateinit var _binding: FragmentCategoriesBinding
     private val binding get() = _binding
 
     private val _loadInitialIntent = ConflatedBroadcastChannel<CategoryListIntent>()

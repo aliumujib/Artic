@@ -15,6 +15,10 @@ class ArticlesRemote @Inject constructor(
         return postsMapper.mapModelList(wordPressAPI.getPostByPage(page, PER_PAGE).posts)
     }
 
+    override suspend fun getArticle(id: Int): ArticleEntity {
+        return postsMapper.mapFromModel(wordPressAPI.getPostDetialsById(id).post)
+    }
+
     override suspend fun searchArticles(search: String, page: Int): List<ArticleEntity> {
         return postsMapper.mapModelList(wordPressAPI.getSearchPosts(search, PER_PAGE).posts)
     }

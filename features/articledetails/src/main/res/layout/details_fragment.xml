@@ -1,59 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/two_space"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@android:color/white"
+    android:clipToPadding="false"
+    android:scrollbars="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:scrollingCache="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/article_category_names"
-        tools:text="MONEY"
-        android:textColor="@color/colorAccent"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/article_view_container"
+            android:padding="@dimen/two_space">
 
-    <TextView
-        app:layout_constraintStart_toStartOf="@+id/article_category_names"
-        app:layout_constraintTop_toBottomOf="@id/article_category_names"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/article_name"
-        android:layout_marginTop="@dimen/one_space"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        tools:text="How i made $200,000 when i was 16 years old."
-        android:textColor="@color/black"
-        android:gravity="start"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/article_category_names"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="MONEY" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/one_space"
-        tools:text="12:32pm"
-        app:layout_constraintStart_toStartOf="@+id/article_name"
-        app:layout_constraintTop_toBottomOf="@id/article_name"
-        android:id="@+id/article_date_time_publish"
-        android:layout_height="wrap_content"/>
-    
-    <ImageView
-        android:layout_width="match_parent"
-        android:src="@color/black"
-        android:id="@+id/article_image"
-        android:layout_marginTop="@dimen/one_space"
-        app:layout_constraintTop_toBottomOf="@+id/article_date_time_publish"
-        android:layout_height="200dp"/>
+            <TextView
+                android:id="@+id/article_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/one_space"
+                android:gravity="start"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="4dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/article_category_names"
+                app:layout_constraintTop_toBottomOf="@id/article_category_names"
+                tools:text="How i made $200,000 when i was 16 years old." />
 
-    <org.sufficientlysecure.htmltextview.HtmlTextView
-        android:id="@+id/html_text"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/one_space"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/article_image"
-        android:layout_height="0dp"
-        android:textAppearance="@android:style/TextAppearance.Small" />
+            <TextView
+                android:id="@+id/article_date_time_publish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/one_space"
+                app:layout_constraintStart_toStartOf="@+id/article_name"
+                app:layout_constraintTop_toBottomOf="@id/article_name"
+                tools:text="12:32pm" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/article_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="@dimen/two_space"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toBottomOf="@+id/article_date_time_publish"
+                tools:src="@color/black" />
+
+            <org.sufficientlysecure.htmltextview.HtmlTextView
+                android:id="@+id/html_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/two_space"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="4dp"
+                android:textStyle="normal"
+                android:textSize="@dimen/text_16"
+                app:layout_constraintTop_toBottomOf="@+id/article_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:duration="800"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/articles">
+
+            <include layout="@layout/article_details_shimmer_loading"
+                android:id="@+id/article_loading_views"/>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </FrameLayout>
+
+</ScrollView>
