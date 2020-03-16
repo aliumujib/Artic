@@ -30,14 +30,25 @@ class BookmarkButtonView : AppCompatImageView {
         }
 
 
-
     init {
     }
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         initializeView()
+    }
+
+    fun setIsBookmarked(isBookmarked: Boolean) {
+        if (isBookmarked) {
+            this.isBookMarked = BOOKMARKED
+        } else {
+            this.isBookMarked = UNBOOKMARKED
+        }
     }
 
     private fun initializeView() {
@@ -87,10 +98,10 @@ class BookmarkButtonView : AppCompatImageView {
     private inner class BookmarkClickListener : View.OnClickListener {
 
         override fun onClick(view: View) {
-            if (currentBookmarkStatus == BOOKMARKED) {
-                currentBookmarkStatus = UNBOOKMARKED
+            currentBookmarkStatus = if (currentBookmarkStatus == BOOKMARKED) {
+                UNBOOKMARKED
             } else
-                currentBookmarkStatus = BOOKMARKED
+                BOOKMARKED
 
             setIcons()
 

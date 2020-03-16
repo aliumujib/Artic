@@ -22,5 +22,5 @@ data class ArticleCacheModel(
     var comment_count: Int,
     var categories: List<CategoryCacheModel>,
     var author: AuthorCacheModel,
-    var isBookmarked: Boolean = false
+    var isBookmarked: Boolean
 )

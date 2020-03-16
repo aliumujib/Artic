@@ -31,6 +31,9 @@ interface ArticlesDao {
     @Query("SELECT * FROM ARTICLES ORDER BY date DESC ")
     fun getAllCachedArticles(): Flow<List<ArticleCacheModel>>
 
+    @Query("SELECT * FROM ARTICLES WHERE date > :publishDate ORDER BY date DESC ")
+    fun getAllValidCachedArticles(publishDate:Long): Flow<List<ArticleCacheModel>>
+
     @Query("SELECT * FROM ARTICLES WHERE isBookmarked =  1 ORDER BY date DESC ")
     fun getAllBookmarkedArticles(): Flow<List<ArticleCacheModel>>
 

@@ -19,5 +19,5 @@ data class Article(
     var comment_count: Int,
     var categories: List<Category>,
     var author: Author,
-    var isBookmarked: Boolean = false
+    var isBookmarked: Boolean
 )

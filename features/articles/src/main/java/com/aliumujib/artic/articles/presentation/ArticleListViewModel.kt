@@ -21,20 +21,20 @@ class ArticleListViewModel(
     private var actionsFlow = _actionBroadcastChannel.asFlow()
 
     private var _states = MutableLiveData<ArticleListViewState>()
-    private var states:LiveData<ArticleListViewState> = _states
+    private var states: LiveData<ArticleListViewState> = _states
 
 
     fun processActions() {
         actionsFlow.flatMapMerge {
-            articleListActionProcessor.actionToResultTransformer(it)
-        }.onEach { result: ArticleListResult ->
-            Timber.v(
-                "New results of type: ${result::class.java.canonicalName?.replace(
-                    "com.aliumujib.artic.articles.presentation.ArticleListResult.",
-                    ""
-                )}"
-            )
-        }
+                articleListActionProcessor.actionToResultTransformer(it)
+            }.onEach { result: ArticleListResult ->
+                Timber.v(
+                    "New results of type: ${result::class.java.canonicalName?.replace(
+                        "com.aliumujib.artic.articles.presentation.ArticleListResult.",
+                        ""
+                    )}"
+                )
+            }
             .scan(ArticleListViewState.init()) { previous: ArticleListViewState, result: ArticleListResult ->
                 previous.reduce(previous, result)
             }
@@ -65,7 +65,10 @@ class ArticleListViewModel(
             is ArticleListIntent.LoadArticleListIntent -> ArticleListAction.LoadArticleListAction(
                 page = 1
             )
-            is ArticleListIntent.SetArticleBookmarkStatusIntent -> ArticleListAction.SetArticleBookmarkStatusAction(intent.article, intent.isBookmarked)
+            is ArticleListIntent.SetArticleBookmarkStatusIntent -> ArticleListAction.SetArticleBookmarkStatusAction(
+                intent.article,
+                intent.isBookmarked
+            )
             is ArticleListIntent.RefreshArticleListIntent -> ArticleListAction.RefreshArticleListAction
             ArticleListIntent.FetchMoreArticleListIntent -> {
                 currentPageNumber += 1

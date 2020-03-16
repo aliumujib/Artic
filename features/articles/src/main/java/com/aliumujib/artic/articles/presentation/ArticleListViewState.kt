@@ -3,6 +3,7 @@ package com.aliumujib.artic.articles.presentation
 import com.aliumujib.artic.articles.presentation.ArticleListResult.*
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.views.mvi.MVIViewState
+import timber.log.Timber
 
 
 data class ArticleListViewState(
@@ -40,7 +41,7 @@ data class ArticleListViewState(
                     )
                     is LoadArticleListResults.Error -> previousState.copy(
                         error = result.error,
-                        isLoadingMore = true
+                        isLoadingMore = false
                     )
                     is LoadArticleListResults.Loading -> previousState.copy(
                         isLoading = true,
@@ -93,8 +94,13 @@ data class ArticleListViewState(
             }
             is SetBookmarkStatusResults -> {
                 when (result) {
-                    SetBookmarkStatusResults.Success -> {
-                        previousState
+                    is SetBookmarkStatusResults.Success -> {
+                        Timber.d("result: $result")
+                        val articles = previousState.data.toMutableList()
+                        (articles).find { it.id == result.article.id }?.isBookmarked = result.article.isBookmarked
+                        val newState = previousState.copy(data = articles)
+                        Timber.d("result: $result new article: ${(articles).find { it.id == result.article.id }}")
+                        newState
                     }
                     is SetBookmarkStatusResults.Error -> {
                         previousState

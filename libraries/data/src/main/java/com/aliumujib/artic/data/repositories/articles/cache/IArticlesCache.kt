@@ -10,7 +10,9 @@ interface IArticlesCache  {
 
     suspend fun saveArticles(articles: List<ArticleEntity>)
 
-    fun getArticles(): Flow<List<ArticleEntity>>
+    fun getCachedArticles(): Flow<List<ArticleEntity>>
+
+    fun getValidCachedArticles():Flow<List<ArticleEntity>>
 
     fun getBookmarkedArticles(): Flow<List<ArticleEntity>>
 
@@ -18,10 +20,13 @@ interface IArticlesCache  {
 
     suspend  fun setArticleAsNotBookmarked(articleId: Int)
 
+    suspend  fun findArticleById(articleId: Int): ArticleEntity?
+
     suspend  fun areArticlesCached(): Boolean
 
     suspend fun setLastCacheTime(lastCache: Long)
 
     suspend fun isArticlesCacheExpired(): Boolean
+
     suspend fun isCacheEmpty(): Boolean
 }

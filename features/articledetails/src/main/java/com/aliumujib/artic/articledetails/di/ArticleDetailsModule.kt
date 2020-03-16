@@ -10,7 +10,6 @@ import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
 import dagger.Module
 import dagger.Provides
 import com.aliumujib.artic.domain.usecases.articles.GetArticleDetails
-import com.aliumujib.artic.domain.usecases.articles.UnBookmarkArticle
 import com.aliumujib.artic.views.ext.viewModel
 
 /**
