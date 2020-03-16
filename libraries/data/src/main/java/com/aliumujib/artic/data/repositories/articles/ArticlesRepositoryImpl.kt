@@ -19,10 +19,8 @@ class ArticlesRepositoryImpl @Inject constructor(
 
     override fun getArticles(refresh: Boolean, page: Int): Flow<List<Article>> {
         return flow {
-            if (articlesCache.isArticlesCacheExpired()) {
-                articlesCache.clearArticles()
-            } else if (articlesCache.isCacheEmpty().not() && refresh) {
-                val cachedData = articlesCache.getArticles().first()
+            if (articlesCache.isCacheEmpty().not() && refresh) {
+                val cachedData = articlesCache.getCachedArticles().first()
                 updateBookmarkMap(cachedData)
                 emit(articleEntityMapper.mapFromEntityList(cachedData))
             }
@@ -54,12 +52,18 @@ class ArticlesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun bookmarkArticle(article: Article) {
+    override suspend fun bookmarkArticle(article: Article): Article? {
         articlesCache.setArticleAsBookmarked(articleEntityMapper.mapToEntity(article))
+        return articlesCache.findArticleById(article.id)?.let {
+            articleEntityMapper.mapFromEntity(it)
+        }
     }
 
-    override suspend fun unBookmarkArticle(articleId: Int) {
-        return articlesCache.setArticleAsNotBookmarked(articleId)
+    override suspend fun unBookmarkArticle(articleId: Int): Article? {
+        articlesCache.setArticleAsNotBookmarked(articleId)
+        return articlesCache.findArticleById(articleId)?.let {
+            articleEntityMapper.mapFromEntity(it)
+        }
     }
 
     override fun getBookmarkedArticles(): Flow<List<Article>> {

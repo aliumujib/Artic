@@ -87,7 +87,7 @@ class ArticlesRepositoryImplTest {
     }
 
     fun stubArticleCacheResponse() {
-        whenever(articlesCache.getArticles())
+        whenever(articlesCache.getCachedArticles())
             .thenReturn(Observable.just(DummyDataFactory.makeArticlesEntitiesList(10)))
     }
 

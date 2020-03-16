@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -55,6 +56,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private val _loadInitialIntent = BroadcastChannel<ArticleListIntent>(1)
     private val loadInitialIntent = _loadInitialIntent.asFlow().take(1)
 
+    private val _listActionIntents = BroadcastChannel<ArticleListIntent>(1)
+    private val listActionIntents = _listActionIntents.asFlow()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -125,6 +128,10 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         return loadInitialIntent.filter { articlesAdapter.isEmpty() } //only runs when adapter is empty
     }
 
+    private fun listActionIntents(): Flow<ArticleListIntent> {
+        return listActionIntents
+    }
+
 
     override fun render(state: ArticleListViewState) {
         when {
@@ -181,7 +188,6 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             isLoadingMoreData -> {
                 binding.articles.show()
                 articlesAdapter.setListState(ArticleListAdapter.ListState.Loading)
-                return
             }
             isGrid -> {
                 binding.articles.hide()
@@ -211,19 +217,24 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun intents(): Flow<ArticleListIntent> {
-        return merge(loadMoreIntent(), loadInitialIntent())
-            .onEach {
-                delay(500)
-            }
-            .conflate()
+        return merge(loadMoreIntent(), loadInitialIntent(), listActionIntents())
     }
 
-    override fun invoke(articleUIModel: ArticleUIModel) {
+
+    override fun onArticleClicked(articleUIModel: ArticleUIModel) {
         findNavController().navigate(
             ArticleListFragmentDirections.actionArticleListFragmentToNavDetails(
                 articleUIModel
             )
         )
+    }
+
+    override fun onBookmarkBtnClicked(articleUIModel: ArticleUIModel, isBookmarked: Boolean) {
+        _listActionIntents.offer(ArticleListIntent.SetArticleBookmarkStatusIntent(articleUIModelMapper.mapFromUI(articleUIModel), isBookmarked))
+    }
+
+    override fun onShareBtnClicked(articleUIModel: ArticleUIModel) {
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

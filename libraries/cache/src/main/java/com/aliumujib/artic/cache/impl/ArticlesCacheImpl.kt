@@ -19,33 +19,46 @@ class ArticlesCacheImpl @Inject constructor(
         articlesDao.deleteAllArticles()
     }
 
-    override suspend fun isCacheEmpty() :Boolean{
-       return articlesDao.getAllCachedArticlesCount() == 0
+    override suspend fun isCacheEmpty(): Boolean {
+        return articlesDao.getAllCachedArticlesCount() == 0
     }
 
     override suspend fun saveArticles(articles: List<ArticleEntity>) {
         articlesDao.insert(articleCacheModelMapper.mapToModelList(articles))
-        cacheTimeManager.saveLastCacheTime(System.currentTimeMillis())
+        cacheTimeManager.saveLastCacheTime(Calendar.getInstance().time.time)
     }
 
-    override  fun getArticles(): Flow<List<ArticleEntity>> {
+    override fun getCachedArticles(): Flow<List<ArticleEntity>> {
         return articlesDao.getAllCachedArticles().map {
             articleCacheModelMapper.mapToEntityList(it)
         }
     }
 
-    override  fun getBookmarkedArticles(): Flow<List<ArticleEntity>> {
+    override fun getValidCachedArticles(): Flow<List<ArticleEntity>> {
+        return articlesDao.getAllValidCachedArticles(sixHoursAgo()).map {
+            articleCacheModelMapper.mapToEntityList(it)
+        }
+    }
+
+    override fun getBookmarkedArticles(): Flow<List<ArticleEntity>> {
         return articlesDao.getAllBookmarkedArticles().map {
             articleCacheModelMapper.mapToEntityList(it)
         }
     }
 
     override suspend fun setArticleAsBookmarked(article: ArticleEntity) {
+        article.isBookmarked = true
         articlesDao.insert(articleCacheModelMapper.mapToModel(article))
     }
 
     override suspend fun setArticleAsNotBookmarked(articleId: Int) {
-            articlesDao.unBookmarkArticle(articleId)
+        articlesDao.unBookmarkArticle(articleId)
+    }
+
+    override suspend fun findArticleById(articleId: Int): ArticleEntity? {
+        return articlesDao.getArticle(articleId)?.let {
+            articleCacheModelMapper.mapToEntity(it)
+        }
     }
 
     override suspend fun areArticlesCached(): Boolean {
@@ -56,10 +69,16 @@ class ArticlesCacheImpl @Inject constructor(
         cacheTimeManager.saveLastCacheTime(lastCache)
     }
 
+    private fun sixHoursAgo(): Long {
+        val sixHours = 60 * 60 * 6 * 1000
+        return Calendar.getInstance().time.time - sixHours
+    }
+
     override suspend fun isArticlesCacheExpired(): Boolean {
         val now = Calendar.getInstance().time.time
         val lastCache = cacheTimeManager.getLastCacheTime()
-        val oneDay = 60 * 60 * 24
-        return (now - lastCache) > oneDay
+        val sixHours = 60 * 60 * 6 * 1000
+        val sinceLastCache = now - lastCache
+        return sinceLastCache > sixHours
     }
 }

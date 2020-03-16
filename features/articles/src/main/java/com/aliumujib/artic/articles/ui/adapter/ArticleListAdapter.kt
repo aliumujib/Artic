@@ -14,6 +14,7 @@ import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articles.R
 import com.aliumujib.artic.articles.databinding.LoadingItemBinding
+import com.aliumujib.artic.views.bookmarkbutton.BookmarkButtonView
 import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.show
@@ -129,12 +130,19 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
         private val articleDateTimePublish =
             itemView.findViewById<TextView>(R.id.article_date_time_publish)
         private val commentsButton = itemView.findViewById<IconAndTitleView>(R.id.comments_button)
+        private val bookmarkIcon = itemView.findViewById<BookmarkButtonView>(R.id.bookmark_icon)
 
 
         fun bind(model: ArticleUIModel) {
             this.articleImage.setOnClickListener {
-                articleClicks.invoke(model)
+                articleClicks.onArticleClicked(model)
             }
+            this.bookmarkIcon.setOnBookmarkStatusChangeListener(object : BookmarkButtonView.OnBookmarkStatusChangeListener{
+                override fun onStatusChanged(isBookmarked: Int) {
+                    articleClicks.onBookmarkBtnClicked(model, model.isBookmarked)
+                }
+            })
+            this.bookmarkIcon.setIsBookmarked(model.isBookmarked)
             this.articleCategory.text = model.categories.firstOrNull()?.title
             this.articleTitle.text = model.title_plain
             this.articleDateTimePublish.text = model.dateString

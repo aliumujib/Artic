@@ -94,16 +94,9 @@ class ArticleListActionProcessor @Inject constructor(
     private fun bookmarkArticleResult(actionsFlow: Flow<ArticleListAction.SetArticleBookmarkStatusAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
             flow {
-                emit(
-                    setArticleBookmarkStatus.invoke(
-                        SetArticleBookmarkStatus.Params.make(
-                            action.article,
-                            action.isBookmarked
-                        )
-                    )
-                )
+                emit(setArticleBookmarkStatus.invoke(SetArticleBookmarkStatus.Params.make(action.article, action.isBookmarked)))
             }.map {
-                ArticleListResult.SetBookmarkStatusResults.Success as ArticleListResult
+                ArticleListResult.SetBookmarkStatusResults.Success(it!!) as ArticleListResult
             }.catch {
                 Timber.e(it)
                 emit(ArticleListResult.SetBookmarkStatusResults.Error(it))
