@@ -34,13 +34,14 @@ fun RecyclerView.removeAllDecorations() {
 //return true if it's last item visited
  fun RecyclerView.isLastItemDisplaying(): Boolean {
     if (this.adapter!!.itemCount != 0) {
-        //int lastVisibleItemPosition = ((StaggeredGridLayoutManager)recyclerView.getLayoutManager()).findLastVisibleItemPositions();
-        val lastVisibleItemPositions =
-            (this.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(
+        val lastVisibleItemPosition:Int = if(layoutManager is StaggeredGridLayoutManager){
+            getLastVisibleItem((this.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(
                 null
-            )
-        // get maximum element within the list
-        val lastVisibleItemPosition = this.getLastVisibleItem(lastVisibleItemPositions)
+            ))
+        }
+        else {
+            (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+        }
         return lastVisibleItemPosition != RecyclerView.NO_POSITION && lastVisibleItemPosition == this.adapter!!.itemCount - 1
     }
     return false

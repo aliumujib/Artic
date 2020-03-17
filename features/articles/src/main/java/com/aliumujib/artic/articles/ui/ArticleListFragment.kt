@@ -1,6 +1,7 @@
 package com.aliumujib.artic.articles.ui
 
 import android.content.Context
+import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -10,15 +11,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.aliumujib.artic.articles.R
 import com.aliumujib.artic.articles.databinding.ArticleListFragmentBinding
 import com.aliumujib.artic.articles.di.ArticleListModule
 import com.aliumujib.artic.articles.di.DaggerArticleListComponent
-import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.articles.presentation.ArticleListIntent
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
@@ -26,13 +27,24 @@ import com.aliumujib.artic.articles.presentation.ArticleListViewState
 import com.aliumujib.artic.articles.ui.adapter.ArticleClickListener
 import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
-import com.aliumujib.artic.views.ext.*
+import com.aliumujib.artic.views.ext.dpToPx
+import com.aliumujib.artic.views.ext.hide
+import com.aliumujib.artic.views.ext.isLastItemDisplaying
+import com.aliumujib.artic.views.ext.nonNullObserve
+import com.aliumujib.artic.views.ext.removeAllDecorations
+import com.aliumujib.artic.views.ext.show
+import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecoration
+import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.take
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
 import javax.inject.Inject
 
@@ -50,7 +62,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     @Inject
     lateinit var articleUIModelMapper: ArticleUIModelMapper
 
-    private lateinit var _binding: ArticleListFragmentBinding
+    private var _binding: ArticleListFragmentBinding by autoDispose()
     private val binding get() = _binding
 
     private val _loadInitialIntent = BroadcastChannel<ArticleListIntent>(1)
@@ -60,7 +72,9 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private val listActionIntents = _listActionIntents.asFlow()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         _binding = ArticleListFragmentBinding.inflate(inflater, container, false)
         return _binding.root
@@ -98,8 +112,15 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         nonNullObserve(viewModel.states(), ::render)
     }
 
+    private fun provideStaggeredGridLayoutManager(): StaggeredGridLayoutManager {
+        return StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+    }
+
+    private fun provideListLayoutManager(): LinearLayoutManager {
+        return LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+    }
+
     private fun initializeViews() {
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
         binding.articles.apply {
             removeAllDecorations()
             addItemDecoration(
@@ -109,7 +130,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                     true
                 )
             )
-            layoutManager = staggeredGridLayoutManager
+            layoutManager = provideStaggeredGridLayoutManager()
             adapter = articlesAdapter
         }
     }
@@ -140,7 +161,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                     state.data
                 )
             )
-            state.error != null -> presentErrorState(state.error, state.isLoadingMore)
+            state.error != null -> presentErrorState(state.error, state.isLoadingMore, state.data.isEmpty())
             state.isLoading -> presentLoadingState(state.isGrid, state.isLoadingMore)
         }
     }
@@ -164,14 +185,14 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         articlesAdapter.submitList(data)
     }
 
-    private fun presentErrorState(error: Throwable, isLoadingMoreData: Boolean) {
+    private fun presentErrorState(error: Throwable, isLoadingMoreData: Boolean, isEmptyList:Boolean) {
         binding.emptyView.hide()
         binding.shimmerViewContainer.stopShimmerAnimation()
         binding.shimmerViewContainer.hide()
         if (isLoadingMoreData) {
             binding.articles.show()
             articlesAdapter.setListState(ArticleListAdapter.ListState.Error(error))
-        } else {
+        } else if(isEmptyList && isLoadingMoreData.not()) {
             binding.articles.hide()
             binding.errorView.show()
         }
@@ -230,7 +251,12 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun onBookmarkBtnClicked(articleUIModel: ArticleUIModel, isBookmarked: Boolean) {
-        _listActionIntents.offer(ArticleListIntent.SetArticleBookmarkStatusIntent(articleUIModelMapper.mapFromUI(articleUIModel), isBookmarked))
+        _listActionIntents.offer(
+            ArticleListIntent.SetArticleBookmarkStatusIntent(
+                articleUIModelMapper.mapFromUI(articleUIModel),
+                isBookmarked
+            )
+        )
     }
 
     override fun onShareBtnClicked(articleUIModel: ArticleUIModel) {
@@ -246,7 +272,25 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             R.id.action_search ->  // do stuff
                 return true
             R.id.action_switch_mode ->  // do more stuff
-                return true
+                if (!(item.icon as Animatable).isRunning) {
+                    if (binding.articles.layoutManager is StaggeredGridLayoutManager) {
+                        item.icon = AnimatedVectorDrawableCompat.create(
+                            requireContext(),
+                            R.drawable.avd_list_to_grid
+                        )
+                        binding.articles.layoutManager = provideListLayoutManager()
+                        articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.LIST)
+                    } else {
+                        item.icon = AnimatedVectorDrawableCompat.create(
+                            requireContext(),
+                            R.drawable.avd_grid_to_list
+                        )
+                        binding.articles.layoutManager = provideStaggeredGridLayoutManager()
+                        articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.GRID)
+                    }
+                    (item.icon as Animatable).start()
+                    return true
+                }
         }
         return false
     }

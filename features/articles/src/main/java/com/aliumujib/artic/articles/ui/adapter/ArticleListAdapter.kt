@@ -65,7 +65,6 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Timber.d("Position: ${position} itemType: ${holder.itemViewType}")
         when (holder.itemViewType) {
             LAYOUT.GRID.value -> {
                 (holder as ArticleViewHolder).bind(getItem(position))
@@ -99,7 +98,7 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
 
     fun isLoadingNextPage() = listState != null && listState != ListState.Idle
 
-    fun isEmpty() = super.getItemCount()  == 0
+    fun isEmpty() = super.getItemCount() == 0
 
     fun setListState(newListState: ListState?) {
         val previousState = this.listState
@@ -117,13 +116,18 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
         }
     }
 
+    fun setLayout(layout: LAYOUT) {
+        viewType = layout
+        this.notifyItemRangeChanged(0, itemCount)
+    }
 
     override fun getItemCount(): Int {
         return super.getItemCount() + if (isLoadingNextPage()) 1 else 0
     }
 
 
-    class ArticleViewHolder(itemView: View, var articleClicks: ArticleClickListener) : RecyclerView.ViewHolder(itemView) {
+    class ArticleViewHolder(itemView: View, var articleClicks: ArticleClickListener) :
+        RecyclerView.ViewHolder(itemView) {
         private val articleImage = itemView.findViewById<ImageView>(R.id.article_image)
         private val articleCategory = itemView.findViewById<TextView>(R.id.article_category)
         private val articleTitle = itemView.findViewById<TextView>(R.id.article_title)
@@ -137,7 +141,8 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
             this.articleImage.setOnClickListener {
                 articleClicks.onArticleClicked(model)
             }
-            this.bookmarkIcon.setOnBookmarkStatusChangeListener(object : BookmarkButtonView.OnBookmarkStatusChangeListener{
+            this.bookmarkIcon.setOnBookmarkStatusChangeListener(object :
+                BookmarkButtonView.OnBookmarkStatusChangeListener {
                 override fun onStatusChanged(isBookmarked: Int) {
                     articleClicks.onBookmarkBtnClicked(model, model.isBookmarked)
                 }
