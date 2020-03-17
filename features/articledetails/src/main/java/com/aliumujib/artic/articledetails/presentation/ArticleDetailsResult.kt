@@ -5,9 +5,10 @@ import com.aliumujib.artic.views.mvi.MVIResult
 
 
 sealed class ArticleDetailsResult : MVIResult {
+
     sealed class LoadArticleDetailsResult() : ArticleDetailsResult() {
-        data class Success(val data: Article) : LoadArticleDetailsResult()
-        object Loading : LoadArticleDetailsResult()
+        data class LoadedComments(val data: Article) : LoadArticleDetailsResult()
+        data class LoadingComments(val data: Article) : LoadArticleDetailsResult()
         data class Error(val error: Throwable) : LoadArticleDetailsResult()
     }
 

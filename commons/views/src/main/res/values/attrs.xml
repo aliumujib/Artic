@@ -9,6 +9,9 @@
         <attr name="isButtonVisible" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="LoadingView">
+        <attr name="loadingCaptionText" format="reference" />
+    </declare-styleable>
 
     <declare-styleable name="IconAndTitleView">
         <attr name="titleText" format="reference" localization="suggested" />

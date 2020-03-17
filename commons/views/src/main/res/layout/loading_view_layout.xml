@@ -8,13 +8,10 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/empty_state_icon"
-        android:maxWidth="300dp"
-        android:maxHeight="170dp"
-        android:minWidth="250dp"
-        android:minHeight="120dp" />
+        android:layout_width="70dp"
+        android:src="@drawable/ic_loading_icon"
+        android:layout_height="70dp"
+        android:contentDescription="@string/loading_icon" />
 
 
     <TextView
@@ -32,14 +29,5 @@
         tools:text="You don’t have any notifications
 right now.When you do, we’ll let you know." />
 
-    <Button
-        android:id="@+id/solidBackgroundButtonView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/two_space"
-        android:minWidth="200dp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_16"
-        tools:text="Retry" />
 
 </LinearLayout>

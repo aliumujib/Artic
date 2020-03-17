@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container"
+    <com.aliumujib.artic.views.loadingview.LoadingView
+        android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -19,35 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/articles">
-
-        <LinearLayout
-            android:id="@+id/grid_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/article_grid_item_shimmer_group" />
-
-            <include layout="@layout/article_grid_item_shimmer_group" />
-
-            <include layout="@layout/article_grid_item_shimmer_group" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/list_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <include layout="@layout/article_list_item_shimmer_group" />
-
-            <include layout="@layout/article_list_item_shimmer_group" />
-
-            <include layout="@layout/article_list_item_shimmer_group" />
-        </LinearLayout>
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
+        app:layout_constraintTop_toTopOf="@+id/articles"/>
 
 
     <com.aliumujib.artic.views.emptyerrorstate.SimpleEmptyStateView

@@ -36,6 +36,7 @@ import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecoration
+import com.aliumujib.artic.views.recyclerview.ListState
 import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -162,15 +163,13 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                 )
             )
             state.error != null -> presentErrorState(state.error, state.isLoadingMore, state.data.isEmpty())
-            state.isLoading -> presentLoadingState(state.isGrid, state.isLoadingMore)
+            state.isLoading -> presentLoadingState(state.isLoadingMore)
         }
     }
 
     private fun presentSuccessState(data: List<ArticleUIModel>) {
-        binding.shimmerViewContainer.stopShimmerAnimation()
-        articlesAdapter.setListState(ArticleListAdapter.ListState.Idle)
-        binding.gridLoading.hide()
-        binding.listLoading.hide()
+        articlesAdapter.setListState(ListState.Idle)
+        binding.loading.hide()
 
         if (data.isNotEmpty()) {
             binding.emptyView.hide()
@@ -187,11 +186,10 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     private fun presentErrorState(error: Throwable, isLoadingMoreData: Boolean, isEmptyList:Boolean) {
         binding.emptyView.hide()
-        binding.shimmerViewContainer.stopShimmerAnimation()
-        binding.shimmerViewContainer.hide()
+        binding.loading.hide()
         if (isLoadingMoreData) {
             binding.articles.show()
-            articlesAdapter.setListState(ArticleListAdapter.ListState.Error(error))
+            articlesAdapter.setListState(ListState.Error(error))
         } else if(isEmptyList && isLoadingMoreData.not()) {
             binding.articles.hide()
             binding.errorView.show()
@@ -202,23 +200,15 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         Toast.makeText(context, error.message, Toast.LENGTH_LONG).show()
     }
 
-    private fun presentLoadingState(isGrid: Boolean, isLoadingMoreData: Boolean) {
-        binding.shimmerViewContainer.show()
-        binding.shimmerViewContainer.startShimmerAnimation()
+    private fun presentLoadingState(isLoadingMoreData: Boolean) {
         when {
             isLoadingMoreData -> {
                 binding.articles.show()
-                articlesAdapter.setListState(ArticleListAdapter.ListState.Loading)
-            }
-            isGrid -> {
-                binding.articles.hide()
-                binding.listLoading.hide()
-                binding.gridLoading.show()
+                articlesAdapter.setListState(ListState.Loading)
             }
             else -> {
                 binding.articles.hide()
-                binding.listLoading.show()
-                binding.gridLoading.hide()
+                binding.loading.show()
             }
         }
         binding.emptyView.hide()

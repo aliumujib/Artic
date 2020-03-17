@@ -7,13 +7,26 @@ import timber.log.Timber
 
 
 data class ArticleListViewState(
-    val isLoading: Boolean,
+    val isLoading: Boolean = true,
     val data: List<Article> = mutableListOf(),
     val error: Throwable?,
-    val isLoadingMore: Boolean = false,
-    val isGrid: Boolean = true
+    val isGrid: Boolean = true,
+    val isRefreshing: Boolean = false,
+    val isLoadingMore: Boolean = false
 ) : MVIViewState {
 
+
+    sealed class LoadingState(
+        val isLoading: Boolean = true,
+        val isRefreshing: Boolean,
+        val isLoadingMore: Boolean
+        ) {
+        object InitialLoading : LoadingState(true, false, false)
+        object LoadingMore : LoadingState(true, false, true)
+        object Refreshing : LoadingState(true, true, false)
+        object Idle : LoadingState(false, false, false)
+
+    }
 
     companion object {
         fun init(): ArticleListViewState {
@@ -97,7 +110,8 @@ data class ArticleListViewState(
                     is SetBookmarkStatusResults.Success -> {
                         Timber.d("result: $result")
                         val articles = previousState.data.toMutableList()
-                        (articles).find { it.id == result.article.id }?.isBookmarked = result.article.isBookmarked
+                        (articles).find { it.id == result.article.id }?.isBookmarked =
+                            result.article.isBookmarked
                         val newState = previousState.copy(data = articles)
                         Timber.d("result: $result new article: ${(articles).find { it.id == result.article.id }}")
                         newState

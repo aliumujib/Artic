@@ -13,13 +13,12 @@ import coil.size.Scale
 import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articles.R
-import com.aliumujib.artic.articles.databinding.LoadingItemBinding
 import com.aliumujib.artic.views.bookmarkbutton.BookmarkButtonView
-import com.aliumujib.artic.views.models.ArticleUIModel
-import com.aliumujib.artic.views.ext.hide
-import com.aliumujib.artic.views.ext.show
+import com.aliumujib.artic.views.databinding.LoadingItemBinding
 import com.aliumujib.artic.views.iconandtitle.IconAndTitleView
-import timber.log.Timber
+import com.aliumujib.artic.views.models.ArticleUIModel
+import com.aliumujib.artic.views.recyclerview.ListState
+import com.aliumujib.artic.views.recyclerview.LoadingViewHolder
 
 
 class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
@@ -28,12 +27,6 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
     private var listState: ListState? = null
     private var viewType: LAYOUT = LAYOUT.GRID
 
-
-    sealed class ListState(val error: Throwable?) {
-        object Loading : ListState(null)
-        object Idle : ListState(null)
-        data class Error(val throwable: Throwable) : ListState(throwable)
-    }
 
     enum class LAYOUT(val value: Int) {
         GRID(1),
@@ -162,30 +155,7 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
     }
 
 
-    class LoadingViewHolder(
-        private val binding: LoadingItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(model: ListState?) {
-            when (model) {
-                is ListState.Idle -> {
-                    binding.loading.stopShimmerAnimation()
-                    binding.loading.hide()
-                    binding.retryLayout.hide()
-                }
-                is ListState.Loading -> {
-                    binding.loading.startShimmerAnimation()
-                    binding.loading.show()
-                    binding.retryLayout.hide()
-                }
-                is ListState.Error -> {
-                    binding.loading.stopShimmerAnimation()
-                    binding.loading.hide()
-                    binding.retryLayout.show()
-                }
-            }
-        }
-    }
 
     class DiffCallback : DiffUtil.ItemCallback<ArticleUIModel>() {
         override fun areItemsTheSame(oldItem: ArticleUIModel, newItem: ArticleUIModel): Boolean {

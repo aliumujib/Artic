@@ -120,8 +120,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
     }
 
     private fun presentSuccessState(data: List<CategoryUIModel>) {
-        binding.shimmerViewContainer.stopShimmerAnimation()
-        binding.listLoading.hide()
+        binding.loading.hide()
 
         if (data.isNotEmpty()) {
             binding.emptyView.hide()
@@ -138,8 +137,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
 
     private fun presentErrorState(error: Throwable) {
         binding.emptyView.hide()
-        binding.shimmerViewContainer.stopShimmerAnimation()
-        binding.shimmerViewContainer.hide()
+        binding.loading.hide()
         binding.categories.hide()
         binding.errorView.show()
         error.message?.let {
@@ -149,9 +147,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
     }
 
     private fun presentLoadingState() {
-        binding.shimmerViewContainer.show()
-        binding.shimmerViewContainer.startShimmerAnimation()
-        binding.listLoading.show()
+        binding.loading.show()
         binding.categories.hide()
         binding.emptyView.hide()
         binding.errorView.hide()
