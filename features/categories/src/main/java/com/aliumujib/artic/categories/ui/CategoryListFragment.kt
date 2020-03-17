@@ -22,6 +22,7 @@ import com.aliumujib.artic.mobile_ui.ApplicationClass
 import com.aliumujib.artic.views.ext.*
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
+import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.ConflatedBroadcastChannel
 import kotlinx.coroutines.flow.*
@@ -39,7 +40,7 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
     @Inject
     lateinit var categoryUIModelMapper: CategoryUIModelMapper
 
-    private lateinit var _binding: FragmentCategoriesBinding
+    private var _binding: FragmentCategoriesBinding by autoDispose()
     private val binding get() = _binding
 
     private val _loadInitialIntent = ConflatedBroadcastChannel<CategoryListIntent>()

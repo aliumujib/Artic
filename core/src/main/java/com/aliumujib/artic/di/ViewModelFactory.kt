@@ -1,4 +1,4 @@
-package com.aliumujib.starwars.ui.inject
+package com.aliumujib.artic.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

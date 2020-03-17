@@ -60,42 +60,32 @@
             android:layout_height="wrap_content"
             tools:text="12:32pm" />
 
-        <ImageView
-            android:layout_width="15dp"
-            android:id="@+id/comment_icon"
+        <com.aliumujib.artic.views.iconandtitle.IconAndTitleView
+            android:layout_width="wrap_content"
+            android:id="@+id/comments_button"
             app:layout_constraintBottom_toBottomOf="@+id/article_image"
             app:layout_constraintStart_toStartOf="@+id/article_date_time_publish"
-            android:src="@drawable/ic_comments"
-            android:layout_height="15dp"/>
+            app:iconRes="@drawable/ic_comments"
+            android:layout_height="24dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/comment_icon"
-            app:layout_constraintStart_toEndOf="@+id/comment_icon"
-            app:layout_constraintBottom_toBottomOf="@+id/comment_icon"
-            android:id="@+id/comments_button"
-            android:layout_marginStart="4dp"
-            android:textColor="#4F4F4F"
-            android:layout_height="wrap_content"
-            tools:text="50 comments" />
 
-        <ImageView
-            android:layout_width="15dp"
+        <com.aliumujib.artic.views.bookmarkbutton.BookmarkButtonView
+            android:layout_width="24dp"
             android:id="@+id/bookmark_icon"
             android:layout_marginEnd="@dimen/one_space"
             app:layout_constraintBottom_toBottomOf="@+id/article_image"
             app:layout_constraintEnd_toStartOf="@+id/share_icon"
             android:src="@drawable/ic_bookmark"
-            android:layout_height="15dp"/>
+            android:layout_height="24dp"/>
 
-        <ImageView
-            android:layout_width="15dp"
+        <com.aliumujib.artic.views.iconandtitle.IconAndTitleView
+            android:layout_width="24dp"
             android:id="@+id/share_icon"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/one_space"
             app:layout_constraintBottom_toBottomOf="@+id/article_image"
-            android:src="@drawable/ic_share"
-            android:layout_height="15dp"/>
+            app:iconRes="@drawable/ic_share"
+            android:layout_height="24dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

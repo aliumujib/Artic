@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.TranslateAnimation
 
 internal val View.inflater: LayoutInflater get() = LayoutInflater.from(context)
 
@@ -32,4 +33,32 @@ fun View.show() {
             }
         })
         .start()
+}
+
+
+
+// slide the view from below itself to the current position
+fun View.slideUp() {
+    this.visibility = View.VISIBLE
+    val animate = TranslateAnimation(
+        0f, // fromXDelta
+        0f, // toXDelta
+        this.height.toFloat(), // fromYDelta
+        0f
+    )                // toYDelta
+    animate.duration = 500
+    this.startAnimation(animate)
+}
+
+// slide the view from its current position to below itself
+fun View.slideDown() {
+    val animate = TranslateAnimation(
+        0f, // fromXDelta
+        0f, // toXDelta
+        0f, // fromYDelta
+        this.height.toFloat()
+    ) // toYDelta
+    animate.duration = 500
+    this.startAnimation(animate)
+    this.visibility = View.GONE
 }
