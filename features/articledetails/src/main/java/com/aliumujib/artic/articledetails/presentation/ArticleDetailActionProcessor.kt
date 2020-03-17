@@ -28,11 +28,11 @@ class ArticleDetailActionProcessor @Inject constructor(
 
     private fun loadArticleDetailsResult(actionsFlow: Flow<ArticleDetailsAction.LoadArticleDetailsAction>): Flow<ArticleDetailsResult> {
         return actionsFlow.flatMapMerge { action ->
-            getArticleDetails.build(GetArticleDetails.Params.make(action.articleId))
+            getArticleDetails.build(GetArticleDetails.Params.make(action.article.id))
                 .map { article ->
-                    ArticleDetailsResult.LoadArticleDetailsResult.Success(data = article) as ArticleDetailsResult
+                    ArticleDetailsResult.LoadArticleDetailsResult.LoadedComments(data = article) as ArticleDetailsResult
                 }
-                .onStart { emit(ArticleDetailsResult.LoadArticleDetailsResult.Loading) }
+                .onStart { emit(ArticleDetailsResult.LoadArticleDetailsResult.LoadingComments(action.article)) }
                 .catch {
                     Timber.e(it)
                     emit(ArticleDetailsResult.LoadArticleDetailsResult.Error(it))
@@ -44,7 +44,7 @@ class ArticleDetailActionProcessor @Inject constructor(
         actionsFlow.flatMapMerge { action ->
             getArticleDetails.build(GetArticleDetails.Params.make(action.articleId))
                 .map { article ->
-                    ArticleDetailsResult.LoadArticleDetailsResult.Success(data = article) as ArticleDetailsResult
+                    ArticleDetailsResult.LoadArticleDetailsResult.LoadedComments(data = article) as ArticleDetailsResult
                 }
                 .onStart { emit(ArticleDetailsResult.RefreshArticleDetailsResult.Refreshing) }
                 .catch {

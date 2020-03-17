@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/retry_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/three_space">
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/there_was_an_error" />
+
+        <Button
+            android:id="@+id/retry"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/retry" />
+
+    </LinearLayout>
+
+    <com.aliumujib.artic.views.loadingview.LoadingView
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        app:loadingCaptionText="@string/loading_more"
+        android:layout_height="wrap_content"/>
+
+</FrameLayout>
+

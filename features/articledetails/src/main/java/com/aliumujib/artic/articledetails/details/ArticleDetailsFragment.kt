@@ -3,9 +3,6 @@ package com.aliumujib.artic.articledetails.details
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -13,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import coil.api.load
 import coil.size.ViewSizeResolver
 import coil.transform.RoundedCornersTransformation
-import com.aliumujib.artic.articledetails.R
 import com.aliumujib.artic.articledetails.databinding.DetailsFragmentBinding
 import com.aliumujib.artic.articledetails.di.ArticleDetailsModule
 import com.aliumujib.artic.articledetails.di.DaggerArticleDetailsComponent
@@ -108,7 +104,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
 
     override fun render(state: ArticleDetailsViewState) {
         when {
-            state.isLoading -> {
+            state.isLoadingArticleData -> {
                 binding.shimmerViewContainer.show()
                 binding.shimmerViewContainer.startShimmerAnimation()
                 binding.articleViewContainer.hide()
@@ -116,10 +112,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
             state.error != null -> {
 
             }
-            !state.isLoading && (state.error == null) -> {
-                binding.shimmerViewContainer.stopShimmerAnimation()
-                binding.shimmerViewContainer.hide()
-                binding.articleViewContainer.show()
+            !state.isLoadingArticleData && (state.error == null) -> {
                 state.data?.let {
                     presentSuccessState(articleUIModelMapper.mapToUI(it))
                 }
@@ -128,6 +121,9 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
     }
 
     private fun presentSuccessState(article: ArticleUIModel) {
+        binding.shimmerViewContainer.stopShimmerAnimation()
+        binding.shimmerViewContainer.hide()
+        binding.articleViewContainer.show()
         binding.articleCategoryNames.text = article.categories.first().title
         binding.articleName.text = article.title
         binding.articleDateTimePublish.text = article.dateString

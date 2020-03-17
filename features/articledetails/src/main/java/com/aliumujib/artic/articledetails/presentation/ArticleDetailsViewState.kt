@@ -6,9 +6,10 @@ import com.aliumujib.artic.views.mvi.MVIViewState
 
 
 data class ArticleDetailsViewState(
-    val isLoading: Boolean,
+    val isLoadingArticleData: Boolean,
     val data: Article?,
-    val error: Throwable?
+    val error: Throwable?,
+    val isLoadingComments: Boolean
 ) : MVIViewState {
 
 
@@ -17,7 +18,8 @@ data class ArticleDetailsViewState(
             return ArticleDetailsViewState(
                 false,
                 null,
-                null
+                null,
+                false
             )
         }
     }
@@ -30,33 +32,37 @@ data class ArticleDetailsViewState(
         return when (result) {
             is LoadArticleDetailsResult -> {
                 when (result) {
-                    is LoadArticleDetailsResult.Success -> previousState.copy(
-                        isLoading = false,
+                    is LoadArticleDetailsResult.LoadedComments -> previousState.copy(
+                        isLoadingArticleData = false,
                         data = result.data,
-                        error = null
+                        error = null,
+                        isLoadingComments = false
                     )
                     is LoadArticleDetailsResult.Error -> previousState.copy(
                         error = result.error
                     )
-                    is LoadArticleDetailsResult.Loading -> previousState.copy(
-                        isLoading = true,
-                        error = null
+                    is LoadArticleDetailsResult.LoadingComments -> previousState.copy(
+                        isLoadingArticleData = false,
+                        error = null,
+                        isLoadingComments = true
                     )
                 }
             }
             is RefreshArticleDetailsResult -> {
                 when (result) {
                     is RefreshArticleDetailsResult.Success -> previousState.copy(
-                        isLoading = false,
+                        isLoadingArticleData = false,
                         data = result.data,
-                        error = null
+                        error = null,
+                        isLoadingComments = false
                     )
                     is RefreshArticleDetailsResult.Error -> previousState.copy(
                         error = result.error
                     )
                     is RefreshArticleDetailsResult.Refreshing -> previousState.copy(
-                        isLoading = true,
-                        error = null
+                        isLoadingArticleData = true,
+                        error = null,
+                        isLoadingComments = true
                     )
                 }
             }
