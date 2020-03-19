@@ -115,7 +115,6 @@ dependencies {
     implementation(Dependencies.RX_RELAYS)
     implementation(Dependencies.NAVIGATION_UI)
 
-
     debugImplementation(DebugDependencies.LEAKCANARY)
 
     kapt(AnnotationProcessorsDependencies.DAGGER)

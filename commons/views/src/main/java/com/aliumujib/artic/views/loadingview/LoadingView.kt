@@ -47,19 +47,6 @@ class LoadingView : LinearLayout {
         }
 
 
-        startLoading()
-
-    }
-
-    private fun startLoading() {
-        val actionBtnBounceAnim =
-            ObjectAnimator.ofFloat(binding.image, "rotation",  0f, 360f)
-        actionBtnBounceAnim.interpolator = AccelerateDecelerateInterpolator()
-        actionBtnBounceAnim.duration = 500
-        actionBtnBounceAnim.repeatMode = ValueAnimator.RESTART
-        actionBtnBounceAnim.repeatCount = ValueAnimator.INFINITE
-
-        actionBtnBounceAnim.start()
     }
 
 
