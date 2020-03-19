@@ -44,6 +44,7 @@ data class ArticleDetailsViewState(
                     is LoadArticleDetailsResult.LoadingComments -> previousState.copy(
                         isLoadingArticleData = false,
                         error = null,
+                        data = result.data,
                         isLoadingComments = true
                     )
                 }

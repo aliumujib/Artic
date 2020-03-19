@@ -43,10 +43,12 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.take
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
+import reactivecircus.flowbinding.swiperefreshlayout.refreshes
 import javax.inject.Inject
 
 
@@ -138,11 +140,18 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     private fun loadMoreIntent(): Flow<ArticleListIntent> {
         return binding.articles.scrollStateChanges()
-            .filter { _ -> !articlesAdapter.isLoadingNextPage() } //only runs when adapter is NOT loading
+            .filterNot { _ -> articlesAdapter.isLoadingNextPage() } //only runs when adapter is NOT loading
             .filter { event -> event == RecyclerView.SCROLL_STATE_IDLE }
             .filter { _ -> binding.articles.isLastItemDisplaying() }
             .map {
                 ArticleListIntent.FetchMoreArticleListIntent
+            }
+    }
+
+    private fun refreshIntent(): Flow<ArticleListIntent> {
+        return binding.swipeContainer.refreshes()
+            .map {
+                ArticleListIntent.RefreshArticleListIntent
             }
     }
 
@@ -162,7 +171,11 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                     state.data
                 )
             )
-            state.error != null -> presentErrorState(state.error, state.isLoadingMore, state.data.isEmpty())
+            state.error != null -> presentErrorState(
+                state.error,
+                state.isLoadingMore,
+                state.data.isEmpty()
+            )
             state.isLoading -> presentLoadingState(state.isLoadingMore)
         }
     }
@@ -170,6 +183,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private fun presentSuccessState(data: List<ArticleUIModel>) {
         articlesAdapter.setListState(ListState.Idle)
         binding.loading.hide()
+        binding.swipeContainer.isRefreshing = false
 
         if (data.isNotEmpty()) {
             binding.emptyView.hide()
@@ -184,13 +198,18 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         articlesAdapter.submitList(data)
     }
 
-    private fun presentErrorState(error: Throwable, isLoadingMoreData: Boolean, isEmptyList:Boolean) {
+    private fun presentErrorState(
+        error: Throwable,
+        isLoadingMoreData: Boolean,
+        isEmptyList: Boolean
+    ) {
+        binding.swipeContainer.isRefreshing = false
         binding.emptyView.hide()
         binding.loading.hide()
         if (isLoadingMoreData) {
             binding.articles.show()
             articlesAdapter.setListState(ListState.Error(error))
-        } else if(isEmptyList && isLoadingMoreData.not()) {
+        } else if (isEmptyList && isLoadingMoreData.not()) {
             binding.articles.hide()
             binding.errorView.show()
         }
@@ -228,9 +247,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun intents(): Flow<ArticleListIntent> {
-        return merge(loadMoreIntent(), loadInitialIntent(), listActionIntents())
+        return merge(loadMoreIntent(), loadInitialIntent(), listActionIntents(), refreshIntent())
     }
-
 
     override fun onArticleClicked(articleUIModel: ArticleUIModel) {
         findNavController().navigate(
