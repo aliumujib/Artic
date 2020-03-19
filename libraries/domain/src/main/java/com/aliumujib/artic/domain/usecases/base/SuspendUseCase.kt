@@ -1,6 +1,6 @@
 package com.aliumujib.artic.domain.usecases.base
 
-import com.aliumujib.artic.domain.executor.PostExecutionThread
+import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import kotlinx.coroutines.withContext
 
 abstract class SuspendUseCase<in P, R>(

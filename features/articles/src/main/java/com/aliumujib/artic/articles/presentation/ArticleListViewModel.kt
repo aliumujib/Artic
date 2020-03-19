@@ -74,6 +74,9 @@ class ArticleListViewModel(
                 currentPageNumber += 1
                 ArticleListAction.FetchMoreArticleListAction(currentPageNumber)
             }
+           is ArticleListIntent.SwitchArticleListViewModeIntent -> {
+                ArticleListAction.SwitchArticleListViewModeAction(intent.isGrid)
+            }
         }
     }
 

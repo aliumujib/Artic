@@ -3,9 +3,11 @@ package com.aliumujib.artic.di.modules
 import android.content.Context
 import androidx.room.Room
 import com.aliumujib.artic.cache.impl.ArticlesCacheImpl
+import com.aliumujib.artic.cache.impl.SettingsCacheImpl
 import com.aliumujib.artic.cache.room.ArticlesDao
 import com.aliumujib.artic.data.repositories.articles.cache.IArticlesCache
 import com.aliumujib.artic.cache.room.DBClass
+import com.aliumujib.artic.data.repositories.settings.cache.ISettingsCache
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,6 +21,12 @@ class CacheModule {
     @Provides
     fun providesArticlesCache(articlesCache: ArticlesCacheImpl): IArticlesCache {
         return articlesCache
+    }
+
+    @Singleton
+    @Provides
+    fun providesSettingsCache(settingsCache: SettingsCacheImpl): ISettingsCache {
+        return settingsCache
     }
 
 

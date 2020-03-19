@@ -128,6 +128,7 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
             itemView.findViewById<TextView>(R.id.article_date_time_publish)
         private val commentsButton = itemView.findViewById<IconAndTitleView>(R.id.comments_button)
         private val bookmarkIcon = itemView.findViewById<BookmarkButtonView>(R.id.bookmark_icon)
+        private val shareIcon = itemView.findViewById<IconAndTitleView>(R.id.share_icon)
 
 
         fun bind(model: ArticleUIModel) {
@@ -140,6 +141,9 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
                     articleClicks.onBookmarkBtnClicked(model, model.isBookmarked)
                 }
             })
+            this.shareIcon.setOnClickListener {
+                articleClicks.onShareBtnClicked(model)
+            }
             this.bookmarkIcon.setIsBookmarked(model.isBookmarked)
             this.articleCategory.text = model.categories.firstOrNull()?.title
             this.articleTitle.text = model.title_plain
@@ -153,9 +157,6 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
             }
         }
     }
-
-
-
 
     class DiffCallback : DiffUtil.ItemCallback<ArticleUIModel>() {
         override fun areItemsTheSame(oldItem: ArticleUIModel, newItem: ArticleUIModel): Boolean {

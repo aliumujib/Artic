@@ -67,7 +67,6 @@ class IconAndTitleView : FrameLayout {
         }
     }
 
-
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
 

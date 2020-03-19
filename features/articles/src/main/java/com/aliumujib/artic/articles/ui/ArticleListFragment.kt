@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -163,7 +164,6 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         return listActionIntents
     }
 
-
     override fun render(state: ArticleListViewState) {
         when {
             !state.isLoading && (state.error == null) -> presentSuccessState(
@@ -268,7 +268,13 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun onShareBtnClicked(articleUIModel: ArticleUIModel) {
-
+        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
+            .setType("text/plain")
+            .setText(articleUIModel.url)
+            .intent
+        if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(shareIntent);
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -1,7 +1,10 @@
 package com.aliumujib.artic.articles.presentation
 
+import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
 import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
+import com.aliumujib.artic.domain.usecases.settings.FetchViewModeSettings
+import com.aliumujib.artic.domain.usecases.settings.UpdateViewModeSettings
 import com.aliumujib.artic.views.ext.ofType
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
@@ -9,7 +12,9 @@ import javax.inject.Inject
 
 class ArticleListActionProcessor @Inject constructor(
     private val getAllArticles: GetAllArticles,
-    private val setArticleBookmarkStatus: SetArticleBookmarkStatus
+    private val setArticleBookmarkStatus: SetArticleBookmarkStatus,
+    private val updateViewModeSettings: UpdateViewModeSettings,
+    private val fetchViewModeSettings: FetchViewModeSettings
 ) {
 
     fun actionToResultTransformer(action: ArticleListAction): Flow<ArticleListResult> {
@@ -25,6 +30,9 @@ class ArticleListActionProcessor @Inject constructor(
             }
             is ArticleListAction.SetArticleBookmarkStatusAction -> {
                 bookmarkArticleResult(flowOf(action))
+            }
+            is ArticleListAction.SwitchArticleListViewModeAction -> {
+                changeArticleListViewModeResult(flowOf(action))
             }
         }
     }
@@ -51,10 +59,12 @@ class ArticleListActionProcessor @Inject constructor(
 
     private fun loadArticleListResult(actionsFlow: Flow<ArticleListAction.LoadArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
-            getAllArticles.build(GetAllArticles.Params.make(true, action.page))
-                .map { articles ->
-                    ArticleListResult.LoadArticleListResults.Success(data = articles) as ArticleListResult
-                }
+            getAllArticles.build(GetAllArticles.Params.make(true, action.page)).combine(flow { emit(fetchViewModeSettings.invoke()) })
+            { list: List<Article>, isGrid: Boolean ->
+                ArticleListResult.LoadArticleListResults.Success(list, isGrid)
+            }.map { result ->
+                result as ArticleListResult
+            }
                 .onStart { emit(ArticleListResult.LoadArticleListResults.Loading) }
                 .catch {
                     Timber.e(it)
@@ -90,11 +100,30 @@ class ArticleListActionProcessor @Inject constructor(
                 }
         }
 
+    private fun changeArticleListViewModeResult(actionsFlow: Flow<ArticleListAction.SwitchArticleListViewModeAction>): Flow<ArticleListResult> {
+        return actionsFlow.flatMapMerge { action ->
+            flow {
+                emit(updateViewModeSettings.invoke(UpdateViewModeSettings.Params.make(action.isGrid)))
+            }.map {
+                ArticleListResult.SetArticleListViewModeResults.Success(it) as ArticleListResult
+            }.catch {
+                Timber.e(it)
+                emit(ArticleListResult.SetBookmarkStatusResults.Error(it))
+            }
+        }
+    }
 
     private fun bookmarkArticleResult(actionsFlow: Flow<ArticleListAction.SetArticleBookmarkStatusAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
             flow {
-                emit(setArticleBookmarkStatus.invoke(SetArticleBookmarkStatus.Params.make(action.article, action.isBookmarked)))
+                emit(
+                    setArticleBookmarkStatus.invoke(
+                        SetArticleBookmarkStatus.Params.make(
+                            action.article,
+                            action.isBookmarked
+                        )
+                    )
+                )
             }.map {
                 ArticleListResult.SetBookmarkStatusResults.Success(it!!) as ArticleListResult
             }.catch {
@@ -103,4 +132,5 @@ class ArticleListActionProcessor @Inject constructor(
             }
         }
     }
+
 }

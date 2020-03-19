@@ -6,7 +6,7 @@ import com.aliumujib.artic.views.mvi.MVIResult
 
 sealed class ArticleListResult : MVIResult {
     sealed class LoadArticleListResults() : ArticleListResult() {
-        data class Success(val data: List<Article>) : LoadArticleListResults()
+        data class Success(val data: List<Article>, val isGrid: Boolean) : LoadArticleListResults()
         object Loading : LoadArticleListResults()
         data class Error(val error: Throwable) : LoadArticleListResults()
     }
@@ -26,6 +26,11 @@ sealed class ArticleListResult : MVIResult {
     sealed class SetBookmarkStatusResults : ArticleListResult() {
         data class Success(var article: Article) : SetBookmarkStatusResults()
         data class Error(val error: Throwable) : SetBookmarkStatusResults()
+    }
+
+    sealed class SetArticleListViewModeResults : ArticleListResult() {
+        data class Success(var isGrid: Boolean) : SetArticleListViewModeResults()
+        data class Error(val error: Throwable) : SetArticleListViewModeResults()
     }
 
 }

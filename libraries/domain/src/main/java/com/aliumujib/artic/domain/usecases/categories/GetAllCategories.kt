@@ -1,7 +1,7 @@
 package com.aliumujib.artic.domain.usecases.categories
 
 
-import com.aliumujib.artic.domain.executor.PostExecutionThread
+import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Category
 import com.aliumujib.artic.domain.repositories.categories.ICategoriesRepository
 import com.aliumujib.artic.domain.usecases.base.FlowUseCase

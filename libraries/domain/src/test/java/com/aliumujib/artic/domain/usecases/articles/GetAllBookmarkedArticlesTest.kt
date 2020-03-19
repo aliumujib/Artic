@@ -1,23 +1,19 @@
 package com.aliumujib.artic.domain.usecases.articles
 
-import com.aliumujib.artic.domain.executor.PostExecutionThread
+import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
 import com.aliumujib.artic.domain.test.ArticleDataFactory
 import com.aliumujib.artic.domain.test.TestPostExecutionThreadImpl
 import io.mockk.MockKAnnotations
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.MatcherAssert
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.Is
 import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test

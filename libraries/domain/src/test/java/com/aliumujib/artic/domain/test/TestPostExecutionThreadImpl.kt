@@ -1,6 +1,6 @@
 package com.aliumujib.artic.domain.test
 
-import com.aliumujib.artic.domain.executor.PostExecutionThread
+import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 

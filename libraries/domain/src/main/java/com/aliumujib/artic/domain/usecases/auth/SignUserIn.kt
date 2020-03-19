@@ -1,7 +1,7 @@
 package com.aliumujib.artic.domain.usecases.auth
 
 
-import com.aliumujib.artic.domain.executor.PostExecutionThread
+import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.User
 import com.aliumujib.artic.domain.repositories.auth.IAuthService
 import com.aliumujib.artic.domain.usecases.base.SuspendUseCase
