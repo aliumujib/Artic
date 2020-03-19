@@ -46,7 +46,6 @@ class LoadingView : LinearLayout {
             binding.caption.text = caption
         }
 
-
     }
 
 

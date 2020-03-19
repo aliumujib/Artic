@@ -6,6 +6,7 @@ import com.aliumujib.artic.views.mvi.MVIIntent
 
 sealed class ArticleListIntent : MVIIntent {
     data class SetArticleBookmarkStatusIntent(val article: Article, val isBookmarked :Boolean) : ArticleListIntent()
+    data class SwitchArticleListViewModeIntent(val isGrid:Boolean) : ArticleListIntent()
     object LoadArticleListIntent : ArticleListIntent()
     object RefreshArticleListIntent : ArticleListIntent()
     object FetchMoreArticleListIntent : ArticleListIntent()

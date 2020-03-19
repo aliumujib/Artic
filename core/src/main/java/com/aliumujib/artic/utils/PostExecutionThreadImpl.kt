@@ -1,8 +1,6 @@
 package com.aliumujib.artic.utils
 
-import com.aliumujib.artic.domain.executor.PostExecutionThread
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject

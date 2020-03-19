@@ -11,6 +11,8 @@ import dagger.Provides
 import com.aliumujib.artic.articles.presentation.ArticleListViewModel
 import com.aliumujib.artic.domain.usecases.articles.GetAllArticles
 import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
+import com.aliumujib.artic.domain.usecases.settings.FetchViewModeSettings
+import com.aliumujib.artic.domain.usecases.settings.UpdateViewModeSettings
 import com.aliumujib.artic.views.ext.viewModel
 
 /**
@@ -43,9 +45,15 @@ class ArticleListModule(
     @Provides
     fun providesArticleListActionProcessor(
         getAllArticles: GetAllArticles,
-        setArticleBookmarkStatus: SetArticleBookmarkStatus
-    ) = ArticleListActionProcessor(getAllArticles, setArticleBookmarkStatus)
-
+        setArticleBookmarkStatus: SetArticleBookmarkStatus,
+        updateViewModeSettings: UpdateViewModeSettings,
+        fetchViewModeSettings: FetchViewModeSettings
+    ) = ArticleListActionProcessor(
+        getAllArticles,
+        setArticleBookmarkStatus,
+        updateViewModeSettings,
+        fetchViewModeSettings
+    )
 
 
     /**

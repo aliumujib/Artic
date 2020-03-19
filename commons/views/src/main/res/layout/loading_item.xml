@@ -8,6 +8,7 @@
         android:id="@+id/retry_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:orientation="vertical"
         android:padding="@dimen/three_space">
 

@@ -1,4 +1,4 @@
-package com.aliumujib.artic.domain.executor
+package com.aliumujib.artic.domain.threadexecutor
 
 import kotlinx.coroutines.CoroutineDispatcher
 
