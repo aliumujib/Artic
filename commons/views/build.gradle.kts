@@ -31,6 +31,7 @@ dependencies {
     implementation(Dependencies.NAVIGATION_UI)
     implementation(Dependencies.PAGING)
     implementation(Dependencies.COIL)
+    implementation(Dependencies.PRO_PROGRESS_VIEWS)
 
     kapt(AnnotationProcessorsDependencies.DATABINDING)
 }

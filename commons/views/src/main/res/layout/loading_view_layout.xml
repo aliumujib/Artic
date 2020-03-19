@@ -3,15 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="70dp"
-        android:src="@drawable/ic_loading_icon"
-        android:layout_height="70dp"
-        android:contentDescription="@string/loading_icon" />
+
+    <com.singh.daman.proprogressviews.DottedArcProgress
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:arcRadius="80dp"
+        app:colorofArc="@color/colorAccent"
+        />
 
 
     <TextView
@@ -26,8 +28,7 @@
         android:gravity="center"
         android:textColor="@color/grey_text"
         android:textSize="@dimen/text_18"
-        tools:text="You don’t have any notifications
-right now.When you do, we’ll let you know." />
+        tools:text="You don’t have any notifications right now.When you do, we’ll let you know." />
 
 
 </LinearLayout>

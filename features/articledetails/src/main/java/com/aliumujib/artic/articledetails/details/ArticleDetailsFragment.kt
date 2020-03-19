@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.take
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -83,11 +84,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
         viewModel.processIntent(intents())
 
         _loadInitialIntent.offer(
-            ArticleDetailsIntent.LoadArticleDetailsIntent(
-                articleUIModelMapper.mapFromUI(
-                    articleArgs.article
-                )
-            )
+            ArticleDetailsIntent.LoadArticleDetailsIntent(articleUIModelMapper.mapFromUI(articleArgs.article))
         )
 
     }
@@ -103,6 +100,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
     }
 
     override fun render(state: ArticleDetailsViewState) {
+        Timber.d("${state::class.java.canonicalName}")
         when {
             state.isLoadingArticleData -> {
                 binding.shimmerViewContainer.show()

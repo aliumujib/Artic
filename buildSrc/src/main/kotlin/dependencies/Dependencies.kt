@@ -34,6 +34,7 @@ object Dependencies {
     const val FLOWBINDING_CORE = "io.github.reactivecircus.flowbinding:flowbinding-core:${BuildDependenciesVersions.FLOW_BINDING}"
     const val FLOWBINDING_RECYCLERVIEW = "io.github.reactivecircus.flowbinding:flowbinding-recyclerview:${BuildDependenciesVersions.FLOW_BINDING}"
     const val FLOWBINDING_SWIPEREFRESH = "io.github.reactivecircus.flowbinding:flowbinding-swiperefreshlayout:${BuildDependenciesVersions.FLOW_BINDING}"
+    const val PRO_PROGRESS_VIEWS = "com.github.DamanSingh4321:ProProgressViews:v${BuildDependenciesVersions.PRO_PROGRESS_VIEWS}"
 
 
     const val RECYCLE_VIEW = "androidx.recyclerview:recyclerview:${BuildDependenciesVersions.RECYCLE_VIEW}"

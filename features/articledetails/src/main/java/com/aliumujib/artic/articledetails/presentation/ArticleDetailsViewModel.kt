@@ -27,7 +27,7 @@ class ArticleDetailsViewModel(private val articleDetailActionProcessor: ArticleD
                 ArticleDetailsAction.RefreshArticleDetailsAction(intent.article.id)
             }
             is ArticleDetailsIntent.LoadArticleDetailsIntent -> {
-                ArticleDetailsAction.LoadArticleDetailsAction(intent.article.id)
+                ArticleDetailsAction.LoadArticleDetailsAction(intent.article)
             }
         }
     }
