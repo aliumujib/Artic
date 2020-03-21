@@ -8,15 +8,15 @@ import javax.inject.Inject
 class SettingsCacheImpl @Inject constructor(var context: Context) :ISettingsCache, CoreSharedPrefManager(context) {
 
     override suspend fun setArticleListViewMode(isGridMode: Boolean): Boolean {
-        savePref(LAST_CACHE_TIME, isGridMode)
+        savePref(LIST_VIEW_MODE, isGridMode)
         return isGridMode
     }
 
     override suspend fun getArticleListViewMode(): Boolean {
-        return getPref(LAST_CACHE_TIME, true)!!
+        return getPref(LIST_VIEW_MODE, true)!!
     }
 
     companion object {
-        private const val LAST_CACHE_TIME = "LIST_VIEW_MODE"
+        private const val LIST_VIEW_MODE = "LIST_VIEW_MODE"
     }
 }
