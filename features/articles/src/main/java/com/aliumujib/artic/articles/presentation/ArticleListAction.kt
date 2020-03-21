@@ -8,5 +8,4 @@ sealed class ArticleListAction {
     data class SwitchArticleListViewModeAction(val isGrid:Boolean) : ArticleListAction()
     object RefreshArticleListAction : ArticleListAction()
     data class FetchMoreArticleListAction(val page: Int) : ArticleListAction()
-
 }

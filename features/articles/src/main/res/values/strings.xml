@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="no_articles_to_show">There are no articles to display.</string>
 
     <string name="action_switch">Switch Mode</string>
+
 </resources>
