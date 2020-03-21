@@ -1,4 +1,4 @@
-package com.aliumujib.artic.articles.ui.adapter
+package com.aliumujib.artic.views.basearticlelist.adapter
 
 import com.aliumujib.artic.views.models.ArticleUIModel
 

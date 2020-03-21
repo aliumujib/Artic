@@ -3,7 +3,7 @@ package com.aliumujib.artic.articles.di
 import androidx.annotation.VisibleForTesting
 import androidx.annotation.VisibleForTesting.PRIVATE
 import com.aliumujib.artic.articles.ui.ArticleListFragment
-import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
+import com.aliumujib.artic.views.basearticlelist.adapter.ArticleListAdapter
 import com.aliumujib.artic.articles.presentation.ArticleListActionProcessor
 import com.aliumujib.artic.di.scopes.FeatureScope
 import dagger.Module

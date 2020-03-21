@@ -4,6 +4,8 @@
     <string name="loading_icon">Loading Icon</string>
     <string name="loading_more">Loading more data, please wait ;)</string>
 
+    <string name="no_articles_to_show">There are no articles to display.</string>
+
     <string name="there_was_an_error">An error occurred while we performed your request.</string>
     <string name="retry">Retry</string>
 </resources>

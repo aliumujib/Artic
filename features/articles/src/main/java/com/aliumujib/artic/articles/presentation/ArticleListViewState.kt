@@ -49,6 +49,7 @@ data class ArticleListViewState(
                     is LoadArticleListResults.Success -> previousState.copy(
                         isLoading = false,
                         isLoadingMore = false,
+                        isGrid = result.isGrid,
                         data = result.data,
                         error = null
                     )
