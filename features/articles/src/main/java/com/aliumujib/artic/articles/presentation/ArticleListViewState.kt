@@ -108,9 +108,9 @@ data class ArticleListViewState(
             is SetBookmarkStatusResults -> {
                 when (result) {
                     is SetBookmarkStatusResults.Success -> {
-                        val articles = previousState.data.toMutableList()
+                        val articles = previousState.data.toMutableList() //makes a new copy of the array
                         (articles).find { it.id == result.article.id }?.isBookmarked =
-                            result.article.isBookmarked
+                            result.article.isBookmarked //we then change the property of the list that we need to.
                         val newState = previousState.copy(data = articles)
                         newState
                     }
