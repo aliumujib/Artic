@@ -11,6 +11,7 @@ object BuildModules {
         const val ABOUT = ":features:about"
         const val BOOKMARKS = ":features:bookmarks"
         const val CATEGORIES = ":features:categories"
+        const val CATEGORY_DETAILS = ":features:categorydetails"
         const val SEARCH = ":features:search"
         const val SETTINGS = ":features:settings"
         const val AUTHORIZATION = ":features:authorization"

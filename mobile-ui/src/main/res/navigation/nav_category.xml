@@ -13,14 +13,33 @@
         tools:layout="@layout/article_list_fragment">
 
         <action
-            android:id="@+id/action_categoryListFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
+            android:id="@+id/action_categoryListFragment_to_categoryDetailsFragment"
+            app:destination="@id/categoryDetailsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/detailsFragment"
-        app:moduleName="articledetails"
-        android:name="com.aliumujib.artic.articledetails.details.DetailsFragment"
-        android:label="details_fragment"
-        tools:layout="@layout/details_fragment" />
+        android:id="@+id/categoryDetailsFragment"
+        app:moduleName="categorydetails"
+        android:name="com.aliumujib.artic.categorydetails.ui.CategoryDetailsFragment"
+        android:label="Category Details"
+        tools:layout="@layout/article_list_fragment" >
+
+        <argument android:name="category"
+            app:argType="com.aliumujib.artic.views.models.CategoryUIModel"
+            app:nullable="false"/>
+
+        <action
+            android:id="@+id/action_categoryDetailsFragment_to_nav_details"
+            app:destination="@id/nav_details" >
+            <argument android:name="article"
+                app:nullable="false"
+                app:argType="com.aliumujib.artic.views.models.ArticleUIModel"
+                />
+        </action>
+
+    </fragment>
+
+
+    <include app:graph="@navigation/nav_details" />
+
 </navigation>

@@ -10,6 +10,8 @@ interface IArticlesRepository {
 
     fun getArticleById(articleId: Int): Flow<Article>
 
+    fun getArticlesByCategoryId(categoryId: Int, page: Int): Flow<List<Article>>
+
     suspend fun bookmarkArticle(article: Article): Article?
 
     suspend fun unBookmarkArticle(articleId: Int): Article?

@@ -1,10 +1,10 @@
-include(":libraries:testutilities")
 include(
     ":core",
     ":libraries:domain",
     ":libraries:data",
     ":libraries:remote",
     ":libraries:cache",
+    ":libraries:testutilities",
     ":commons:views",
     ":features:bookmarks",
     ":features:settings",
@@ -13,6 +13,7 @@ include(
     ":features:articles",
     ":features:search",
     ":features:about",
+    ":features:categorydetails",
     ":features:authorization",
     ":mobile-ui")
 

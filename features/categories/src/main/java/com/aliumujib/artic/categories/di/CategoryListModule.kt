@@ -57,6 +57,6 @@ class CategoryListModule(
      */
     @FeatureScope
     @Provides
-    fun providesCategoryListAdapter() = CategoryListAdapter(ConflatedBroadcastChannel())
+    fun providesCategoryListAdapter() = CategoryListAdapter(fragment)
 
 }

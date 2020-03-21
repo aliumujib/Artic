@@ -1,6 +1,8 @@
 package com.aliumujib.artic.views.models
 
 import android.os.Parcelable
+import android.text.Html
+import android.text.Spanned
 import android.text.format.DateUtils
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
@@ -25,9 +27,12 @@ data class ArticleUIModel(
     var categories: List<CategoryUIModel>,
     var author: AuthorUIModel,
     var isBookmarked: Boolean
-) : Parcelable{
+) : Parcelable {
 
     @IgnoredOnParcel
     val dateString: String = DateUtils.getRelativeTimeSpanString(date.time, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS).toString()
+
+    @IgnoredOnParcel
+    val titleHtml: Spanned = Html.fromHtml(title)
 
 }
