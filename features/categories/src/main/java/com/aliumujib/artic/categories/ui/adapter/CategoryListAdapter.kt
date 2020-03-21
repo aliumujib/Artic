@@ -13,32 +13,29 @@ import kotlinx.coroutines.flow.asFlow
 import javax.inject.Inject
 
 
-class CategoryListAdapter @Inject constructor(private val conflatedBroadcastChannel: ConflatedBroadcastChannel<CategoryUIModel>) :
+class CategoryListAdapter @Inject constructor(private val categoryClickListener: CategoryClickListener) :
     ListAdapter<CategoryUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
             CategoryListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CategoryViewHolder(binding, conflatedBroadcastChannel)
+        return CategoryViewHolder(binding, categoryClickListener)
     }
 
     fun isEmpty() = super.getItemCount()  == 0
 
-    fun categoryClicks(): Flow<CategoryUIModel> {
-        return conflatedBroadcastChannel.asFlow()
-    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as CategoryViewHolder).bind(getItem(position))
     }
 
 
-    class CategoryViewHolder(private val binding: CategoryListItemBinding, private val conflatedBroadcastChannel: ConflatedBroadcastChannel<CategoryUIModel>) :
+    class CategoryViewHolder(private val binding: CategoryListItemBinding, private val categoryClickListener: CategoryClickListener) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(model: CategoryUIModel) {
             itemView.setOnClickListener {
-                conflatedBroadcastChannel.offer(model)
+                categoryClickListener.onCategoryClick(model)
             }
             binding.categoryName.text = model.title
             binding.categoryCount.text = model.postCount.toString()

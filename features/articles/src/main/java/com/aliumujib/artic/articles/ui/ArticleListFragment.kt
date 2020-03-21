@@ -102,10 +102,7 @@ class ArticleListFragment : BaseArticleListFragment(), MVIView<ArticleListIntent
     }
 
     private fun refreshIntent(): Flow<ArticleListIntent> {
-        return binding.swipeContainer.refreshes()
-            .map {
-                ArticleListIntent.RefreshArticleListIntent
-            }
+        return binding.swipeContainer.refreshes().map { ArticleListIntent.RefreshArticleListIntent }
     }
 
     private fun loadInitialIntent(): Flow<ArticleListIntent> {
@@ -159,12 +156,7 @@ class ArticleListFragment : BaseArticleListFragment(), MVIView<ArticleListIntent
     }
 
     override fun onBookmarkBtnClicked(articleUIModel: ArticleUIModel, isBookmarked: Boolean) {
-        _listActionIntents.offer(
-            ArticleListIntent.SetArticleBookmarkStatusIntent(
-                articleUIModelMapper.mapFromUI(articleUIModel),
-                isBookmarked
-            )
-        )
+        _listActionIntents.offer(ArticleListIntent.SetArticleBookmarkStatusIntent(articleUIModelMapper.mapFromUI(articleUIModel), isBookmarked))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

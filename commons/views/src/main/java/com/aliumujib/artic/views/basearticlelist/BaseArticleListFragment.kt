@@ -1,6 +1,5 @@
 package com.aliumujib.artic.views.basearticlelist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +27,7 @@ import javax.inject.Inject
 
 
 @ExperimentalCoroutinesApi
-open class BaseArticleListFragment : Fragment(), ArticleClickListener {
+abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
 
     @Inject
     lateinit var articlesAdapter: ArticleListAdapter
@@ -144,13 +143,6 @@ open class BaseArticleListFragment : Fragment(), ArticleClickListener {
     }
 
 
-    override fun onArticleClicked(articleUIModel: ArticleUIModel) {
-
-    }
-
-    override fun onBookmarkBtnClicked(articleUIModel: ArticleUIModel, isBookmarked: Boolean) {
-
-    }
 
     override fun onShareBtnClicked(articleUIModel: ArticleUIModel) {
         val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())

@@ -146,7 +146,7 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
             }
             this.bookmarkIcon.setIsBookmarked(model.isBookmarked)
             this.articleCategory.text = model.categories.firstOrNull()?.title
-            this.articleTitle.text = model.title_plain
+            this.articleTitle.text = model.titleHtml
             this.articleDateTimePublish.text = model.dateString
             this.articleImage.load(model.fullImageURL) {
                 transformations(RoundedCornersTransformation(6.0f, 6.0f, 0.0f, 0.0f))

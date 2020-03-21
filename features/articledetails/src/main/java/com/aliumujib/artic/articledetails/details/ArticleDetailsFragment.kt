@@ -123,7 +123,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
         binding.shimmerViewContainer.hide()
         binding.articleViewContainer.show()
         binding.articleCategoryNames.text = article.categories.first().title
-        binding.articleName.text = article.title
+        binding.articleName.text = article.titleHtml
         binding.articleDateTimePublish.text = article.dateString
         binding.articleImage.load(article.fullImageURL) {
             transformations(RoundedCornersTransformation(12.0f, 12.0f, 12.0f, 12.0f))

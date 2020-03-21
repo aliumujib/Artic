@@ -52,6 +52,13 @@ class ArticlesRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getArticlesByCategoryId(categoryId: Int, page: Int): Flow<List<Article>> {
+        return flow {
+            val articles = articlesRemote.getArticlesByCategoryId(categoryId, page)
+            emit(articleEntityMapper.mapFromEntityList(articles))
+        }
+    }
+
     override suspend fun bookmarkArticle(article: Article): Article? {
         articlesCache.setArticleAsBookmarked(articleEntityMapper.mapToEntity(article))
         return articlesCache.findArticleById(article.id)?.let {

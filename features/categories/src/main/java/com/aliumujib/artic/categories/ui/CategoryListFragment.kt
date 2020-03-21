@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aliumujib.artic.views.models.CategoryUIModel
 import com.aliumujib.artic.articles.models.CategoryUIModelMapper
@@ -17,6 +18,7 @@ import com.aliumujib.artic.categories.di.DaggerCategoryListComponent
 import com.aliumujib.artic.categories.presentation.CategoryListIntent
 import com.aliumujib.artic.categories.presentation.CategoryListViewModel
 import com.aliumujib.artic.categories.presentation.CategoryListViewState
+import com.aliumujib.artic.categories.ui.adapter.CategoryClickListener
 import com.aliumujib.artic.categories.ui.adapter.CategoryListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass
 import com.aliumujib.artic.views.ext.*
@@ -29,7 +31,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryListViewState> {
+class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryListViewState>, CategoryClickListener {
 
     @Inject
     lateinit var categoryListAdapter: CategoryListAdapter
@@ -90,9 +92,6 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
             adapter = categoryListAdapter
         }
 
-        categoryListAdapter.categoryClicks().onEach {
-
-        }.launchIn(lifecycleScope)
     }
 
 
@@ -157,5 +156,8 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
         return loadInitialIntent.filter { categoryListAdapter.isEmpty() }
     }
 
+    override fun onCategoryClick(categoryUIModel: CategoryUIModel) {
+        findNavController().navigate(CategoryListFragmentDirections.actionCategoryListFragmentToCategoryDetailsFragment(categoryUIModel))
+    }
 
 }
