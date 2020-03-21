@@ -34,14 +34,7 @@ fun RecyclerView.removeAllDecorations() {
 //return true if it's last item visited
  fun RecyclerView.isLastItemDisplaying(): Boolean {
     if (this.adapter!!.itemCount != 0) {
-        val lastVisibleItemPosition:Int = if(layoutManager is StaggeredGridLayoutManager){
-            getLastVisibleItem((this.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(
-                null
-            ))
-        }
-        else {
-            (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-        }
+        val lastVisibleItemPosition:Int = getLastVisibleItemPosition()
         return lastVisibleItemPosition != RecyclerView.NO_POSITION && lastVisibleItemPosition == this.adapter!!.itemCount - 1
     }
     return false
@@ -49,14 +42,37 @@ fun RecyclerView.removeAllDecorations() {
 
 
 //get last item
-fun RecyclerView.getLastVisibleItem(lastVisibleItemPositions: IntArray): Int {
-    var maxSize = 0
-    for (i in lastVisibleItemPositions.indices) {
-        if (i == 0) {
-            maxSize = lastVisibleItemPositions[i]
-        } else if (lastVisibleItemPositions[i] > maxSize) {
-            maxSize = lastVisibleItemPositions[i]
+fun RecyclerView.getFirstVisibleItemPosition(): Int {
+    return if(layoutManager is StaggeredGridLayoutManager){
+        var maxSize = 0
+        val visibleItemPositions = (this.layoutManager as StaggeredGridLayoutManager).findFirstVisibleItemPositions(null)
+        for (i in visibleItemPositions.indices) {
+            if (i == 0) {
+                maxSize = visibleItemPositions[i]
+            } else if (visibleItemPositions[i] > maxSize) {
+                maxSize = visibleItemPositions[i]
+            }
         }
+        maxSize
+    }else{
+        (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
     }
-    return maxSize
+}
+
+//get last item position
+fun RecyclerView.getLastVisibleItemPosition(): Int {
+    return if(layoutManager is StaggeredGridLayoutManager){
+        var maxSize = 0
+        val lastVisibleItemPositions = (this.layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
+        for (i in lastVisibleItemPositions.indices) {
+            if (i == 0) {
+                maxSize = lastVisibleItemPositions[i]
+            } else if (lastVisibleItemPositions[i] > maxSize) {
+                maxSize = lastVisibleItemPositions[i]
+            }
+        }
+        maxSize
+    }else{
+        (layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+    }
 }

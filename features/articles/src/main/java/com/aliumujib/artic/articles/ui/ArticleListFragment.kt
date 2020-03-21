@@ -29,6 +29,7 @@ import com.aliumujib.artic.articles.ui.adapter.ArticleClickListener
 import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
 import com.aliumujib.artic.views.ext.dpToPx
+import com.aliumujib.artic.views.ext.getFirstVisibleItemPosition
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.isLastItemDisplaying
 import com.aliumujib.artic.views.ext.nonNullObserve
@@ -37,6 +38,7 @@ import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.mvi.MVIView
 import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecoration
+import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
 import com.aliumujib.artic.views.recyclerview.ListState
 import com.eyowo.android.core.utils.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,6 +52,7 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.take
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
 import reactivecircus.flowbinding.swiperefreshlayout.refreshes
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -65,6 +68,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
 
     @Inject
     lateinit var articleUIModelMapper: ArticleUIModelMapper
+
+    private var _viewModeBtn: MenuItem? = null
 
     private var _binding: ArticleListFragmentBinding by autoDispose()
     private val binding get() = _binding
@@ -115,6 +120,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     private fun observeStates() {
         nonNullObserve(viewModel.states(), ::render)
     }
+
 
     private fun provideStaggeredGridLayoutManager(): StaggeredGridLayoutManager {
         return StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
@@ -169,7 +175,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             !state.isLoading && (state.error == null) -> presentSuccessState(
                 articleUIModelMapper.mapToUIList(
                     state.data
-                )
+                ), state.isGrid
             )
             state.error != null -> presentErrorState(
                 state.error,
@@ -180,11 +186,37 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
         }
     }
 
-    private fun presentSuccessState(data: List<ArticleUIModel>) {
+
+
+
+    private fun changeListMode(isGrid: Boolean) {
+        _viewModeBtn?.let {
+            if (isGrid && binding.articles.layoutManager !is LinearLayoutManager) {
+                it.icon = AnimatedVectorDrawableCompat.create(requireContext(), R.drawable.avd_list_to_grid)
+                binding.articles.apply {
+                    removeAllDecorations()
+                    addItemDecoration(ListSpacingItemDecorator(context.dpToPx(32), context.dpToPx(16)))
+                    layoutManager = provideListLayoutManager()
+                }
+                articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.LIST)
+            } else if(isGrid.not() && binding.articles.layoutManager !is StaggeredGridLayoutManager){
+                it.icon = AnimatedVectorDrawableCompat.create(requireContext(), R.drawable.avd_grid_to_list)
+                binding.articles.apply {
+                    removeAllDecorations()
+                    addItemDecoration(GridSpacingItemDecoration(2, context.dpToPx(16), true))
+                    layoutManager = provideStaggeredGridLayoutManager()
+                }
+                articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.GRID)
+            }
+            (it.icon as Animatable).start()
+        }
+    }
+
+    private fun presentSuccessState(data: List<ArticleUIModel>, grid: Boolean) {
+        changeListMode(grid)
         articlesAdapter.setListState(ListState.Idle)
         binding.loading.hide()
         binding.swipeContainer.isRefreshing = false
-
         if (data.isNotEmpty()) {
             binding.emptyView.hide()
             binding.errorView.hide()
@@ -273,12 +305,13 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             .setText(articleUIModel.url)
             .intent
         if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
-            startActivity(shareIntent);
+            startActivity(shareIntent)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_home, menu)
+        _viewModeBtn = menu.findItem(R.id.action_switch_mode)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -287,22 +320,11 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                 return true
             R.id.action_switch_mode ->  // do more stuff
                 if (!(item.icon as Animatable).isRunning) {
-                    if (binding.articles.layoutManager is StaggeredGridLayoutManager) {
-                        item.icon = AnimatedVectorDrawableCompat.create(
-                            requireContext(),
-                            R.drawable.avd_list_to_grid
+                    _listActionIntents.offer(
+                        ArticleListIntent.SwitchArticleListViewModeIntent(
+                            binding.articles.layoutManager is StaggeredGridLayoutManager
                         )
-                        binding.articles.layoutManager = provideListLayoutManager()
-                        articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.LIST)
-                    } else {
-                        item.icon = AnimatedVectorDrawableCompat.create(
-                            requireContext(),
-                            R.drawable.avd_grid_to_list
-                        )
-                        binding.articles.layoutManager = provideStaggeredGridLayoutManager()
-                        articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.GRID)
-                    }
-                    (item.icon as Animatable).start()
+                    )
                     return true
                 }
         }
