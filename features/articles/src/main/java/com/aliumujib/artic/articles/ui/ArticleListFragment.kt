@@ -29,7 +29,6 @@ import com.aliumujib.artic.articles.ui.adapter.ArticleClickListener
 import com.aliumujib.artic.articles.ui.adapter.ArticleListAdapter
 import com.aliumujib.artic.mobile_ui.ApplicationClass.Companion.coreComponent
 import com.aliumujib.artic.views.ext.dpToPx
-import com.aliumujib.artic.views.ext.getFirstVisibleItemPosition
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.isLastItemDisplaying
 import com.aliumujib.artic.views.ext.nonNullObserve
@@ -52,7 +51,6 @@ import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.take
 import reactivecircus.flowbinding.recyclerview.scrollStateChanges
 import reactivecircus.flowbinding.swiperefreshlayout.refreshes
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -187,8 +185,6 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
 
-
-
     private fun changeListMode(isGrid: Boolean) {
         _viewModeBtn?.let {
             if (isGrid && binding.articles.layoutManager !is LinearLayoutManager) {
@@ -199,7 +195,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                     layoutManager = provideListLayoutManager()
                 }
                 articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.LIST)
-            } else if(isGrid.not() && binding.articles.layoutManager !is StaggeredGridLayoutManager){
+                (it.icon as Animatable).start()
+            } else if (isGrid.not() && binding.articles.layoutManager !is StaggeredGridLayoutManager) {
                 it.icon = AnimatedVectorDrawableCompat.create(requireContext(), R.drawable.avd_grid_to_list)
                 binding.articles.apply {
                     removeAllDecorations()
@@ -207,8 +204,8 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
                     layoutManager = provideStaggeredGridLayoutManager()
                 }
                 articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.GRID)
+                (it.icon as Animatable).start()
             }
-            (it.icon as Animatable).start()
         }
     }
 
@@ -283,11 +280,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
     }
 
     override fun onArticleClicked(articleUIModel: ArticleUIModel) {
-        findNavController().navigate(
-            ArticleListFragmentDirections.actionArticleListFragmentToNavDetails(
-                articleUIModel
-            )
-        )
+        findNavController().navigate(ArticleListFragmentDirections.actionArticleListFragmentToNavDetails(articleUIModel))
     }
 
     override fun onBookmarkBtnClicked(articleUIModel: ArticleUIModel, isBookmarked: Boolean) {
@@ -321,9 +314,7 @@ class ArticleListFragment : Fragment(), MVIView<ArticleListIntent, ArticleListVi
             R.id.action_switch_mode ->  // do more stuff
                 if (!(item.icon as Animatable).isRunning) {
                     _listActionIntents.offer(
-                        ArticleListIntent.SwitchArticleListViewModeIntent(
-                            binding.articles.layoutManager is StaggeredGridLayoutManager
-                        )
+                        ArticleListIntent.SwitchArticleListViewModeIntent(binding.articles.layoutManager is StaggeredGridLayoutManager)
                     )
                     return true
                 }
