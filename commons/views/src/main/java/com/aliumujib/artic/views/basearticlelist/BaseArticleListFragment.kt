@@ -89,7 +89,7 @@ abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
     }
 
     protected open fun presentSuccessState(data: List<ArticleUIModel>, grid: Boolean) {
-        this.setListMode(grid)
+        setListMode(grid)
         articlesAdapter.setListState(ListState.Idle)
         binding.loading.hide()
         binding.swipeContainer.isRefreshing = false
@@ -152,6 +152,11 @@ abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
         if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(shareIntent)
         }
+    }
+
+    override fun onDestroy() {
+        _binding.articles.adapter = null
+        super.onDestroy()
     }
 
 }

@@ -12,7 +12,7 @@
             <corners android:radius="5dp" />
             <stroke
                 android:width="0dp"
-                android:color="@color/white" />
+                android:color="@color/mds_white" />
         </shape>
 
     </item>

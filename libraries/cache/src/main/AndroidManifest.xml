@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.aliumujib.artic.cache" />
+<manifest package="com.aliumujib.artic.cache" />

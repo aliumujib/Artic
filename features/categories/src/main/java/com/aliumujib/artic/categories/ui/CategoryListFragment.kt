@@ -160,4 +160,8 @@ class CategoryListFragment : Fragment(), MVIView<CategoryListIntent, CategoryLis
         findNavController().navigate(CategoryListFragmentDirections.actionCategoryListFragmentToCategoryDetailsFragment(categoryUIModel))
     }
 
+    override fun onDestroy() {
+        _binding.categories.adapter = null
+        super.onDestroy()
+    }
 }
