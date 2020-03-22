@@ -123,15 +123,16 @@ class ArticleListFragment : BaseArticleListFragment(), MVIView<ArticleListIntent
 
 
     override fun setListMode(isGrid: Boolean) {
-        super.setListMode(isGrid)
         _viewModeBtn?.let {
             if (isGrid && binding.articles.layoutManager !is LinearLayoutManager) {
                 it.icon = AnimatedVectorDrawableCompat.create(requireContext(), R.drawable.avd_list_to_grid)
                 (it.icon as Animatable).start()
-            } else if (isGrid.not() && binding.articles.layoutManager !is StaggeredGridLayoutManager) {
+            } else if (!isGrid && binding.articles.layoutManager !is StaggeredGridLayoutManager) {
                 it.icon = AnimatedVectorDrawableCompat.create(requireContext(), R.drawable.avd_grid_to_list)
                 (it.icon as Animatable).start()
             }
+            //animated first so the layoutmanager doesn't changed and invalid the check above
+            super.setListMode(isGrid)
         }
     }
 
