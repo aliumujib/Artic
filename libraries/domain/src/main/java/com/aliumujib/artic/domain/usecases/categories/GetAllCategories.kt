@@ -1,6 +1,7 @@
 package com.aliumujib.artic.domain.usecases.categories
 
 
+import com.aliumujib.artic.domain.exceptions.NoParamsException
 import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Category
 import com.aliumujib.artic.domain.repositories.categories.ICategoriesRepository
@@ -15,7 +16,7 @@ class GetAllCategories @Inject constructor(
 
     override fun build(params: Params?): Flow<List<Category>> {
         if (params == null) {
-            throw IllegalStateException("Your params can;t be null for this use case")
+            throw NoParamsException()
         }
         return categoriesRepository.getCategories(params.page)
     }

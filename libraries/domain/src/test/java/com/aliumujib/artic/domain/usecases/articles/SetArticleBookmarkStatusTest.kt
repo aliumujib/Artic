@@ -1,18 +1,18 @@
 package com.aliumujib.artic.domain.usecases.articles
 
+import com.aliumujib.artic.domain.exceptions.NoParamsException
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
-import com.aliumujib.artic.domain.test.ArticleDataFactory
-import com.aliumujib.artic.domain.test.TestPostExecutionThreadImpl
+import com.aliumujib.artic.domain.testutils.ArticleDataFactory
+import com.aliumujib.artic.domain.testutils.TestPostExecutionThreadImpl
+import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import konveyor.base.randomBuild
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.instanceOf
-import org.hamcrest.MatcherAssert
-import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
 
@@ -36,7 +36,10 @@ class SetArticleBookmarkStatusTest {
         val article = ArticleDataFactory.makeProject()
         stubBookmarkOperation(article)
         val result = setArticleBookmarkStatus.invoke(SetArticleBookmarkStatus.Params(article, false))
-        MatcherAssert.assertThat(result, `is`((instanceOf(Article::class.java))))
+        assertThat(result).isEqualTo(article)
+        coVerify(exactly = 1) {
+            articlesRepository.bookmarkArticle(article)
+        }
     }
 
 
@@ -45,15 +48,20 @@ class SetArticleBookmarkStatusTest {
         val article = ArticleDataFactory.makeProject()
         stubUnBookmarkOperation(article)
         val result = setArticleBookmarkStatus.invoke(SetArticleBookmarkStatus.Params(article, true))
-        MatcherAssert.assertThat(result, `is`((instanceOf(Article::class.java))))
+        assertThat(result).isEqualTo(article)
+        coVerify(exactly = 1) {
+            articlesRepository.unBookmarkArticle(article.id)
+        }
     }
 
-
-    @Test(expected = IllegalStateException::class)
+    @Test(expected = NoParamsException::class)
     fun `test that calling bookmarkArticle without params throws an exception`() = runBlockingTest {
         stubBookmarkOperation(randomBuild())
         val result = setArticleBookmarkStatus.invoke()
-        MatcherAssert.assertThat(result, `is`((instanceOf(IllegalStateException::class.java))))
+        coVerify(exactly = 0) {
+            articlesRepository.unBookmarkArticle(any())
+            articlesRepository.bookmarkArticle(any())
+        }
     }
 
 

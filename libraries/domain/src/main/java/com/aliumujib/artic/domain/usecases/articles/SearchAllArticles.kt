@@ -1,6 +1,8 @@
 package com.aliumujib.artic.domain.usecases.articles
 
 
+import com.aliumujib.artic.domain.exceptions.EmptyQueryException
+import com.aliumujib.artic.domain.exceptions.NoParamsException
 import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
@@ -15,16 +17,15 @@ class SearchAllArticles @Inject constructor(
 
     override fun build(params: Params?): Flow<List<Article>> {
         if (params == null) {
-            throw IllegalStateException("Your params can't be null for this use case")
+            throw NoParamsException()
         }
 
         if(params.query.isEmpty()){
-            throw IllegalStateException("Your query cannot be empty")
+            throw EmptyQueryException()
         }
 
         return articlesRepository.searchArticles(params.query, params.page)
     }
-
 
     data class Params constructor(val query: String, val page: Int) {
         companion object {

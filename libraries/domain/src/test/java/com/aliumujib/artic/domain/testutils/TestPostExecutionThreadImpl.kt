@@ -1,4 +1,4 @@
-package com.aliumujib.artic.domain.test
+package com.aliumujib.artic.domain.testutils
 
 import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import kotlinx.coroutines.CoroutineDispatcher

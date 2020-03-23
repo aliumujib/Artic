@@ -1,10 +1,9 @@
-package com.aliumujib.artic.domain.test
+package com.aliumujib.artic.domain.testutils
 
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.models.Author
 import com.aliumujib.artic.domain.models.Category
 import konveyor.base.randomBuild
-import java.util.*
 
 object ArticleDataFactory {
 

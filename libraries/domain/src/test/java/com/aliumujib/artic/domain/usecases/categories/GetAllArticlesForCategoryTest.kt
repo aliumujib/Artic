@@ -1,6 +1,5 @@
-package com.aliumujib.artic.domain.usecases.articles
+package com.aliumujib.artic.domain.usecases.categories
 
-import com.aliumujib.artic.domain.exceptions.EmptyQueryException
 import com.aliumujib.artic.domain.exceptions.NoParamsException
 import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Article
@@ -13,6 +12,7 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import konveyor.base.randomBuild
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -21,10 +21,10 @@ import org.junit.Before
 import org.junit.Test
 import java.net.SocketTimeoutException
 
+@ExperimentalCoroutinesApi
+class GetAllArticlesForCategoryTest {
 
-class SearchAllArticlesTest {
-
-    private lateinit var searchArticles: SearchAllArticles
+    private lateinit var getArticlesForCategory: GetArticlesForCategory
     @MockK(relaxed = true)
     lateinit var articlesRepository: IArticlesRepository
     private val postExecutionThread: PostExecutionThread = TestPostExecutionThreadImpl()
@@ -32,51 +32,38 @@ class SearchAllArticlesTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
-        searchArticles = SearchAllArticles(articlesRepository, postExecutionThread)
+        getArticlesForCategory = GetArticlesForCategory(articlesRepository, postExecutionThread)
     }
 
+
     @Test
-    fun `confirm that calling searchArticles returns data`()= runBlockingTest {
+    fun `confirm that calling getArticlesForCategory returns data`() = runBlockingTest {
         val list = ArticleDataFactory.makeArticlesList(10)
-        stubSearchArticles(flow {
+        stubGetArticles(flow {
             emit(list)
         })
-        val params = SearchAllArticles.Params.make(ArticleDataFactory.makeProject().title, randomBuild())
-        val result = searchArticles.build(params).first()
+        val result = getArticlesForCategory.build(GetArticlesForCategory.Params.make(randomBuild(), randomBuild())).first()
         assertThat(result).isEqualTo(list)
         coVerify(exactly = 1) {
-            articlesRepository.searchArticles(any(), any())
+            articlesRepository.getArticlesByCategoryId(any(), any())
         }
     }
 
     @Test(expected = NoParamsException::class)
-    fun `confirm that using searchArticles without params throws an exception`()= runBlockingTest {
-        val list = ArticleDataFactory.makeArticlesList(10)
-        stubSearchArticles(flow {
-            emit(list)
-        })
-        searchArticles.build().first()
-        coVerify(exactly = 0) {
-            articlesRepository.searchArticles(any(), any())
-        }
-    }
-
-    @Test(expected = EmptyQueryException::class)
-    fun `confirm that using searchArticles with an emptyString throws an exception`() = runBlockingTest{
+    fun `confirm that using getArticlesForCategory without params throws an exception`() = runBlockingTest {
         val projects = ArticleDataFactory.makeArticlesList(10)
-        stubSearchArticles(flow {
+        stubGetArticles(flow {
             emit(projects)
         })
-        val params = SearchAllArticles.Params.make("", 0)
-        searchArticles.build(params).first()
+        getArticlesForCategory.build().first()
         coVerify(exactly = 0) {
-            articlesRepository.searchArticles(any(), any())
+            articlesRepository.getArticlesByCategoryId(any(), any())
         }
     }
 
-    private fun stubSearchArticles(flow: Flow<List<Article>>) {
+    private fun stubGetArticles(flow: Flow<List<Article>>) {
         every {
-            articlesRepository.searchArticles(any(), any())
+            articlesRepository.getArticlesByCategoryId(any(), any())
         } returns flow
     }
 

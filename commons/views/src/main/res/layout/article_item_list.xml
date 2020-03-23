@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="160dp"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:layout_margin="@dimen/veritcal_list_card_margin">
+    android:layout_width="match_parent"
+    android:layout_height="160dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,14 +12,15 @@
         <ImageView
             android:id="@+id/article_image"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginStart="@dimen/one_space"
-            android:layout_marginTop="@dimen/one_space"
+            android:layout_marginTop="@dimen/one_and_half_space"
+            android:layout_marginEnd="@dimen/one_and_half_space"
             android:layout_marginBottom="@dimen/one_space"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toStartOf="@+id/barrier"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/barrier2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barrier"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@color/colorAccent" />
 
@@ -28,11 +28,11 @@
             android:id="@+id/article_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/one_and_half_space"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/barrier"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/article_image"
             tools:text="MONEY" />
 
@@ -40,18 +40,19 @@
             android:id="@+id/article_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/half_space"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:lineSpacingExtra="4dp"
+            android:maxLines="3"
             android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
             app:layout_constraintStart_toStartOf="@+id/article_category"
             app:layout_constraintTop_toBottomOf="@+id/article_category"
             tools:text="How i made $200,000 when i was 16 years old." />
-
 
         <TextView
             android:id="@+id/article_date_time_publish"
@@ -67,38 +68,65 @@
             android:id="@+id/comments_button"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
+            android:layout_marginStart="@dimen/one_space"
+            android:layout_marginBottom="@dimen/one_space"
             app:iconRes="@drawable/ic_comments"
-            app:layout_constraintBottom_toBottomOf="@+id/article_image"
-            app:layout_constraintStart_toStartOf="@+id/article_date_time_publish" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/barrier3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/share_icon" />
 
 
         <com.aliumujib.artic.views.bookmarkbutton.BookmarkButtonView
             android:id="@+id/bookmark_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="@dimen/one_space"
-            app:layout_constraintBottom_toBottomOf="@+id/article_image"
-            app:layout_constraintEnd_toStartOf="@+id/share_icon" />
+            app:layout_constraintBottom_toBottomOf="@+id/comments_button"
+            app:layout_constraintEnd_toStartOf="@+id/share_icon"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.aliumujib.artic.views.iconandtitle.IconAndTitleView
             android:id="@+id/share_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="@dimen/one_space"
+            android:layout_marginStart="@dimen/one_space"
             app:iconRes="@drawable/ic_share"
-            app:layout_constraintBottom_toBottomOf="@+id/article_image"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/comments_button"
+            app:layout_constraintEnd_toStartOf="@+id/comments_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/bookmark_icon" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="0dp"
-            app:layout_constraintGuide_percent=".30"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent=".73"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent=".72"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/barrier3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_begin="0dp"
+            app:layout_constraintGuide_percent=".40"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

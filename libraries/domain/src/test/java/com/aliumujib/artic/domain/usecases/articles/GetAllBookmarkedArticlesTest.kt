@@ -3,18 +3,17 @@ package com.aliumujib.artic.domain.usecases.articles
 import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.Article
 import com.aliumujib.artic.domain.repositories.articles.IArticlesRepository
-import com.aliumujib.artic.domain.test.ArticleDataFactory
-import com.aliumujib.artic.domain.test.TestPostExecutionThreadImpl
+import com.aliumujib.artic.domain.testutils.ArticleDataFactory
+import com.aliumujib.artic.domain.testutils.TestPostExecutionThreadImpl
+import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.equalTo
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.core.Is.`is`
 import org.junit.Before
 import org.junit.Test
 
@@ -39,7 +38,10 @@ class GetAllBookmarkedArticlesTest {
             emit(list)
         })
         val result = getAllBookmarkedArticles.build().single()
-        assertThat(result, `is`((equalTo(list))))
+        assertThat(result).isEqualTo(list)
+        coVerify(exactly = 1) {
+            articlesRepository.getBookmarkedArticles()
+        }
     }
 
 

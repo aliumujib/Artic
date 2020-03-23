@@ -58,6 +58,7 @@
             app:layout_constraintStart_toStartOf="@+id/article_category"
             android:id="@+id/article_date_time_publish"
             android:layout_marginTop="4dp"
+            android:lineSpacingExtra="4dp"
             android:textColor="#4F4F4F"
             android:layout_height="wrap_content"
             tools:text="12:32pm" />

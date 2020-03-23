@@ -21,5 +21,5 @@ object TestDependencies {
     const val FRAGMENT_TEST = "androidx.fragment:fragment-testing:${BuildDependenciesVersions.FRAGMENT_TEST}"
     const val MOCK_WEB_SERVER = "com.squareup.okhttp3:mockwebserver:${BuildDependenciesVersions.MOCK_WEB_SERVER}"
     const val KONVEYOR = "com.github.vacxe:konveyor:${BuildDependenciesVersions.KONVEYOR_VERSION}"
-
+    const val TRUTH = "com.google.truth:truth:${BuildDependenciesVersions.TRUTH}"
 }
