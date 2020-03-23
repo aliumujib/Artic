@@ -1,12 +1,12 @@
-package com.aliumujib.artic.data
+package com.aliumujib.artic.remote.utils
 
 import com.aliumujib.artic.data.model.ArticleEntity
 import com.aliumujib.artic.data.model.AuthorEntity
 import com.aliumujib.artic.data.model.CategoryEntity
 import com.aliumujib.artic.data.model.CommentEntity
-import com.aliumujib.artic.domain.models.Article
-import com.aliumujib.artic.domain.models.Author
-import com.aliumujib.artic.domain.models.Comment
+import com.aliumujib.artic.remote.models.Author
+import com.aliumujib.artic.remote.models.Comment
+import com.aliumujib.artic.remote.models.Post
 import konveyor.base.randomBuild
 
 object DummyDataFactory {
@@ -45,6 +45,9 @@ object DummyDataFactory {
         return randomBuild()
     }
 
+    fun makeRandomPost(): Post {
+        return randomBuild()
+    }
 
     fun makeRandomComment(): Comment {
         return randomBuild()
@@ -63,25 +66,14 @@ object DummyDataFactory {
         return articles
     }
 
-    fun makeRandomArticle(): Article {
-        return Article(
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            randomBuild(),
-            mutableListOf(),
-            randomBuild(),
-            randomBuild()
-        )
+
+    fun makePostList(count: Int): List<Post> {
+        val list = mutableListOf<Post>()
+        repeat(count) {
+            list.add(makeRandomPost())
+        }
+        return list
     }
+
+
 }

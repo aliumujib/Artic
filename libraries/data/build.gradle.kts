@@ -18,4 +18,6 @@ dependencies {
     testImplementation (TestDependencies.KONVEYOR)
     testImplementation (TestDependencies.JUNIT)
     testImplementation (TestDependencies.MOCKK)
+    testImplementation(TestDependencies.TRUTH)
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
 }
