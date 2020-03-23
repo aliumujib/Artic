@@ -101,6 +101,7 @@ dependencies {
     implementation(Dependencies.TIMBER)
     implementation(Dependencies.LOGGING)
     implementation(Dependencies.COIL)
+    implementation(Dependencies.MATERIAL)
 
     kapt(AnnotationProcessorsDependencies.DAGGER)
     kapt(AnnotationProcessorsDependencies.DATABINDING)

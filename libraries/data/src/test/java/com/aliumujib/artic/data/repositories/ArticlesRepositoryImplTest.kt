@@ -37,7 +37,6 @@ class ArticlesRepositoryImplTest {
 
     private lateinit var articlesRepositoryImpl: ArticlesRepositoryImpl
 
-
     @Before
     fun setup() {
         MockKAnnotations.init(this)

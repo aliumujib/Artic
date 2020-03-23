@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.api.load
 import coil.size.ViewSizeResolver
-import coil.transform.RoundedCornersTransformation
 import com.aliumujib.artic.articledetails.databinding.DetailsFragmentBinding
 import com.aliumujib.artic.articledetails.di.ArticleDetailsModule
 import com.aliumujib.artic.articledetails.di.DaggerArticleDetailsComponent
@@ -18,6 +17,8 @@ import com.aliumujib.artic.articledetails.presentation.ArticleDetailsViewModel
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsViewState
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.mobile_ui.ApplicationClass
+import com.aliumujib.artic.views.R
+import com.aliumujib.artic.views.ext.enableCornerRadii
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.nonNullObserve
 import com.aliumujib.artic.views.ext.show
@@ -125,8 +126,8 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
         binding.articleCategoryNames.text = article.categories.first().title
         binding.articleName.text = article.titleHtml
         binding.articleDateTimePublish.text = article.dateString
+        binding.articleImage.enableCornerRadii(R.dimen.half_space)
         binding.articleImage.load(article.fullImageURL) {
-            transformations(RoundedCornersTransformation(18.0f, 18.0f, 18.0f, 18.0f))
             //error(errorPlaceHolder)
             crossfade(true)
             size(ViewSizeResolver.invoke(binding.articleImage, false))
