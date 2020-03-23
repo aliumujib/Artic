@@ -1,6 +1,7 @@
 package com.aliumujib.artic.domain.usecases.settings
 
 
+import com.aliumujib.artic.domain.exceptions.NoParamsException
 import com.aliumujib.artic.domain.threadexecutor.PostExecutionThread
 import com.aliumujib.artic.domain.models.User
 import com.aliumujib.artic.domain.repositories.auth.IAuthService
@@ -15,7 +16,7 @@ class UpdateViewModeSettings @Inject constructor(
 ) : SuspendUseCase<UpdateViewModeSettings.Params, Boolean>(postExecutionThread) {
 
     override suspend fun execute(params: Params?): Boolean {
-        if (params == null) throw IllegalStateException("Your params can't be null for this use case")
+        if (params == null) throw NoParamsException()
         return settingsRepository.setCurrentViewMode(params.isGrid)
     }
 

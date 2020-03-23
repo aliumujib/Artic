@@ -62,9 +62,7 @@ class ArticleListViewModel(
 
     private fun actionFromIntent(intent: ArticleListIntent): ArticleListAction {
         return when (intent) {
-            is ArticleListIntent.LoadArticleListIntent -> ArticleListAction.LoadArticleListAction(
-                page = 1
-            )
+            is ArticleListIntent.LoadArticleListIntent -> ArticleListAction.LoadArticleListAction(page = 1)
             is ArticleListIntent.SetArticleBookmarkStatusIntent -> ArticleListAction.SetArticleBookmarkStatusAction(
                 intent.article,
                 intent.isBookmarked

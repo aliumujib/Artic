@@ -19,5 +19,6 @@
     <dimen name="three_space">24dp</dimen>
     <dimen name="half_space">4dp</dimen>
     <dimen name="text_16">16sp</dimen>
+    <dimen name="one_and_half_space">12dp</dimen>
 
 </resources>

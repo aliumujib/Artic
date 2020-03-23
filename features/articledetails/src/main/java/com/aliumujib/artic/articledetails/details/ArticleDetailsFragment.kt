@@ -126,7 +126,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
         binding.articleName.text = article.titleHtml
         binding.articleDateTimePublish.text = article.dateString
         binding.articleImage.load(article.fullImageURL) {
-            transformations(RoundedCornersTransformation(12.0f, 12.0f, 12.0f, 12.0f))
+            transformations(RoundedCornersTransformation(18.0f, 18.0f, 18.0f, 18.0f))
             //error(errorPlaceHolder)
             crossfade(true)
             size(ViewSizeResolver.invoke(binding.articleImage, false))
