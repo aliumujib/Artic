@@ -3,24 +3,23 @@ package com.aliumujib.artic.data.mapper
 import com.aliumujib.artic.data.DummyDataFactory
 import com.aliumujib.artic.data.model.AuthorEntity
 import com.aliumujib.artic.domain.models.Author
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import kotlin.test.assertEquals
+
 
 @RunWith(JUnit4::class)
 class AuthorEntityMapperTest {
 
 
-    var authorEntityMapper: AuthorEntityMapper = AuthorEntityMapper()
+    private var authorEntityMapper: AuthorEntityMapper = AuthorEntityMapper()
 
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+
     }
 
 
@@ -40,7 +39,7 @@ class AuthorEntityMapperTest {
     }
 
 
-    fun assertEqualValues(entity: AuthorEntity, domain: Author) {
+    private fun assertEqualValues(entity: AuthorEntity, domain: Author) {
         assertEquals(entity.id, domain.id)
         assertEquals(entity.slug, domain.slug)
         assertEquals(entity.name, domain.name)

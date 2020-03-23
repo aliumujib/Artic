@@ -3,25 +3,22 @@ package com.aliumujib.artic.data.mapper
 import com.aliumujib.artic.data.DummyDataFactory
 import com.aliumujib.artic.data.model.ArticleEntity
 import com.aliumujib.artic.domain.models.Article
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
-import kotlin.test.assertEquals
 
 @RunWith(JUnit4::class)
 class ArticleEntityMapperTest {
 
-    lateinit var articleEntityMapper: ArticleEntityMapper
+    private lateinit var articleEntityMapper: ArticleEntityMapper
 
-    var authorEntityMapper: AuthorEntityMapper = AuthorEntityMapper()
-    var categoryEntityMapper: CategoryEntityMapper = CategoryEntityMapper()
+    private var authorEntityMapper: AuthorEntityMapper = AuthorEntityMapper()
+    private var categoryEntityMapper: CategoryEntityMapper = CategoryEntityMapper()
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
         articleEntityMapper = ArticleEntityMapper(authorEntityMapper, categoryEntityMapper)
     }
 
@@ -41,7 +38,7 @@ class ArticleEntityMapperTest {
         assertEqualData(articleEntity, article)
     }
 
-    fun assertEqualData(entity: ArticleEntity, domain: Article) {
+    private fun assertEqualData(entity: ArticleEntity, domain: Article) {
         assertEquals(entity.id, domain.id)
         assertEquals(entity.type, domain.type)
         assertEquals(entity.slug, domain.slug)

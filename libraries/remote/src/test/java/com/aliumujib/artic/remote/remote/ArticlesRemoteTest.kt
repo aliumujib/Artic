@@ -1,15 +1,12 @@
-package com.aliumujib.artic.data.remote
+package com.aliumujib.artic.remote.remote
 
 import com.aliumujib.artic.data.DummyDataFactory
 import com.aliumujib.artic.data.model.ArticleEntity
-import com.aliumujib.artic.data.remote.api.WordPressAPI
-import com.aliumujib.artic.data.remote.mapper.AuthorMapper
-import com.aliumujib.artic.data.remote.mapper.CategoryMapper
-import com.aliumujib.artic.data.remote.mapper.PostsMapper
-import com.aliumujib.artic.data.remote.models.responses.PagedPostsListResponse
-import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Observable
-import io.reactivex.observers.TestObserver
+import com.aliumujib.artic.remote.api.WordPressAPI
+import com.aliumujib.artic.remote.impl.ArticlesRemote
+import com.aliumujib.artic.remote.mapper.AuthorMapper
+import com.aliumujib.artic.remote.mapper.CategoryMapper
+import com.aliumujib.artic.remote.mapper.PostsMapper
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -19,23 +16,21 @@ import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.MockitoAnnotations
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
-import kotlin.test.assertEquals
 
 class ArticlesRemoteTest {
 
     lateinit var api: WordPressAPI
 
-    lateinit var articlesRemote: ArticlesRemote
-    lateinit var postsMapper: PostsMapper
+    private lateinit var articlesRemote: ArticlesRemote
+    private lateinit var postsMapper: PostsMapper
 
-    var categoryMapper = CategoryMapper()
-    var authorMapper = AuthorMapper()
+    private var categoryMapper = CategoryMapper()
+    private var authorMapper = AuthorMapper()
 
-    lateinit var mockServer: MockWebServer
+    private lateinit var mockServer: MockWebServer
 
 
     @Before
@@ -50,7 +45,7 @@ class ArticlesRemoteTest {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            //.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .baseUrl(WordPressAPI.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
