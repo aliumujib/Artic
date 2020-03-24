@@ -21,7 +21,6 @@ import com.aliumujib.artic.views.recyclerview.ListState
 import com.aliumujib.artic.views.recyclerview.LoadingViewHolder
 import com.google.android.material.imageview.ShapeableImageView
 
-
 class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
     ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
 
