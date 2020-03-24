@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.recyclerview.ListState
 import com.aliumujib.artic.views.recyclerview.LoadingViewHolder
 import com.google.android.material.imageview.ShapeableImageView
+import kotlinx.coroutines.withContext
 
 class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
     ListAdapter<ArticleUIModel, RecyclerView.ViewHolder>(DiffCallback()) {
@@ -130,8 +132,15 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
         private val bookmarkIcon = itemView.findViewById<BookmarkButtonView>(R.id.bookmark_icon)
         private val shareIcon = itemView.findViewById<IconAndTitleView>(R.id.share_icon)
 
+        private fun getTitle(isGrid: Boolean, commentCount: Int): String {
+            return if (isGrid) {
+                commentCount.toString()
+            } else {
+                itemView.context.resources.getQuantityString(R.plurals.comments_count, commentCount, commentCount)
+            }
+        }
 
-        fun bind(model: ArticleUIModel, isGrid:Boolean) {
+        fun bind(model: ArticleUIModel, isGrid: Boolean) {
             this.articleImage.setOnClickListener {
                 articleClicks.onArticleClicked(model)
             }
@@ -144,6 +153,10 @@ class ArticleListAdapter(private val articleClicks: ArticleClickListener) :
             this.shareIcon.setOnClickListener {
                 articleClicks.onShareBtnClicked(model)
             }
+            this.commentsButton.setOnClickListener {
+                articleClicks.onCommentBtnClicked(model)
+            }
+            this.commentsButton.setTitleText(getTitle(isGrid, model.comment_count))
             this.bookmarkIcon.setIsBookmarked(model.isBookmarked)
             this.articleCategory.text = model.categories.firstOrNull()?.title
             this.articleTitle.text = model.titleHtml

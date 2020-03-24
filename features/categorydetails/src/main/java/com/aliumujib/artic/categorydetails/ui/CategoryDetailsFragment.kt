@@ -125,6 +125,10 @@ class CategoryDetailsFragment : BaseArticleListFragment(), MVIView<CategoryDetai
         _listActionIntents.offer(CategoryDetailsIntent.SetArticleBookmarkStatusIntent(articleUIModelMapper.mapFromUI(articleUIModel), isBookmarked))
     }
 
+    override fun onCommentBtnClicked(articleUIModel: ArticleUIModel) {
+
+    }
+
     override fun onArticleClicked(articleUIModel: ArticleUIModel) {
         findNavController().navigate(CategoryDetailsFragmentDirections.actionCategoryDetailsFragmentToNavDetails(articleUIModel))
     }

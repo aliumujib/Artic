@@ -8,4 +8,10 @@
 
     <string name="there_was_an_error">An error occurred while we performed your request.</string>
     <string name="retry">Retry</string>
+
+    <plurals name="comments_count">
+        <item quantity="one">%1$d comment</item>
+        <item quantity="other">%1$d comments</item>
+    </plurals>
+
 </resources>

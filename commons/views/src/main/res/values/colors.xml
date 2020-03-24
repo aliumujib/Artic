@@ -108,5 +108,6 @@
 
     <color name="text_bg_red">#F15A65</color>
     <color name="no_network">#979797</color>
+    <color name="text_color">#4F4F4F</color>
 
 </resources>
