@@ -21,12 +21,8 @@
         android:layout_toEndOf="@id/icon"
         android:layout_centerInParent="true"
         android:layout_marginStart="8dp"
-        android:maxWidth="200dp"
         tools:text="Prof Sholake"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-        android:textColor="@color/white_transparent_80"
-        android:textSize="10sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         tools:ignore="SmallSp" />
-
 
 </RelativeLayout>

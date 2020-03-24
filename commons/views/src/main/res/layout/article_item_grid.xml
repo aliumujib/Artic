@@ -91,7 +91,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/bookmark_icon"
             android:id="@+id/comments_button"
-            app:hideTitle="true"
+            app:hideTitle="false"
             app:iconRes="@drawable/ic_comments"
             android:layout_marginEnd="@dimen/two_space"
             android:layout_height="24dp"

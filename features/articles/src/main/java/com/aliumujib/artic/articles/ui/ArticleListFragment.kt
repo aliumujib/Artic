@@ -160,6 +160,10 @@ class ArticleListFragment : BaseArticleListFragment(), MVIView<ArticleListIntent
         _listActionIntents.offer(ArticleListIntent.SetArticleBookmarkStatusIntent(articleUIModelMapper.mapFromUI(articleUIModel), isBookmarked))
     }
 
+    override fun onCommentBtnClicked(articleUIModel: ArticleUIModel) {
+
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_home, menu)
         _viewModeBtn = menu.findItem(R.id.action_switch_mode)

@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import com.aliumujib.artic.views.R
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.show
@@ -42,6 +43,7 @@ class IconAndTitleView : FrameLayout {
         val text: String? = a.getString(R.styleable.IconAndTitleView_titleText)
         val resID: Int = a.getResourceId(R.styleable.IconAndTitleView_iconRes, -1)
         val hideTitle: Boolean = a.getBoolean(R.styleable.IconAndTitleView_hideTitle, false)
+        val textColorRes: Int = a.getResourceId(R.styleable.IconAndTitleView_textColorRes, -1)
 
         a.recycle()
 
@@ -55,20 +57,23 @@ class IconAndTitleView : FrameLayout {
         }
         setTitleText(text)
         setIconResId(resID)
+        setTitleTextColor(textColorRes)
+    }
+
+    private fun setTitleTextColor(titleTextRes: Int) {
+        if (titleTextRes != -1) {
+            title.setTextColor(ContextCompat.getColor(context, titleTextRes))
+        }
     }
 
     fun setTitleText(titleText: String?) {
         title.text = titleText
     }
 
-    fun setIconResId(@DrawableRes drawableResID: Int) {
+    private fun setIconResId(@DrawableRes drawableResID: Int) {
         if (drawableResID != -1) {
             icon.setImageResource(drawableResID)
         }
     }
 
-    override fun draw(canvas: Canvas?) {
-        super.draw(canvas)
-
-    }
 }
