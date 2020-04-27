@@ -1,12 +1,12 @@
-package com.aliumujib.artic.data
+package com.aliumujib.artic.cache
 
+import com.aliumujib.artic.cache.models.ArticleCacheModel
+import com.aliumujib.artic.cache.models.AuthorCacheModel
+import com.aliumujib.artic.cache.models.CommentCacheModel
 import com.aliumujib.artic.data.model.ArticleEntity
 import com.aliumujib.artic.data.model.AuthorEntity
 import com.aliumujib.artic.data.model.CategoryEntity
 import com.aliumujib.artic.data.model.CommentEntity
-import com.aliumujib.artic.domain.models.Article
-import com.aliumujib.artic.domain.models.Author
-import com.aliumujib.artic.domain.models.Comment
 import konveyor.base.randomBuild
 
 object DummyDataFactory {
@@ -41,12 +41,12 @@ object DummyDataFactory {
         return randomBuild()
     }
 
-    fun makeRandomAuthor(): Author {
+    fun makeRandomAuthor(): AuthorCacheModel {
         return randomBuild()
     }
 
 
-    fun makeRandomComment(): Comment {
+    fun makeRandomComment(): CommentCacheModel {
         return randomBuild()
     }
 
@@ -63,8 +63,8 @@ object DummyDataFactory {
         return articles
     }
 
-    fun makeRandomArticle(): Article {
-        return Article(
+    fun makeRandomArticle(): ArticleCacheModel {
+        return ArticleCacheModel(
             randomBuild(),
             randomBuild(),
             randomBuild(),
@@ -89,6 +89,14 @@ object DummyDataFactory {
         val mutableList = mutableListOf<CategoryEntity>()
         repeat(count) {
             mutableList.add(makeRandomCategoryEntity())
+        }
+        return mutableList
+    }
+
+    fun makeRandomArticleCacheModelList(count: Int): List<ArticleCacheModel> {
+        val mutableList = mutableListOf<ArticleCacheModel>()
+        repeat(count) {
+            mutableList.add(makeRandomArticle())
         }
         return mutableList
     }

@@ -8,19 +8,25 @@
         android:id="@+id/retry_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
         android:orientation="vertical"
         android:padding="@dimen/three_space">
 
         <TextView
             android:id="@+id/error_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_height="match_parent"
             android:text="@string/there_was_an_error" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/retry"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+
+            app:cornerRadius="@dimen/half_space"
+            android:textColor="@color/white"
+            android:background="@drawable/artic_btn_gradient"
+            android:layout_margin="@dimen/two_space"
+            android:layout_gravity="center"
             android:layout_height="match_parent"
             android:text="@string/retry" />
 

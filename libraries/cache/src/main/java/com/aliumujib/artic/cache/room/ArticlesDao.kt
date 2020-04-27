@@ -29,6 +29,9 @@ interface ArticlesDao {
     suspend fun getAllCachedArticlesCount(): Int
 
     @Query("SELECT * FROM ARTICLES ORDER BY date DESC ")
+    fun getAllCachedArticlesByDate(): Flow<List<ArticleCacheModel>>
+
+    @Query("SELECT * FROM ARTICLES ORDER BY date DESC ")
     fun getAllCachedArticles(): Flow<List<ArticleCacheModel>>
 
     @Query("SELECT * FROM ARTICLES WHERE date > :publishDate ORDER BY date DESC ")

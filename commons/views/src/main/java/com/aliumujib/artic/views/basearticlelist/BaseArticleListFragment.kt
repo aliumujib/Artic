@@ -18,7 +18,7 @@ import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.removeAllDecorations
 import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.models.ArticleUIModel
-import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecoration
+import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecorator
 import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
 import com.aliumujib.artic.views.recyclerview.ListState
 import com.eyowo.android.core.utils.autoDispose
@@ -64,7 +64,7 @@ abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
     private fun initializeViews() {
         binding.articles.apply {
             removeAllDecorations()
-            addItemDecoration(GridSpacingItemDecoration(2, context.dpToPx(16), true))
+            addItemDecoration(GridSpacingItemDecorator(2, context.dpToPx(16), true))
             layoutManager = provideStaggeredGridLayoutManager()
             adapter = articlesAdapter
         }
@@ -81,7 +81,7 @@ abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
         } else if (isGrid.not() && binding.articles.layoutManager !is StaggeredGridLayoutManager) {
             binding.articles.apply {
                 removeAllDecorations()
-                addItemDecoration(GridSpacingItemDecoration(2, context.dpToPx(16), true))
+                addItemDecoration(GridSpacingItemDecorator(2, context.dpToPx(16), true))
                 layoutManager = provideStaggeredGridLayoutManager()
             }
             articlesAdapter.setLayout(ArticleListAdapter.LAYOUT.GRID)
@@ -143,7 +143,6 @@ abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
     }
 
 
-
     override fun onShareBtnClicked(articleUIModel: ArticleUIModel) {
         val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
             .setType("text/plain")
@@ -155,7 +154,7 @@ abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
     }
 
     override fun onDestroy() {
-        _binding.articles.adapter = null
+//        _binding.articles.adapter = null
         super.onDestroy()
     }
 

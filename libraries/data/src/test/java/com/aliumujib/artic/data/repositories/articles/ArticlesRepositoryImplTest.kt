@@ -1,4 +1,4 @@
-package com.aliumujib.artic.data.repositories
+package com.aliumujib.artic.data.repositories.articles
 
 import com.aliumujib.artic.data.DummyDataFactory
 import com.aliumujib.artic.data.mapper.ArticleEntityMapper
