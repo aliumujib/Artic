@@ -2,6 +2,8 @@ import dependencies.Dependencies
 import dependencies.AnnotationProcessorsDependencies
 import extensions.implementation
 import extensions.kapt
+import dependencies.TestAndroidDependencies
+import dependencies.TestDependencies
 
 plugins {
     id("commons.android-library")
@@ -19,4 +21,16 @@ dependencies {
     implementation(Dependencies.RETROFIT_CONVERTER)
 
     kapt(AnnotationProcessorsDependencies.ROOM)
+
+    testImplementation(TestAndroidDependencies.ROBO_ELECTRIC)
+    testImplementation(TestAndroidDependencies.ARCH_TESTING)
+    testImplementation(TestAndroidDependencies.ROOM_TESTING)
+    testImplementation(TestAndroidDependencies.RUNNER)
+    testImplementation(TestAndroidDependencies.RULES)
+    testImplementation (TestDependencies.KONVEYOR)
+    testImplementation (TestDependencies.JUNIT)
+    testImplementation (TestDependencies.MOCKK)
+    testImplementation(TestDependencies.TRUTH)
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+
 }

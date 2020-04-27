@@ -1,4 +1,3 @@
-
 package dependencies
 
 /**
@@ -6,6 +5,9 @@ package dependencies
  * other library modules to build.
  */
 object TestAndroidDependencies {
+    const val ROBO_ELECTRIC = "org.robolectric:robolectric:${BuildDependenciesVersions.ROBOELECTRIC}"
+    const val ARCH_TESTING = "android.arch.core:core-testing:${BuildDependenciesVersions.ARCH_CORE}"
+    const val ROOM_TESTING = "android.arch.persistence.room:testing:${BuildDependenciesVersions.ROOM}"
     const val LEAKCANARY = "com.squareup.leakcanary:leakcanary-android-instrumentation:${BuildDependenciesVersions.LEAKCANARY}"
     const val MOCKITO = "com.nhaarman.mockitokotlin2:mockito-kotlin:${BuildDependenciesVersions.MOCKITO}"
     const val ESPRESSO = "androidx.test.espresso:espresso-core:${BuildDependenciesVersions.ESPRESSO}"

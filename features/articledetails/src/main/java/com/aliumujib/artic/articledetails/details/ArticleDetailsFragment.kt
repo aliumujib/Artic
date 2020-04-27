@@ -111,7 +111,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
             state.error != null -> {
 
             }
-            !state.isLoadingArticleData && (state.error == null) -> {
+            !state.isLoadingArticleData -> {
                 state.data?.let {
                     presentSuccessState(articleUIModelMapper.mapToUI(it))
                 }

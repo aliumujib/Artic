@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:background="@drawable/ic_auth_btn_bg"
+        android:background="@drawable/artic_btn_gradient"
         android:text="@string/sign_up_with_google"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textView"

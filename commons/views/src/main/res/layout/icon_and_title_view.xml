@@ -22,7 +22,6 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="8dp"
         tools:text="Prof Sholake"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        tools:ignore="SmallSp" />
+        />
 
 </RelativeLayout>

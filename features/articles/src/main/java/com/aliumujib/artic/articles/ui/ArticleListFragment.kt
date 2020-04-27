@@ -115,9 +115,9 @@ class ArticleListFragment : BaseArticleListFragment(), MVIView<ArticleListIntent
 
     override fun render(state: ArticleListViewState) {
         when {
-            !state.isLoading && (state.error == null) -> presentSuccessState(articleUIModelMapper.mapToUIList(state.data), state.isGrid)
+            !state.isLoadingInitial && (state.error == null) -> presentSuccessState(articleUIModelMapper.mapToUIList(state.data), state.isGrid)
             state.error != null -> presentErrorState(state.error, state.isLoadingMore, state.data.isEmpty())
-            state.isLoading -> presentLoadingState(state.isLoadingMore)
+            state.isLoadingInitial -> presentLoadingState(state.isLoadingMore)
         }
     }
 

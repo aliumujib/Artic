@@ -29,7 +29,7 @@ class ArticlesCacheImpl @Inject constructor(
     }
 
     override fun getCachedArticles(): Flow<List<ArticleEntity>> {
-        return articlesDao.getAllCachedArticles().map {
+        return articlesDao.getAllCachedArticlesByDate().map {
             articleCacheModelMapper.mapToEntityList(it)
         }
     }
