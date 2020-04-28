@@ -47,6 +47,27 @@ class ArticlesDaoTest {
         }
     }
 
+    @Test
+    fun `check that calling deleteArticle() on dao correctly deletes a single article`() {
+        runBlocking {
+            val articles = DummyDataFactory.makeRandomArticleCacheModelList(10)
+            val article = articles.random()
+            database.articlesDao().insert(articles)
+            database.articlesDao().deleteArticle(article.id)
+            val data = database.articlesDao().getAllCachedArticlesByDate().first()
+            assertThat(data).doesNotContain(article)
+        }
+    }
+
+    @Test
+    fun `check that calling deleteAllArticles() on dao deletes everything`() {
+        runBlocking {
+            database.articlesDao().deleteAllArticles()
+            val data = database.articlesDao().getAllCachedArticles().first()
+            assertThat(data).isEmpty()
+        }
+    }
+
     @After
     fun tearDown() {
         database.close()
