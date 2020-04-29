@@ -8,13 +8,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.aliumujib.artic.mobile_ui.R
 import com.aliumujib.artic.mobile_ui.utils.setupWithNavController
 import com.aliumujib.artic.views.ext.slideDown
 import com.aliumujib.artic.views.ext.slideUp
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,9 +38,23 @@ class MainActivity : AppCompatActivity() {
             setupBottomNavigationBar()
         } // Else, need to wait for onRestoreInstanceState
 
-        currentNavController?.value?.addOnDestinationChangedListener { _, destination, _ ->
+        setUpNavDestinationChangeListener()
+    }
 
+    private fun setUpNavDestinationChangeListener() {
+        val destinationChangeListener = DestinationChangeListener()
+        currentNavController?.observe(this) {
+            it.addOnDestinationChangedListener(destinationChangeListener)
+        }
+    }
+
+    inner class DestinationChangeListener() : NavController.OnDestinationChangedListener {
+        override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+            findViewById<Toolbar>(R.id.toolbar).title = destination.label
+            findViewById<CollapsingToolbarLayout>(R.id.collasping_toolbar).isTitleEnabled = false;
+            findViewById<CollapsingToolbarLayout>(R.id.collasping_toolbar).title = destination.label
             if (destination.id == R.id.detailsFragment) {
+                findViewById<AppBarLayout>(R.id.app_bar).setExpanded(false)
                 hideBottomTabs()
             } else {
                 showBottomTabs()
@@ -47,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         super.onRestoreInstanceState(savedInstanceState)
         setupBottomNavigationBar()
     }
-    
+
     private fun setupBottomNavigationBar() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
 

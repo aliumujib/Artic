@@ -4,7 +4,7 @@ import com.aliumujib.artic.cache.models.AuthorCacheModel
 import com.aliumujib.artic.data.model.AuthorEntity
 import javax.inject.Inject
 
-class AuthorModelMapper @Inject constructor() : CacheModelMapper<AuthorCacheModel, AuthorEntity> {
+class AuthorCacheModelMapper @Inject constructor() : CacheModelMapper<AuthorCacheModel, AuthorEntity> {
 
     override fun mapToModel(entity: AuthorEntity): AuthorCacheModel {
         return AuthorCacheModel(

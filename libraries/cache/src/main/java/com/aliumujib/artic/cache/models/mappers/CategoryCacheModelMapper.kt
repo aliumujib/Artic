@@ -4,7 +4,7 @@ import com.aliumujib.artic.cache.models.CategoryCacheModel
 import com.aliumujib.artic.data.model.CategoryEntity
 import javax.inject.Inject
 
-class CategoriesModelMapper @Inject constructor() :
+class CategoryCacheModelMapper @Inject constructor() :
     CacheModelMapper<CategoryCacheModel, CategoryEntity> {
 
     override fun mapToEntity(model: CategoryCacheModel): CategoryEntity {

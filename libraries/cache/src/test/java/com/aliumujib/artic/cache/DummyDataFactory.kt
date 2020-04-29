@@ -8,6 +8,7 @@ import com.aliumujib.artic.data.model.AuthorEntity
 import com.aliumujib.artic.data.model.CategoryEntity
 import com.aliumujib.artic.data.model.CommentEntity
 import konveyor.base.randomBuild
+import kotlin.random.Random
 
 object DummyDataFactory {
 
@@ -59,6 +60,9 @@ object DummyDataFactory {
         val articles = mutableListOf<ArticleEntity>()
         repeat(count) {
             articles.add(makeRandomArticleEntity())
+        }
+        articles.forEach {
+            it.isBookmarked = Random.nextBoolean()
         }
         return articles
     }

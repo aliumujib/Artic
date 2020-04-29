@@ -6,8 +6,8 @@ import java.util.*
 import javax.inject.Inject
 
 class ArticleCacheModelMapper @Inject constructor(
-    private val authorModelMapper: AuthorModelMapper,
-    private val categoriesModelMapper: CategoriesModelMapper
+    private val authorCacheModelMapper: AuthorCacheModelMapper,
+    private val categoryCacheModelMapper: CategoryCacheModelMapper
 ) :
     CacheModelMapper<ArticleCacheModel, ArticleEntity> {
 
@@ -27,8 +27,8 @@ class ArticleCacheModelMapper @Inject constructor(
             model.thumbnail,
             model.imageURL,
             model.comment_count,
-            categoriesModelMapper.mapToEntityList(model.categories),
-            authorModelMapper.mapToEntity(model.author),
+            categoryCacheModelMapper.mapToEntityList(model.categories),
+            authorCacheModelMapper.mapToEntity(model.author),
             model.isBookmarked
         )
     }
@@ -49,8 +49,8 @@ class ArticleCacheModelMapper @Inject constructor(
             entity.thumbnail,
             entity.imageURL,
             entity.comment_count,
-            categoriesModelMapper.mapToModelList(entity.categories),
-            authorModelMapper.mapToModel(entity.author),
+            categoryCacheModelMapper.mapToModelList(entity.categories),
+            authorCacheModelMapper.mapToModel(entity.author),
             entity.isBookmarked
         )
     }

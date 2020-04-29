@@ -32,7 +32,6 @@ class ArticlesRepositoryImplTest {
 
     private var authorEntityMapper: AuthorEntityMapper = AuthorEntityMapper()
     private var categoryEntityMapper: CategoryEntityMapper = CategoryEntityMapper()
-
     private lateinit var articlesEntityMapper: ArticleEntityMapper
 
     private lateinit var articlesRepositoryImpl: ArticlesRepositoryImpl
