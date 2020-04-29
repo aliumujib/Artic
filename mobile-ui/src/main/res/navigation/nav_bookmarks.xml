@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/bookmarksListFragment"
         app:moduleName="articles"
-        android:name="com.aliumujib.artic.bookmarks.BookmarksFragment"
+        android:name="com.aliumujib.artic.bookmarks.ui.BookmarksFragment"
         android:label="Articles"
         tools:layout="@layout/article_list_fragment">
 

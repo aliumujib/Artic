@@ -31,6 +31,7 @@ class BookmarkButtonView : AppCompatImageView {
 
 
     init {
+
     }
 
     constructor(context: Context) : this(context, null)
@@ -60,7 +61,6 @@ class BookmarkButtonView : AppCompatImageView {
         setIcons()
         padding = context.dpToPx(padding)
         setPadding(padding, padding, padding, padding)
-
         setOnClickListener(BookmarkClickListener())
 
     }
@@ -74,12 +74,10 @@ class BookmarkButtonView : AppCompatImageView {
 
     override fun setEnabled(enabled: Boolean) {
         super.setEnabled(enabled)
-        if (Build.VERSION.SDK_INT > 10) {
-            alpha = if (enabled) {
-                1f
-            } else {
-                0.5f
-            }
+        alpha = if (enabled) {
+            1f
+        } else {
+            0.5f
         }
     }
 

@@ -1,4 +1,4 @@
-package com.eyowo.android.core.utils
+package com.aliumujib.artic.views.cleanup
 
 /*
  * Copyright (C) 2018 The Android Open Source Project

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_bookmark_article"
+        android:orderInCategory="100"
+        android:title="@string/action_bookmark"
+        app:actionViewClass="com.aliumujib.artic.views.bookmarkbutton.BookmarkButtonView"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_share_article"
+        android:orderInCategory="200"
+        android:title="@string/share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="ifRoom" />
+
+</menu>

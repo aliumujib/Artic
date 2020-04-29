@@ -21,7 +21,7 @@ import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.recyclerview.GridSpacingItemDecorator
 import com.aliumujib.artic.views.recyclerview.ListSpacingItemDecorator
 import com.aliumujib.artic.views.recyclerview.ListState
-import com.eyowo.android.core.utils.autoDispose
+import com.aliumujib.artic.views.cleanup.autoDispose
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
@@ -151,6 +151,10 @@ abstract class BaseArticleListFragment : Fragment(), ArticleClickListener {
         if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
             startActivity(shareIntent)
         }
+    }
+
+    override fun onCommentBtnClicked(articleUIModel: ArticleUIModel) {
+
     }
 
     override fun onDestroy() {

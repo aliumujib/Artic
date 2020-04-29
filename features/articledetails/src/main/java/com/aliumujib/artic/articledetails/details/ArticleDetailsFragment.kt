@@ -3,31 +3,38 @@ package com.aliumujib.artic.articledetails.details
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import coil.api.load
 import coil.size.ViewSizeResolver
+import com.aliumujib.artic.views.R
 import com.aliumujib.artic.articledetails.databinding.DetailsFragmentBinding
 import com.aliumujib.artic.articledetails.di.ArticleDetailsModule
 import com.aliumujib.artic.articledetails.di.DaggerArticleDetailsComponent
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsIntent
+import com.aliumujib.artic.articledetails.presentation.ArticleDetailsIntent.*
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsViewModel
 import com.aliumujib.artic.articledetails.presentation.ArticleDetailsViewState
 import com.aliumujib.artic.articles.models.ArticleUIModelMapper
 import com.aliumujib.artic.mobile_ui.ApplicationClass
-import com.aliumujib.artic.views.R
+import com.aliumujib.artic.views.bookmarkbutton.BookmarkButtonView
 import com.aliumujib.artic.views.ext.enableCornerRadii
 import com.aliumujib.artic.views.ext.hide
 import com.aliumujib.artic.views.ext.nonNullObserve
 import com.aliumujib.artic.views.ext.show
 import com.aliumujib.artic.views.models.ArticleUIModel
 import com.aliumujib.artic.views.mvi.MVIView
-import com.eyowo.android.core.utils.autoDispose
+import com.aliumujib.artic.views.cleanup.autoDispose
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.take
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
 import timber.log.Timber
@@ -36,6 +43,7 @@ import javax.inject.Inject
 
 class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, ArticleDetailsViewState> {
 
+    private var _bookmarkBtn: BookmarkButtonView? = null
     private val articleArgs by navArgs<ArticleDetailsFragmentArgs>()
 
     @Inject
@@ -50,9 +58,10 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
     private val _loadInitialIntent = BroadcastChannel<ArticleDetailsIntent>(1)
     private val loadInitialIntent = _loadInitialIntent.asFlow().take(1)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    private val _actionMenuIntents = BroadcastChannel<ArticleDetailsIntent>(1)
+    private val actionMenuIntents = _actionMenuIntents.asFlow()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = DetailsFragmentBinding.inflate(inflater, container, false)
         return _binding.root
     }
@@ -85,7 +94,7 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
         viewModel.processIntent(intents())
 
         _loadInitialIntent.offer(
-            ArticleDetailsIntent.LoadArticleDetailsIntent(articleUIModelMapper.mapFromUI(articleArgs.article))
+            LoadArticleDetailsIntent(articleUIModelMapper.mapFromUI(articleArgs.article))
         )
 
     }
@@ -119,6 +128,35 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(com.aliumujib.artic.articledetails.R.menu.main_article_details, menu)
+        _bookmarkBtn = menu.findItem(com.aliumujib.artic.articledetails.R.id.action_bookmark_article).actionView as BookmarkButtonView
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            com.aliumujib.artic.articledetails.R.id.action_bookmark_article -> {
+                _actionMenuIntents.offer(SetArticleBookmarkStatusIntent(articleUIModelMapper.mapFromUI(articleArgs.article), articleArgs.article.isBookmarked))
+                return true
+            }
+            com.aliumujib.artic.articledetails.R.id.action_share_article -> {
+                share(articleArgs.article)
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun share(articleUIModel: ArticleUIModel) {
+        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
+            .setType("text/plain")
+            .setText(articleUIModel.url)
+            .intent
+        if (shareIntent.resolveActivity(requireActivity().packageManager) != null) {
+            startActivity(shareIntent)
+        }
+    }
+
     private fun presentSuccessState(article: ArticleUIModel) {
         binding.shimmerViewContainer.stopShimmerAnimation()
         binding.shimmerViewContainer.hide()
@@ -132,13 +170,12 @@ class ArticleDetailsFragment : Fragment(), MVIView<ArticleDetailsIntent, Article
             crossfade(true)
             size(ViewSizeResolver.invoke(binding.articleImage, false))
         }
+        _bookmarkBtn?.setIsBookmarked(article.isBookmarked)
         binding.htmlText.setHtml(article.content, HtmlHttpImageGetter(binding.htmlText))
     }
 
     override fun intents(): Flow<ArticleDetailsIntent> {
-        return loadInitialIntent
+        return merge(actionMenuIntents, loadInitialIntent)
     }
-
-
 
 }
