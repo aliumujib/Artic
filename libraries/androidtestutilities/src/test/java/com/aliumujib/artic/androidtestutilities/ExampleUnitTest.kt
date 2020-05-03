@@ -1,4 +1,4 @@
-package com.aliumujib.artic.articles
+package com.aliumujib.artic.androidtestutilities
 
 import org.junit.Test
 

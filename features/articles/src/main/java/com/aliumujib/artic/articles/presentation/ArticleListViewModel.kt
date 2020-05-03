@@ -27,21 +27,12 @@ class ArticleListViewModel(
     fun processActions() {
         actionsFlow.flatMapMerge {
                 articleListActionProcessor.actionToResultTransformer(it)
-            }.onEach { result: ArticleListResult ->
-                Timber.v(
-                    "New results of type: ${result::class.java.canonicalName?.replace(
-                        "com.aliumujib.artic.articles.presentation.ArticleListResult.",
-                        ""
-                    )}"
-                )
             }
             .scan(ArticleListViewState.init()) { previous: ArticleListViewState, result: ArticleListResult ->
                 previous.reduce(previous, result)
             }
             .distinctUntilChanged()
-            .onStart { Timber.d("subscribed to states") }
             .onEach {
-                Timber.v("new view state with data size: ${it.data.size}")
                 _states.postValue(it)
             }.launchIn(viewModelScope)
     }

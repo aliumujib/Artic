@@ -20,5 +20,6 @@
     <string name="nav_header_desc">Navigation drawer.</string>
     <string name="article_details">Article Details</string>
       <string name="title_categorydetails">category details</string>
+    <string name="bookmarks">Bookmarks</string>
 
 </resources>

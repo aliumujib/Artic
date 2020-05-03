@@ -1,7 +1,9 @@
 package com.aliumujib.artic.articledetails.presentation
 
+import com.aliumujib.artic.articledetails.presentation.ArticleDetailsResult.*
 import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus
 import com.aliumujib.artic.domain.usecases.articles.GetArticleDetails
+import com.aliumujib.artic.domain.usecases.articles.SetArticleBookmarkStatus.Params.*
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,12 +32,12 @@ class ArticleDetailActionProcessor @Inject constructor(
         return actionsFlow.flatMapMerge { action ->
             getArticleDetails.build(GetArticleDetails.Params.make(action.article.id))
                 .map { article ->
-                    ArticleDetailsResult.LoadArticleDetailsResult.LoadedComments(data = article) as ArticleDetailsResult
+                    LoadArticleDetailsResult.LoadedComments(data = article) as ArticleDetailsResult
                 }
-                .onStart { emit(ArticleDetailsResult.LoadArticleDetailsResult.LoadingComments(action.article)) }
+                .onStart { emit(LoadArticleDetailsResult.LoadingComments(action.article)) }
                 .catch {
                     Timber.e(it)
-                    emit(ArticleDetailsResult.LoadArticleDetailsResult.Error(it))
+                    emit(LoadArticleDetailsResult.Error(it))
                 }
         }
     }
@@ -44,12 +46,12 @@ class ArticleDetailActionProcessor @Inject constructor(
         actionsFlow.flatMapMerge { action ->
             getArticleDetails.build(GetArticleDetails.Params.make(action.articleId))
                 .map { article ->
-                    ArticleDetailsResult.LoadArticleDetailsResult.LoadedComments(data = article) as ArticleDetailsResult
+                    LoadArticleDetailsResult.LoadedComments(data = article) as ArticleDetailsResult
                 }
-                .onStart { emit(ArticleDetailsResult.RefreshArticleDetailsResult.Refreshing) }
+                .onStart { emit(RefreshArticleDetailsResult.Refreshing) }
                 .catch {
                     Timber.e(it)
-                    emit(ArticleDetailsResult.RefreshArticleDetailsResult.Error(it))
+                    emit(RefreshArticleDetailsResult.Error(it))
                 }
         }
 
@@ -58,10 +60,10 @@ class ArticleDetailActionProcessor @Inject constructor(
             flow {
                 emit(setArticleBookmarkStatus.invoke(SetArticleBookmarkStatus.Params.make(action.article, action.bookmarked)))
             }.map {
-                ArticleDetailsResult.SetBookmarkStatusResult.Success as ArticleDetailsResult
+                SetBookmarkStatusResult.Success(it!!) as ArticleDetailsResult //IF for any reason this is null, we have an error.
             }.catch {
                 Timber.e(it)
-                emit(ArticleDetailsResult.SetBookmarkStatusResult.Error(it))
+                emit(SetBookmarkStatusResult.Error(it))
             }
         }
     }

@@ -2,6 +2,7 @@ package com.aliumujib.artic.categorydetails.presentation
 
 import com.aliumujib.artic.categorydetails.presentation.CategoryDetailsResult.*
 import com.aliumujib.artic.domain.models.Article
+import com.aliumujib.artic.views.ext.replaceItemInList
 import com.aliumujib.artic.views.mvi.MVIViewState
 
 
@@ -74,9 +75,9 @@ data class CategoryDetailsViewState(
             is SetBookmarkStatusResults -> {
                 when (result) {
                     is SetBookmarkStatusResults.Success -> {
-                        val articles = previousState.data.toMutableList() //makes a new copy of the array
-                        (articles).find { it.id == result.article.id }?.isBookmarked =
-                            result.article.isBookmarked //we then change the property of the list that we need to.
+                        val articles = previousState.data.replaceItemInList({
+                            it.id == result.article.id
+                        }, result.article) //makes a new copy of the array
                         val newState = previousState.copy(data = articles)
                         newState
                     }

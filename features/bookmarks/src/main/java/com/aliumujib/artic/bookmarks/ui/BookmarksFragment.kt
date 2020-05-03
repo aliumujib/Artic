@@ -95,7 +95,7 @@ class BookmarksFragment : BaseArticleListFragment(), MVIView<BookmarkListIntent,
     }
 
     override fun onArticleClicked(articleUIModel: ArticleUIModel) {
-        findNavController().navigate(CategoryDetailsFragmentDirections.actionCategoryDetailsFragmentToNavDetails(articleUIModel))
+        findNavController().navigate(BookmarksFragmentDirections.actionBookmarksListFragmentToNavDetails(articleUIModel))
     }
 
     override fun render(state: BookmarkListViewState) {

@@ -41,7 +41,7 @@ class ArticleDetailsViewModel(private val articleDetailActionProcessor: ArticleD
             }
             .distinctUntilChanged()
             .onEach {
-                _states.postValue(it)
+                _states.value = it
             }.launchIn(viewModelScope)
     }
 

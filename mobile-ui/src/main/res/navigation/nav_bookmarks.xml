@@ -7,18 +7,22 @@
 
     <fragment
         android:id="@+id/bookmarksListFragment"
-        app:moduleName="articles"
         android:name="com.aliumujib.artic.bookmarks.ui.BookmarksFragment"
-        android:label="Articles"
+        android:label="@string/bookmarks"
+        app:moduleName="articles"
         tools:layout="@layout/article_list_fragment">
+
+        <action
+            android:id="@+id/action_bookmarksListFragment_to_nav_details"
+            app:destination="@id/nav_details">
+            <argument
+                android:name="article"
+                app:argType="com.aliumujib.artic.views.models.ArticleUIModel"
+                app:nullable="false" />
+        </action>
 
     </fragment>
 
-    <fragment
-        android:id="@+id/detailsFragment"
-        app:moduleName="articledetails"
-        android:name="com.aliumujib.artic.articledetails.details.DetailsFragment"
-        android:label="details_fragment"
-        tools:layout="@layout/details_fragment" />
+    <include app:graph="@navigation/nav_details" />
 
 </navigation>

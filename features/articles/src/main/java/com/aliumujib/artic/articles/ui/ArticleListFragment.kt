@@ -117,7 +117,7 @@ class ArticleListFragment : BaseArticleListFragment(), MVIView<ArticleListIntent
         when {
             !state.isLoadingInitial && (state.error == null) -> presentSuccessState(articleUIModelMapper.mapToUIList(state.data), state.isGrid)
             state.error != null -> presentErrorState(state.error, state.isLoadingMore, state.data.isEmpty())
-            state.isLoadingInitial -> presentLoadingState(state.isLoadingMore)
+            state.isLoadingInitial || state.isLoadingMore -> presentLoadingState(state.isLoadingMore)
         }
     }
 
