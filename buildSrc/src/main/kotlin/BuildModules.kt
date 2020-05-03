@@ -27,7 +27,7 @@ object BuildModules {
         const val DOMAIN = ":libraries:domain"
         const val CACHE = ":libraries:cache"
         const val REMOTE = ":libraries:remote"
-
+        const val ANDROID_TEST_UTILS = ":libraries:androidtestutilities"
         const val TEST_UTILS = ":libraries:testutilities"
     }
 }

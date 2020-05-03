@@ -2,6 +2,7 @@ package com.aliumujib.artic.articles.presentation
 
 import com.aliumujib.artic.articles.presentation.ArticleListResult.*
 import com.aliumujib.artic.domain.models.Article
+import com.aliumujib.artic.views.ext.replaceItemInList
 import com.aliumujib.artic.views.mvi.MVIViewState
 
 
@@ -10,7 +11,6 @@ data class ArticleListViewState(
     val data: List<Article> = mutableListOf(),
     val error: Throwable?,
     val isGrid: Boolean = true,
-    val isShowingRefreshLayout: Boolean = false,
     val isLoadingMore: Boolean = false,
     val isUpdatingCache: Boolean = false
 ) : MVIViewState {
@@ -46,28 +46,17 @@ data class ArticleListViewState(
             is LoadArticleListResults -> {
                 when (result) {
                     is LoadArticleListResults.Success -> {
-                        if (result.data.isEmpty()) {
-                            previousState.copy(
-                                isLoadingInitial = false,
-                                isLoadingMore = false,
-                                isGrid = result.isGrid,
-                                isShowingRefreshLayout = true,
-                                data = result.data,
-                                error = null
-                            )
-                        } else {
-                            previousState.copy(
-                                isLoadingInitial = false,
-                                isLoadingMore = false,
-                                isGrid = result.isGrid,
-                                isShowingRefreshLayout = false,
-                                data = result.data,
-                                error = null
-                            )
-                        }
+                        previousState.copy(
+                            isLoadingInitial = false,
+                            isLoadingMore = false,
+                            isGrid = result.isGrid,
+                            data = result.data,
+                            error = null
+                        )
                     }
                     is LoadArticleListResults.Error -> previousState.copy(
                         error = result.error,
+                        isLoadingInitial = false,
                         isLoadingMore = false
                     )
                     is LoadArticleListResults.Loading -> previousState.copy(
@@ -87,7 +76,8 @@ data class ArticleListViewState(
                     )
                     is RefreshArticleListResults.Error -> previousState.copy(
                         error = result.error,
-                        isLoadingMore = true
+                        isLoadingInitial = false,
+                        isLoadingMore = false
                     )
                     is RefreshArticleListResults.Refreshing -> previousState.copy(
                         isLoadingInitial = true,
@@ -110,10 +100,11 @@ data class ArticleListViewState(
                     }
                     is FetchMoreArticleListResults.Error -> previousState.copy(
                         error = result.error,
+                        isLoadingInitial = false,
                         isLoadingMore = true
                     )
                     is FetchMoreArticleListResults.Loading -> previousState.copy(
-                        isLoadingInitial = true,
+                        isLoadingInitial = false,
                         isLoadingMore = true,
                         error = null
                     )
@@ -122,9 +113,9 @@ data class ArticleListViewState(
             is SetBookmarkStatusResults -> {
                 when (result) {
                     is SetBookmarkStatusResults.Success -> {
-                        val articles = previousState.data.toMutableList() //makes a new copy of the array
-                        (articles).find { it.id == result.article.id }?.isBookmarked =
-                            result.article.isBookmarked //we then change the property of the list that we need to.
+                        val articles = previousState.data.replaceItemInList({
+                            it.id == result.article.id
+                        }, result.article)
                         val newState = previousState.copy(data = articles)
                         newState
                     }

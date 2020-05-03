@@ -15,6 +15,7 @@ include(
     ":features:about",
     ":features:categorydetails",
     ":features:authorization",
+    ":libraries:androidtestutilities",
     ":mobile-ui")
 
 rootProject.buildFileName = "build.gradle.kts"

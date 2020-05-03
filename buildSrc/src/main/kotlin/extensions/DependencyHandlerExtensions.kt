@@ -4,8 +4,10 @@ package extensions
 import dependencies.Dependencies
 import dependencies.TestAndroidDependencies
 import dependencies.TestDependencies
+import gradle.kotlin.dsl.accessors._eb3fa7792a1da1c6feddbc49bdf98dc7.testImplementation
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.project
 
 /**
  * Adds a dependency to the `debugImplementation` configuration.
@@ -73,7 +75,7 @@ fun DependencyHandler.androidTestImplementation(dependencyNotation: String): Dep
  */
 fun DependencyHandler.addTestsDependencies() {
     testImplementation(TestDependencies.JUNIT)
-    testImplementation(TestDependencies.MOCKITO)
+    testImplementation(TestDependencies.TRUTH)
     testImplementation(TestDependencies.MOCKK)
     testImplementation(TestDependencies.ASSERTJ)
     testImplementation(TestDependencies.ROBOELECTRIC)
@@ -96,4 +98,7 @@ fun DependencyHandler.addTestsDependencies() {
     androidTestImplementation(TestAndroidDependencies.RULES)
     androidTestImplementation(TestAndroidDependencies.JUNIT)
     androidTestImplementation(TestAndroidDependencies.FRAGMENT_TEST)
+
+    testImplementation(project(BuildModules.Libraries.TEST_UTILS))
+    testImplementation(project(BuildModules.Libraries.ANDROID_TEST_UTILS))
 }

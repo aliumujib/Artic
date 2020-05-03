@@ -39,7 +39,10 @@ data class ArticleDetailsViewState(
                         isLoadingComments = false
                     )
                     is LoadArticleDetailsResult.Error -> previousState.copy(
-                        error = result.error
+                        error = result.error,
+                        isLoadingArticleData = false,
+                        isLoadingComments = false
+
                     )
                     is LoadArticleDetailsResult.LoadingComments -> previousState.copy(
                         isLoadingArticleData = false,
@@ -58,7 +61,9 @@ data class ArticleDetailsViewState(
                         isLoadingComments = false
                     )
                     is RefreshArticleDetailsResult.Error -> previousState.copy(
-                        error = result.error
+                        error = result.error,
+                        isLoadingArticleData = false,
+                        isLoadingComments = false
                     )
                     is RefreshArticleDetailsResult.Refreshing -> previousState.copy(
                         isLoadingArticleData = true,
@@ -70,7 +75,7 @@ data class ArticleDetailsViewState(
             is SetBookmarkStatusResult -> {
                 when (result) {
                     is SetBookmarkStatusResult.Success -> {
-                        previousState
+                        previousState.copy(data = result.data)
                     }
                     is SetBookmarkStatusResult.Error -> previousState.copy(
                         error = result.error
