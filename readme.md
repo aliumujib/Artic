@@ -29,9 +29,9 @@ Another interesting part of the architecture is the use of dynamic feature modul
 **Kotlin Flow** - Flow was used for threading and data stream management.</br>
 **Retrofit2** - Network calls</br>
 **AndroidKtx** - For cool extensions to Android classes.</br>
-**Architecture Components** - For Lifecycle managment in the presentation layer.</br>
-**Mockito** - For mocking test dependencies.</br>
-**JUnit** - For Unit test assertions etc.</br>
+**Architecture Components** - For Lifecycle managment in the presentation layer, persistence.</br>
+**MockK** - For mocking test dependencies.</br>
+**Truth** - For Unit test assertions etc.</br>
 **Konveyor** - For generating random data for tests.</br>
 **Espresso** - For UI testing.</br>
 
