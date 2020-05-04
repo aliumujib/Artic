@@ -1,3 +1,5 @@
+[![HitCount](http://hits.dwyl.com/aliumujib/artic.svg)](http://hits.dwyl.com/aliumujib/artic)
+
 # Artic
 
 Artic is an attempt to build a full featured android app that pulls news articles from a Wordpress blog using dynamic feature modularization, kotlin coroutines and unidirectional data flow.
