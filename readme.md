@@ -24,6 +24,8 @@ Another interesting part of the architecture is the use of dynamic feature modul
 
 <img src="art/feature_mod.png" />
 
+Source: [Android Components Architecture in a Modular Word](https://hackernoon.com/android-components-architecture-in-a-modular-word-d0k32i6).
+
 ## Libraries
 **Dagger2** - Dagger2 was used for dependency injection.</br>
 **Kotlin Flow** - Flow was used for threading and data stream management.</br>
@@ -43,11 +45,15 @@ I had a lot of fun building this. There are some improvements I intend to make.
 - Build settings screen with Jetpack Compose
 - Complete article search
 - Animations
-
+- Dark mode
 
 ## Build Instructions
 - Clone repository.</br>
 - Run with Android Studio 4.0 canary 3 and above. </br>
+
+## References
+- [Android Components Architecture in a Modular Word](https://hackernoon.com/android-components-architecture-in-a-modular-word-d0k32i6).
+- [Klayground](https://github.com/ragdroid/klayground).
 
 ## License
 ```
