@@ -1,3 +1,18 @@
+/*
+ * Copyright 2020 Abdul-Mujeeb Aliu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.aliumujib.artic.domain.usecases.categories
 
 import com.aliumujib.artic.domain.exceptions.NoParamsException
@@ -35,33 +50,37 @@ class GetAllCategoriesTest {
 
 
     @Test
-    fun `confirm that calling getProjects returns data`() = runBlockingTest {
+    fun `confirm that calling getCategories returns data`() = runBlockingTest {
         val list = ArticleDataFactory.makeCategoryList(10)
         stubGetCategories(flow {
             emit(list)
         })
-        val result = getCategories.build(GetAllCategories.Params.make(randomBuild())).first()
+        val page: Int = randomBuild()
+        val count: Int = randomBuild()
+        val result = getCategories.build(GetAllCategories.Params.make(page, count)).first()
         assertThat(result).isEqualTo(list)
         coVerify(exactly = 1) {
-            categoriesRepository.getCategories(any())
+            categoriesRepository.getCategories(page, count)
         }
     }
 
     @Test(expected = NoParamsException::class)
-    fun `confirm that using getProjects with params throws an exception`() = runBlockingTest {
+    fun `confirm that using getCategories with params throws an exception`() = runBlockingTest {
         val list = ArticleDataFactory.makeCategoryList(10)
         stubGetCategories(flow {
             emit(list)
         })
+        val page: Int = randomBuild()
+        val count: Int = randomBuild()
         getCategories.build().first()
         coVerify(exactly = 0) {
-            categoriesRepository.getCategories(any())
+            categoriesRepository.getCategories(page, count)
         }
     }
 
     private fun stubGetCategories(flow: Flow<List<Category>>) {
         every {
-            categoriesRepository.getCategories(any())
+            categoriesRepository.getCategories(any(), any())
         } returns flow
     }
 

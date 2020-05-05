@@ -1,3 +1,18 @@
+/*
+ * Copyright 2020 Abdul-Mujeeb Aliu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.aliumujib.artic.data.repositories.articles
 
 import com.aliumujib.artic.data.DummyDataFactory
@@ -57,7 +72,7 @@ class ArticlesRepositoryImplTest {
     fun `check that calling getArticles with calls cache when cahce is not empty is empty`() = runBlocking {
         stubGetArticles(DummyDataFactory.makeArticlesEntitiesList(10))
         stubEmptyCacheResponse(randomBuild())
-        articlesRepositoryImpl.getArticles(randomBuild(), randomBuild()).first()
+        articlesRepositoryImpl.getArticles(randomBuild(), randomBuild(), randomBuild()).first()
         coVerify(exactly = 0) {
             articlesCache.getCachedArticles()
         }
@@ -67,9 +82,9 @@ class ArticlesRepositoryImplTest {
     fun `check that calling getArticles with noInternet flag as true fetches from network`() = runBlocking {
         stubGetArticles(DummyDataFactory.makeArticlesEntitiesList(10))
         stubEmptyCacheResponse(randomBuild())
-        articlesRepositoryImpl.getArticles(randomBuild(), randomBuild()).first()
+        articlesRepositoryImpl.getArticles(randomBuild(), randomBuild(), randomBuild()).first()
         coVerify(exactly = 1) {
-            articlesRemote.getArticles(any())
+            articlesRemote.getArticles(any(), any())
         }
     }
 
@@ -135,6 +150,6 @@ class ArticlesRepositoryImplTest {
     }
 
     private fun stubArticleRemoteResponse(articles: List<ArticleEntity>) {
-        coEvery { articlesRemote.getArticles(any()) } returns articles
+        coEvery { articlesRemote.getArticles(any(), any()) } returns articles
     }
 }

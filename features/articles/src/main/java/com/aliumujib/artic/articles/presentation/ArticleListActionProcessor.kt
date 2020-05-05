@@ -1,3 +1,18 @@
+/*
+ * Copyright 2020 Abdul-Mujeeb Aliu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.aliumujib.artic.articles.presentation
 
 import com.aliumujib.artic.domain.models.Article
@@ -59,7 +74,7 @@ class ArticleListActionProcessor @Inject constructor(
 
     private fun loadArticleListResult(actionsFlow: Flow<ArticleListAction.LoadArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
-            getAllArticles.build(GetAllArticles.Params.make(true, action.page)).combine(flow { emit(fetchViewModeSettings.invoke()) })
+            getAllArticles.build(GetAllArticles.Params.make(true, action.page, 5)).combine(flow { emit(fetchViewModeSettings.invoke()) })
             { list: List<Article>, isGrid: Boolean ->
                 ArticleListResult.LoadArticleListResults.Success(list, isGrid)
             }.map { result ->
@@ -75,7 +90,7 @@ class ArticleListActionProcessor @Inject constructor(
 
     private fun loadAnotherArticleListResult(actionsFlow: Flow<ArticleListAction.FetchMoreArticleListAction>): Flow<ArticleListResult> {
         return actionsFlow.flatMapMerge { action ->
-            getAllArticles.build(GetAllArticles.Params.make(false, action.page))
+            getAllArticles.build(GetAllArticles.Params.make(false, action.page, 5))
                 .map { articles ->
                     ArticleListResult.FetchMoreArticleListResults.Success(data = articles) as ArticleListResult
                 }
@@ -89,7 +104,7 @@ class ArticleListActionProcessor @Inject constructor(
 
     private fun pullToRefreshResult(actionsFlow: Flow<ArticleListAction.RefreshArticleListAction>): Flow<ArticleListResult> =
         actionsFlow.flatMapMerge {
-            getAllArticles.build(GetAllArticles.Params.make(true, 1))
+            getAllArticles.build(GetAllArticles.Params.make(true, 1, 5))
                 .map { articles ->
                     ArticleListResult.RefreshArticleListResults.Success(data = articles) as ArticleListResult
                 }
