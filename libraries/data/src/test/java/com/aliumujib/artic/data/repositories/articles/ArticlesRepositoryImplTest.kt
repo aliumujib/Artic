@@ -90,8 +90,8 @@ class ArticlesRepositoryImplTest {
 
     @Test
     fun `check that bookmarking an article completes`() = runBlocking {
-        val article = DummyDataFactory.makeRandomArticle()
-        article.isBookmarked = false
+        var article = DummyDataFactory.makeRandomArticle()
+        article = article.copy(isBookmarked = false)
         stubBookmarkArticleCompletion(article)
         stubFindArticleFromCacheResponse(article, true)
         val result = articlesRepositoryImpl.bookmarkArticle(article)
@@ -106,8 +106,8 @@ class ArticlesRepositoryImplTest {
 
     @Test
     fun `check that unBookmarking an article completes`() = runBlocking {
-        val article = DummyDataFactory.makeRandomArticle()
-        article.isBookmarked = true
+        var article = DummyDataFactory.makeRandomArticle()
+        article = article.copy(isBookmarked = false)
         stubUnBookmarkArticleCompletion(article)
         stubFindArticleFromCacheResponse(article, false)
         val result = articlesRepositoryImpl.unBookmarkArticle(article.id)

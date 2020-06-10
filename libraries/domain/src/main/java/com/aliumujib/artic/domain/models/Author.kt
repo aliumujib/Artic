@@ -17,12 +17,12 @@ package com.aliumujib.artic.domain.models
 
 
 data class Author(
-    var id: Int,
-    var slug: String,
-    var name: String,
-    var first_name: String,
-    var last_name: String,
-    var nickname: String,
-    var url: String,
-    var description: String
+    val id: Int,
+    val slug: String,
+    val name: String,
+    val first_name: String,
+    val last_name: String,
+    val nickname: String,
+    val url: String,
+    val description: String
 )

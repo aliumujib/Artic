@@ -16,10 +16,10 @@
 package com.aliumujib.artic.domain.models
 
 data class Category(
-    var id: Int,
-    var slug: String,
-    var title: String,
-    var description: String,
-    var parent: Int,
-    var postCount: Int
+    val id: Int,
+    val slug: String,
+    val title: String,
+    val description: String,
+    val parent: Int,
+    val postCount: Int
 )

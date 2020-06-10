@@ -34,5 +34,5 @@ data class Article(
     val comment_count: Int,
     val categories: List<Category>,
     val author: Author,
-    var isBookmarked: Boolean
+    val isBookmarked: Boolean
 )
