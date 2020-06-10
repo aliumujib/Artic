@@ -18,10 +18,10 @@ package com.aliumujib.artic.domain.models
 import java.util.*
 
 data class Comment(
-    var id: Int,
-    var name: String,
-    var url: String,
-    var date: Date,
-    var content: String,
-    var parentId: Int
+    val id: Int,
+    val name: String,
+    val url: String,
+    val date: Date,
+    val content: String,
+    val parentId: Int
 )
