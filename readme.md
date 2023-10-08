@@ -5,8 +5,6 @@
 Artic is an attempt to build a full featured android app that pulls news articles from a Wordpress blog using dynamic feature modularization, kotlin coroutines and unidirectional data flow.
 
 ## UI
-The UI was graciously designed by [Ridwan](https://www.linkedin.com/in/ridwanidris/).
-
 <img src="art/dribbble_shot_HD.png" />
 
 ## Architecture
