@@ -93,7 +93,7 @@ class SimpleEmptyStateView : LinearLayout {
         val actionBtnBounceAnim =
             ObjectAnimator.ofFloat(binding.image, "translationY", 0f, 25f, 0f)
         actionBtnBounceAnim.interpolator = AccelerateDecelerateInterpolator()
-        actionBtnBounceAnim.duration = 3000
+        actionBtnBounceAnim.duration = 2500
         actionBtnBounceAnim.repeatMode = ValueAnimator.RESTART
         actionBtnBounceAnim.repeatCount = ValueAnimator.INFINITE
 
