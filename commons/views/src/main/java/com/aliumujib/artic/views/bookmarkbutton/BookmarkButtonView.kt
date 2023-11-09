@@ -30,9 +30,11 @@ import com.aliumujib.artic.views.ext.dpToPx
 class BookmarkButtonView : AppCompatImageView {
 
     private var onBookmarkStatusChangeListener: OnBookmarkStatusChangeListener? = null
+    
     private var bookMarkedDrawable: Drawable? = null
     private var unBookMarkedDrawable: Drawable? = null
     private var padding = 10
+    
     @BookmarkState
     private var currentBookmarkStatus = UNBOOKMARKED
 
@@ -43,11 +45,6 @@ class BookmarkButtonView : AppCompatImageView {
             this.currentBookmarkStatus = bookmarked
             setIcons()
         }
-
-
-    init {
-
-    }
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
